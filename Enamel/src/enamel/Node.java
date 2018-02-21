@@ -147,6 +147,14 @@ public class Node {
 		return this.buttonList.get(buttonNumber);
 	}
 	
+	public void addRepeatButton(int number) {
+		this.buttonList.put(number, new SkipButton(number));
+	}
+	
+	public void addRepeatButton(int number, String repeatText) {
+		this.buttonList.put(number, new RepeatButton(number, repeatText));
+	}
+	
 	public Node getNext(int buttonNumber) {
 		
 		NodeButton button = this.buttonList.get(buttonNumber);
