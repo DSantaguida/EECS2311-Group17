@@ -85,6 +85,7 @@ public class StartScreen {
 		panel.setLayout(null);
 		
 		JButton btnSaveNewFile = new JButton("Save New File");
+		btnSaveNewFile.getAccessibleContext().setAccessibleName("Save New File");
 		btnSaveNewFile.setVisible(false);
 		
 		JLabel lblSelectButtonNumber = new JLabel("Select Button Number");
@@ -108,9 +109,11 @@ public class StartScreen {
 		panel.add(lblEnterFileName);
 		
 		txtSetFileName = new JTextField();
+		txtSetFileName.getAccessibleContext().setAccessibleDescription("Set File Name");
 		txtSetFileName.setVisible(false);
 		
 		txtNewtextfile = new JTextField();
+		txtNewtextfile.getAccessibleContext().setAccessibleName("New Text File");
 		txtNewtextfile.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
@@ -133,6 +136,7 @@ public class StartScreen {
 		
 		
 		JButton btnChooseExistingFile = new JButton("Choose Existing File");
+		btnChooseExistingFile.getAccessibleContext().setAccessibleName("Choose Existing File");
 		btnChooseExistingFile.addActionListener(new ActionListener() {
 			
 			
@@ -160,6 +164,7 @@ public class StartScreen {
 		panel.add(btnChooseExistingFile);
 		
 		JButton btnCreateNewFile = new JButton("Create New File");
+		btnCreateNewFile.getAccessibleContext().setAccessibleName("Create New File");
 		btnCreateNewFile.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent arg0) {

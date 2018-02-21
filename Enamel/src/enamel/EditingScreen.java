@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class EditingScreen implements ActionListener {
-
+	//UNCOMMENT 973 WHEN DONE
 	private JFrame frame;
 	List<JButton> buttons = new ArrayList<JButton>();
 	Node currentNode;
@@ -803,12 +803,13 @@ public class EditingScreen implements ActionListener {
 					String option = "" + nodeCellBox.getSelectedItem();
 					currentNode.setResponse(speakText2.getText());
 					currentNode.setRepeatedText(repeatText.getText());
-
+					if (!lblNoFileChosen.getText().equals("No file chosen"))
+						currentNode.setAudioFile(lblNoFileChosen.getText());
+					//ADD PAUSE
 					if (option.equals("Clear")) {
 						int cell = Integer.parseInt("" + clearChoose2.getSelectedItem());
 						int[] pins = new int[8];
 						String[] hold = alphabet.get(' ').split("");
-						//CLEARREADIOBUTTON2
 						if (clearRadioButton2.isSelected()){
 						for (int i = 0; i < 8; i++) {
 							pins[i] = Integer.parseInt(hold[i]);
@@ -820,10 +821,10 @@ public class EditingScreen implements ActionListener {
 					
 					else if (option.equals("Pins")) {
 						int cell = Integer.parseInt("" + blockChooser2.getSelectedItem());
-						System.out.println(cell);
+
 						
 						if (pin21.isSelected())
-							currentNode.setPin(cell, 1, 1);
+							currentNode.setPin(cell, 1, 1);												
 						else
 							currentNode.setPin(cell, 1, 0);
 						
@@ -910,9 +911,17 @@ public class EditingScreen implements ActionListener {
 					}
 				}
 				
-				else //CHANGE BUTTON STUFF 
-				{
-					
+				else if (lblCurrentButton.getText().split(" ")[0].equals("Current"))//CHANGE BUTTON STUFF 
+				{	
+					if (buttonBox.getSelectedItem().equals("Repeat"))
+					{
+						
+					}
+					else
+					{
+						
+						
+					}
 				}
 
 			}
@@ -968,11 +977,11 @@ public class EditingScreen implements ActionListener {
 		{
 			if (e.getSource().equals(buttons.get(i))) {
 				currentButton = i;
-				currentNodeButton = scenario.getHead().getButton(i);
+			//	currentNodeButton = scenario.getHead().getButton(i);
 				lblCurrentButton.setText("Current Button: " + currentButton);
 			}
 		}
-		// lblCurrentButton.setText("Hello");
+
 
 	}
 }
