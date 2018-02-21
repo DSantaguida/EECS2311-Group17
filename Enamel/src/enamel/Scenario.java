@@ -3,13 +3,16 @@ package enamel;
 import java.util.*;
 import org.jgraph.graph.DefaultEdge;
 import org.jgrapht.*;
+import org.jgrapht.graph.AbstractBaseGraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
 public class Scenario {
 	private static int scenarioCounter;
 	private int scenarioNumber;
 	private String name;
-	private int idCounter; 
+	private int idCounter;
+	private int numButtons;
+	private int numCells;
 	static {
 		scenarioCounter = 1;
 	};
@@ -26,6 +29,22 @@ public class Scenario {
 		
 	}
 	
+	
+	
+	@SuppressWarnings("unchecked")
+	public Scenario(Scenario other) {
+		this.scenarioNumber = other.scenarioNumber;
+		this.name = other.name;
+		this.idCounter = other.idCounter;
+		this.numButtons = other.numButtons;
+		this.numCells = other.numCells;
+		this.graph = (SimpleDirectedGraph<Node, DefaultEdge>) ((AbstractBaseGraph<Node, DefaultEdge>)other.graph).clone();
+		this.fileName = other.fileName;
+		this.head = other.head;
+	}
+
+
+
 	public String getFileName() {
 		return this.fileName;
 	}
@@ -111,15 +130,66 @@ public class Scenario {
 		return nodeArr;
 	}
 	
+	public void addNode(Node n) {
+		if (this.head == null) {
+			this.head = n;
+		}
+		this.graph.addVertex(n);
+	}
+	
 	public void setEdge(Node from, Node to, int buttonNumber) {
+		if (!graph.containsVertex(from)) {
+			if (this.head == null) {
+				this.head = from;
+			}
+			this.graph.addVertex(from);
+		}
+		
+		if (!graph.containsVertex(to)) {
+			this.graph.addVertex(to);
+		}
+	
+		
 		this.graph.addEdge(from, to);
-		NodeButton button = from.getButton(buttonNumber);
-		if (button.getClass() == SkipButton.class) {
-			((SkipButton) button).setNextNode(to);
-		} else {
-			throw new IllegalArgumentException("This button is not designed to point to any node");
+		try {
+			NodeButton button = from.getButton(buttonNumber);
+			if (button.getClass() == SkipButton.class) {
+				((SkipButton) button).setNextNode(to);
+			} else {
+				throw new IllegalArgumentException("This button is not designed to point to any node");
+			}
+		}
+		catch (IllegalArgumentException e) {
+			from.addButton(buttonNumber, to);
 		}
 	}
+	
+	public void setNumButtons(int num) {
+		this.numButtons = num;
+	}
+	
+	public int getNumButtons() {
+		return this.numButtons;
+	}
+	
+	public void setNumCells(int cells) {
+		this.numCells = cells;
+	}
+	
+	public int getNumCells() {
+		return this.numCells;
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return graph.toString();
+	}
+	
 	
 	
 }
