@@ -16,7 +16,7 @@ public class Scenario {
 	static {
 		scenarioCounter = 1;
 	};
-	private Graph<Node, DefaultEdge> graph;
+	public Graph<Node, DefaultEdge> graph;
 	private String fileName;
 	private Node head;
 	
@@ -122,10 +122,11 @@ public class Scenario {
 	
 	public Node[] getNextNodes(Node currNode) {
 		Set<DefaultEdge> edgeSet = this.graph.outgoingEdgesOf(currNode);
+		System.out.println(edgeSet);
 		Node[] nodeArr = new Node[edgeSet.size()];
 		int counter = 0;
 		for (DefaultEdge edge : edgeSet) {
-			nodeArr[counter] = (Node) edge.getSource();
+			nodeArr[counter] = (Node) edge.getTarget();
 		}
 		return nodeArr;
 	}
