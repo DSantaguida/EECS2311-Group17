@@ -922,7 +922,7 @@ public class EditingScreen implements ActionListener {
 				{	
 					if (buttonBox.getSelectedItem().equals("Repeat"))
 					{
-						
+					
 					}
 					else
 					{
