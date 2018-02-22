@@ -156,7 +156,9 @@ public class StartScreen {
 				
 				s.setScenarioFile(file);
 				frame.dispose(); 
-				//EditingScreen test = new EditingScreen(setScenarioFile(file));
+				ScenarioNode test2 = new ScenarioNode();
+				test2.setScenarioFile(file);
+				
 			}
 			
 		});
@@ -232,8 +234,10 @@ public class StartScreen {
 		            System.err.println("Error occurred");
 		            e1.printStackTrace();
 		        }
-				frame.dispose(); 
-				//EditingScreen test = new EditingScreen(setScenarioFile(cust_filename + ".txt"));
+				frame.dispose();
+				String filename = cust_filename + ".txt";
+				ScenarioNode test = new ScenarioNode();
+				test.setScenarioFile(filename);
 			}
 		});
 		btnSaveNewFile.setBounds(237, 210, 177, 40);
