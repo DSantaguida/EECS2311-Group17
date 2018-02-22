@@ -8,7 +8,7 @@ public class CanvasTest {
 	
 	private static int counter;
 	private static Graph<Node, DefaultEdge> graph;
-	private static Scenario s;
+	public static Scenario s;
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

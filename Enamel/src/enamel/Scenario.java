@@ -33,7 +33,7 @@ public class Scenario {
 	
 	@SuppressWarnings("unchecked")
 	public Scenario(Scenario other) {
-		this.scenarioNumber = other.scenarioNumber;
+//		this.scenarioNumber = other.scenarioNumber;
 		this.name = other.name;
 		this.idCounter = other.idCounter;
 		this.numButtons = other.numButtons;

@@ -76,7 +76,7 @@ public class EditingScreen implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					EditingScreen window = new EditingScreen();
+					EditingScreen window = new EditingScreen(new CanvasTest().s);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -164,21 +164,23 @@ public class EditingScreen implements ActionListener {
 		// Initialize Main JFrame 
 		frame = new JFrame();
 		frame.setVisible(true);
-		frame.setBounds(100, 100, 975, 739);
+		frame.setBounds(100, 100, 975, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		//
+		
+		graphCanvas = new GraphCanvas(scenario, scenario.getHead());
+		graphCanvas.setBounds(0, 0, 600, 600);
+		frame.getContentPane().add(graphCanvas);
+		graphCanvas.setVisible(true);
+		
 		// Initialize Main JPanel
 		panel = new JPanel();
 		panel.setBounds(0, 0, 957, 692);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		// panel.getAccessibleContext().setAccessibleName("Main panel");
-
-		graphCanvas = new GraphCanvas(scenario, scenario.getHead());
-		graphCanvas.setBounds(960, 0, 600, 600);
-		frame.getContentPane().add(graphCanvas);
-		this.graphCanvas.setLayout(null);
+		
 		
 		// Label to display the amount of buttons
 		lblAvaliableButtons = new JLabel("Avaliable Buttons:");
@@ -795,7 +797,7 @@ public class EditingScreen implements ActionListener {
 				lblCurrentButton.setText("Node Selected");
 			}
 		});
-		btnNode.setBounds(279, 255, 97, 25);
+		btnNode.setBounds(500, 500, 97, 25);
 		panel.add(btnNode);
 
 		// Apply button
