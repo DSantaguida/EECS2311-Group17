@@ -14,11 +14,11 @@ public class Node {
 	private String audioFile;
 	
 	public Node(int id) {
-		this(id, String.valueOf(id), null, null);
+		this(id, String.valueOf(id), new HashMap<Integer, int[]>(), "");
 	}
 	
 	public Node(int id, String name) {
-		this(id, name, null, null);
+		this(id, name, new HashMap<Integer, int[]>(), "");
 	}
 	
 	public Node(int id, String name, String response) {
@@ -26,7 +26,7 @@ public class Node {
 	}
 	
 	public Node(int id, String name, Map<Integer, int[]> pins) {
-		this(id, name, pins, null);
+		this(id, name, pins, "");
 	
 	}
 	
@@ -34,21 +34,17 @@ public class Node {
 		this.id = id;
 		this.name = name;
 		this.response = response;
-		if (pins != null) {
-			this.pins = pins;
-		} else {
-			this.pins = new HashMap<>();
-		}
+		this.pins = pins;
 		this.buttonList = new HashMap<>();
 		this.audioFile = "";
 	}
 	
 	public Node(int id, Map<Integer, int[]> pins) {
-		this(id, String.valueOf(id), pins, null);
+		this(id, String.valueOf(id), pins, "");
 	}
 	
 	public Node(int id, String name, Map<Integer, int[]> listOfPins, String response, Map<Integer, NodeButton> buttonList) {
-		this(id, name, listOfPins, response, null, buttonList);
+		this(id, name, listOfPins, response, "", buttonList);
 	}
 	
 	public Node(int id, String name, Map<Integer, int[]> listOfPins, String response, String repeatText) {
@@ -126,7 +122,10 @@ public class Node {
 	}
 	
 	public void setPin(int cellNumber, int pin, int value) {
-		this.pins.get(cellNumber)[pin] = value;
+		if (this.pins.get(cellNumber) == null) {
+			this.pins.put(cellNumber, new int[8]);
+		}
+		this.pins.get(cellNumber)[pin-1] = value;
 	}
 	
 	public void addButton(int number) {
@@ -146,6 +145,14 @@ public class Node {
 			throw new IllegalArgumentException("This button does not exist yet");
 		}
 		return this.buttonList.get(buttonNumber);
+	}
+	
+	public void addRepeatButton(int number) {
+		this.buttonList.put(number, new SkipButton(number));
+	}
+	
+	public void addRepeatButton(int number, String repeatText) {
+		this.buttonList.put(number, new RepeatButton(number, repeatText));
 	}
 	
 	public Node getNext(int buttonNumber) {
@@ -173,6 +180,7 @@ public class Node {
 	public String getAudioFile() {
 		return this.audioFile;
 	}
+	
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -181,11 +189,7 @@ public class Node {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((buttonList == null) ? 0 : buttonList.hashCode());
-		result = prime * result + pins.hashCode();
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((repeatText == null) ? 0 : repeatText.hashCode());
-		result = prime * result + ((response == null) ? 0 : response.hashCode());
+		result = prime * result + id;
 		return result;
 	}
 
@@ -204,35 +208,7 @@ public class Node {
 			return false;
 		}
 		Node other = (Node) obj;
-		if (buttonList == null) {
-			if (other.buttonList != null) {
-				return false;
-			}
-		} else if (!buttonList.equals(other.buttonList)) {
-			return false;
-		}
-		if (!pins.equals(other.pins)) {
-			return false;
-		}
-		if (name == null) {
-			if (other.name != null) {
-				return false;
-			}
-		} else if (!name.equals(other.name)) {
-			return false;
-		}
-		if (repeatText == null) {
-			if (other.repeatText != null) {
-				return false;
-			}
-		} else if (!repeatText.equals(other.repeatText)) {
-			return false;
-		}
-		if (response == null) {
-			if (other.response != null) {
-				return false;
-			}
-		} else if (!response.equals(other.response)) {
+		if (id != other.id) {
 			return false;
 		}
 		return true;
