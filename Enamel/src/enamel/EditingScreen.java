@@ -66,6 +66,7 @@ public class EditingScreen implements ActionListener {
 	private JButton btnNewButton;
 	private JTextField speakText2;
 	private JTextField pauseText;
+	private GraphCanvas graphCanvas;
 
 	// int[] indvCell = new int[boxCount];
 
@@ -119,7 +120,6 @@ public class EditingScreen implements ActionListener {
 		buttonCount = scenario.getNumButtons();
 		boxCount = scenario.getNumCells();
 		initialize();
-
 	}
 	
 	public EditingScreen() {
@@ -155,11 +155,11 @@ public class EditingScreen implements ActionListener {
 		currentNodeButton = currentNode.getButton(0);
 		currentButton = 0;
 		initialize();
-
+		
 	}
 
 	private void initialize() { // Initialize GUI
-		int x1 = 0;
+		 int x1 = 0;
 
 		// Initialize Main JFrame 
 		frame = new JFrame();
@@ -175,6 +175,11 @@ public class EditingScreen implements ActionListener {
 		panel.setLayout(null);
 		// panel.getAccessibleContext().setAccessibleName("Main panel");
 
+		graphCanvas = new GraphCanvas(scenario, scenario.getHead());
+		graphCanvas.setBounds(960, 0, 600, 600);
+		frame.getContentPane().add(graphCanvas);
+		this.graphCanvas.setLayout(null);
+		
 		// Label to display the amount of buttons
 		lblAvaliableButtons = new JLabel("Avaliable Buttons:");
 		lblAvaliableButtons.setForeground(Color.BLACK);
@@ -969,7 +974,9 @@ public class EditingScreen implements ActionListener {
 			panel.add(buttons.get(i));
 		}
 	}
-
+	
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 

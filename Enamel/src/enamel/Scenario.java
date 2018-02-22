@@ -120,38 +120,39 @@ public class Scenario {
 		return null;
 	}
 	
+	public Node getNextNode(Node currNode, int id) {
+		Node[] nodes = this.getNextNodes(currNode);
+		for (Node node : nodes) {
+			if (node.getId() == id){
+				return node;
+			}
+		}
+		return null;
+	}
+	
 	public Node[] getNextNodes(Node currNode) {
 		Set<DefaultEdge> edgeSet = this.graph.outgoingEdgesOf(currNode);
-		System.out.println(edgeSet);
 		Node[] nodeArr = new Node[edgeSet.size()];
 		int counter = 0;
-		for (DefaultEdge edge : edgeSet) {
-			nodeArr[counter] = (Node) edge.getTarget();
+		for (Object obj : edgeSet) {
+			DefaultEdge edge = (DefaultEdge) obj;
+			System.out.println(edge + "Hello");
+			nodeArr[counter] = this.graph.getEdgeTarget(edge);
+			counter++;
 		}
 		return nodeArr;
 	}
 	
 	public void addNode(Node n) {
+		n = new Node(n);
 		if (this.head == null) {
 			this.head = n;
 		}
+		
 		this.graph.addVertex(n);
 	}
 	
 	public void setEdge(Node from, Node to, int buttonNumber) {
-		if (!graph.containsVertex(from)) {
-			if (this.head == null) {
-				this.head = from;
-			}
-			this.graph.addVertex(from);
-		}
-		
-		if (!graph.containsVertex(to)) {
-			this.graph.addVertex(to);
-		}
-	
-		
-		this.graph.addEdge(from, to);
 		try {
 			NodeButton button = from.getButton(buttonNumber);
 			if (button.getClass() == SkipButton.class) {
@@ -163,6 +164,22 @@ public class Scenario {
 		catch (IllegalArgumentException e) {
 			from.addButton(buttonNumber, to);
 		}
+		if (!graph.containsVertex(from)) {
+			if (this.head == null) {
+				this.head = from;
+			}
+			
+			this.addNode(from);
+		}
+		
+		if (!graph.containsVertex(to)) {
+			this.addNode(to);
+		}
+	
+		DefaultEdge edge = new DefaultEdge();
+		edge.setSource(from);
+		edge.setTarget(to);
+		graph.addEdge(from, to, edge);
 	}
 	
 	public void setNumButtons(int num) {
