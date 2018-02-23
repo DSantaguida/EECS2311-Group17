@@ -20,6 +20,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -29,17 +31,14 @@ public class Recorder1 {
 	private JFrame frame;
 	Voice voice;
 	VoiceManager vm;
-	public static long RECORD_DURATION;
 
+ 
 	/**
 	 * Launch the application.
 	 */
-    static final long RECORD_TIME = 30000;  // 30 seconds limit past user
+    static final long RECORD_TIME = 15000;  // 30 seconds limit past user
     
-    //Change recording time to allow user to choose when they want to stop
-	
-    File wavFile = new File("FactoryScenarios\\AudioFiles\\"+RecorderInput.cust_file+".wav");	
- 
+
     // format of audio file
     AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
  
@@ -67,7 +66,7 @@ public class Recorder1 {
     void finish() {
         line.stop();
         line.close();
-        System.out.println("Finished");
+        System.out.println("Finished Recording...");
     }
  
     /**
@@ -129,8 +128,8 @@ public class Recorder1 {
 		btnEndRecording.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
-				System.out.println("Ending Recording...");
-				EditingScreen test = new EditingScreen();
+				
+				
 				
 			}
 		});
@@ -138,6 +137,7 @@ public class Recorder1 {
 		frame.getContentPane().add(btnEndRecording);
 		
 		btnStart = new JButton("Start");
+		btnStart.setVisible(false);
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				start();
@@ -154,6 +154,11 @@ public class Recorder1 {
     
     void start() {
     	try {
+    		
+    		long file_identify = System.currentTimeMillis();
+    	    //Change recording time to allow user to choose when they want to stop
+    		
+    	    File wavFile = new File("FactoryScenarios\\AudioFiles\\" + file_identify + ".wav");	
     		
     			AudioFormat format = getAudioFormat();
     			DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
