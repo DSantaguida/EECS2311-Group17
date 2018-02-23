@@ -971,10 +971,7 @@ public class EditingScreen implements ActionListener {
 										{	
 											String option = "" + btnCellBox.getSelectedItem();
 											int[] pins = new int[8];
-											for(int i = 0; i < 8; i++)
-											{
-												pins[i] = 0;
-											}
+
 											
 											if (buttonBox.getSelectedItem().equals("Repeat"))
 											{
@@ -1005,11 +1002,18 @@ public class EditingScreen implements ActionListener {
 															pins[i] = Integer.parseInt(hold[i]);
 															}								
 														}
+														if (currentNodeButton.getClass() == SkipButton.class)
+														{
+															((SkipButton)currentNodeButton).setPins(pins, cell);
+														}
+														
 
 													} 
 													else if (option.equals("Pins")) {
 														int cell = Integer.parseInt("" + blockChooser.getSelectedItem());
 
+														
+															
 														
 														if (pin1.isSelected())
 															pins[0] = 1;											
@@ -1050,7 +1054,14 @@ public class EditingScreen implements ActionListener {
 															pins[7] = 1;
 														else
 															pins[7] = 0;
+														
+														if (currentNodeButton.getClass() == SkipButton.class)
+														{
+															((SkipButton)currentNodeButton).setPins(pins, cell);
 														}
+														
+														}
+														
 													else if (option.equals("Character")) {
 														int cell = Integer.parseInt("" + charChoose.getSelectedItem());
 
@@ -1064,8 +1075,12 @@ public class EditingScreen implements ActionListener {
 														String[] hold = alphabet.get(x[0]).split("");
 														for (int i = 0; i < 8; i++) {
 															pins[i] = Integer.parseInt(hold[i]);
-															System.out.println(pins[i]);
+															
 														}
+														}
+														if (currentNodeButton.getClass() == SkipButton.class)
+														{
+															((SkipButton)currentNodeButton).setPins(pins, cell);
 														}
 													}
 													else if (option.equals("Word")) {
@@ -1084,19 +1099,36 @@ public class EditingScreen implements ActionListener {
 																pins[j] = Integer.parseInt(hold[j]);
 																
 															}
+															if (currentNodeButton.getClass() == SkipButton.class)
+															{
+																((SkipButton)currentNodeButton).setPins(pins, i);
+															}
 														}
 													} }
 													else{
 														//Do nothing for now
 													}
+													
+													NodeButton button = currentNode.getButton(currentButton);
+													if (currentNodeButton.getClass()==SkipButton.class){
+														
+													}
 													if (!lblCurrentFile.getText().equals("No file chosen"))
 													{
-														String aud = lblCurrentFile.getText();
-														SkipButton button = new SkipButton(number, response, next, pins, aud);
+													//	currentNodeButton = new SkipButton(1);
+														
+														if (currentNodeButton.getClass() == SkipButton.class)
+														{
+															int cell = Integer.parseInt("" + blockChooser.getSelectedItem());
+															((SkipButton)currentNodeButton).setResponse(response);
+															((SkipButton)currentNodeButton).setAudioFile(lblCurrentFile.getText());
+															
+														}
+													
 													}
 													else
 													{
-														SkipButton button = new SkipButton(number, response, next, pins);
+													//	SkipButton button = new SkipButton(number, response, next);
 													}
 												
 
