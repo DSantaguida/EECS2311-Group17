@@ -23,9 +23,17 @@ import javax.swing.JFileChooser;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import java.awt.event.KeyAdapter;
@@ -213,22 +221,49 @@ public class StartScreen {
 
 		btnSaveNewFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				InputStream inStream = null;
+				OutputStream outStream = null;
+				
 				try {
 					
 		            PrintWriter out = new PrintWriter(new FileWriter(cust_filename + ".txt"));
-		            
+					String filename = cust_filename + ".txt";
 		            txtNewtextfile.getText();
 		            buttontextfield.getText();
 		            celltextfield.getText();
 		            out.println("Button " + buttontext);
 		            out.println("Cell "+ celltext);
-		            out.println(cust_filename);
-		            out.println();
-		            out.println();
 		            out.println(cust_file);
 		            out.flush();
 		            out.close();
 		            
+		            File afile =new File(filename);
+		    	    File bfile =new File("FactoryScenarios/"+filename);
+
+		    	    inStream = new FileInputStream(afile);
+		    	    outStream = new FileOutputStream(bfile);
+
+		    	    byte[] buffer = new byte[1024];
+
+		    	    int length;
+		    	    //copy the file content in bytes
+		    	    while ((length = inStream.read(buffer)) > 0){
+
+		    	    	outStream.write(buffer, 0, length);
+
+		    	    }
+
+		    	    inStream.close();
+		    	    outStream.close();
+
+		    	    //delete the original file
+		    	    afile.delete();
+
+		    	    System.out.println("File is copied successful!");
+
+		            
+		            //moves from lib to FactoryScenarios
 
 		        } catch (IOException e1) {
 		            System.err.println("Error occurred");
