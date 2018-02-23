@@ -261,7 +261,7 @@ public class EditingScreen implements ActionListener {
 
 		optionCard = new JPanel();
 		optionCard.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		optionCard.setBounds(772, 13, 152, 603);
+		optionCard.setBounds(772, 13, 152, 666);
 		optionCard.setLayout(new CardLayout());
 		panel.add(optionCard);
 
@@ -851,6 +851,16 @@ public class EditingScreen implements ActionListener {
 		});
 		btnNewButton.setBounds(12, 454, 120, 25);
 		buttonCard.add(btnNewButton);
+		
+		JLabel lblConnectedNode = new JLabel("Connect To:");
+		lblConnectedNode.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblConnectedNode.setBounds(12, 601, 123, 16);
+		buttonCard.add(lblConnectedNode);
+		
+		JComboBox<Node>  comboBoxConnectTo = new JComboBox<Node>();
+		comboBoxConnectTo.setBounds(12, 629, 106, 22);
+		comboBoxConnectTo.addItem(new Node(-1, "New Node"));
+		buttonCard.add(comboBoxConnectTo);
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(12, 636, 726, 75);
@@ -858,7 +868,7 @@ public class EditingScreen implements ActionListener {
 		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(782, 643, 142, 68);
+		panel_2.setBounds(772, 692, 142, 35);
 		panel.add(panel_2);
 		panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
@@ -1138,7 +1148,15 @@ public class EditingScreen implements ActionListener {
 									int cell = Integer.parseInt("" + blockChooser.getSelectedItem());
 									((SkipButton) currentNodeButton).setResponse(response);
 									((SkipButton) currentNodeButton).setAudioFile(lblCurrentFile.getText());
-									//
+									if (comboBoxConnectTo.getSelectedItem().equals("New Node"))
+									{
+										//((SkipButton) currentNodeButton).setNextNode(scenario.createNode());
+										Node hold = scenario.createNode();
+										scenario.setEdge(currentNode, hold, currentButton);
+									}
+									else {//
+										((SkipButton) currentNodeButton).setNextNode((Node)comboBoxConnectTo.getSelectedItem());
+									}
 								}
 
 							} else {
