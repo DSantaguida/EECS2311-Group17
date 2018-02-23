@@ -2,6 +2,9 @@ package enamel;
 
 import org.jgrapht.Graph;
 import org.jgrapht.graph.*;
+
+import java.io.IOException;
+
 import org.jgraph.graph.DefaultEdge;
 
 public class CanvasTest {
@@ -10,14 +13,19 @@ public class CanvasTest {
 	private static Graph<Node, DefaultEdge> graph;
 	public static Scenario s;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		graph = new SimpleDirectedGraph<>(DefaultEdge.class);
 		s = new Scenario();
 		s.setNumButtons(3);
+		s.setNumCells(1);
 		counter = 0;
 		addNodes();
-		EditingScreen screen = new EditingScreen(s);
+		s.setFileName("testing.txt");
+//		EditingScreen screen = new EditingScreen(s)
+		System.out.println(s.getFileName());
+		ScenarioWriter f = new ScenarioWriter(s);
+		f.save();
 		
 	}
 	

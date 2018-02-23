@@ -12,7 +12,22 @@ public class Node {
 	private Map<Integer, NodeButton> buttonList;
 	private Map<Integer, int[]> pins;
 	private String audioFile;
+	private int pauseTime;
 	
+	/**
+	 * @return the pauseTime
+	 */
+	public int getPauseTime() {
+		return pauseTime;
+	}
+
+	/**
+	 * @param pauseTime the pauseTime to set
+	 */
+	public void setPauseTime(int pauseTime) {
+		this.pauseTime = pauseTime;
+	}
+
 	public Node(int id) {
 		this(id, String.valueOf(id), new HashMap<Integer, int[]>(), "");
 	}
@@ -37,6 +52,7 @@ public class Node {
 		this.pins = pins;
 		this.buttonList = new HashMap<>();
 		this.audioFile = "";
+		this.setPauseTime(0);
 	}
 	
 	public Node(int id, Map<Integer, int[]> pins) {
@@ -55,6 +71,7 @@ public class Node {
 		this.repeatText = repeatText;
 		this.buttonList = new HashMap<>(buttonList);
 		this.audioFile = "";
+		this.setPauseTime(0);
 	}
 	
 	public Node(int id, String name, Map<Integer, int[]> listOfPins, String response, String repeatText, Map<Integer, NodeButton> buttonList) {
@@ -65,6 +82,7 @@ public class Node {
 		this.repeatText = repeatText;
 		this.buttonList = new HashMap<>(buttonList);
 		this.audioFile = "";
+		this.setPauseTime(0);
 	}
 	
 	public Node(Node other) {
@@ -75,6 +93,7 @@ public class Node {
 		this.repeatText = other.repeatText;
 		this.buttonList = new HashMap<>(other.buttonList);
 		this.audioFile = other.audioFile;
+		this.setPauseTime(other.pauseTime);	
 	}
 	
 	public int getId() {
@@ -149,6 +168,10 @@ public class Node {
 			throw new IllegalArgumentException("This button does not exist yet");
 		}
 		return this.buttonList.get(buttonNumber);
+	}
+	
+	public Object[] getButtons() {
+		return this.buttonList.values().toArray();
 	}
 	
 	public void addRepeatButton(int number) {

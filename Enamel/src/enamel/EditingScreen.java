@@ -7,6 +7,7 @@ import javax.swing.plaf.basic.BasicArrowButton;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class EditingScreen implements ActionListener {
 	NodeButton currentNodeButton;
 	private static HashMap<Character, String> alphabet = new HashMap<Character, String>();
 	Scenario scenario;
+	private ScenarioWriter writer;
 
 	JPanel panel;
 	JPanel subPanel;
@@ -155,6 +157,7 @@ public class EditingScreen implements ActionListener {
 		currentNode.addButton(0);
 		currentNodeButton = currentNode.getButton(0);
 		currentButton = 0;
+		writer = new ScenarioWriter(scenario);
 		initialize();
 
 	}
@@ -1169,7 +1172,13 @@ public class EditingScreen implements ActionListener {
 
 					}
 				}
-
+				writer.changeFileName(scenario.getName());
+				try {
+					writer.save();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		btnApply.getAccessibleContext().setAccessibleName("Click to apply changes");
