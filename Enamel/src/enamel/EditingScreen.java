@@ -1237,6 +1237,11 @@ public class EditingScreen implements ActionListener {
 					}
 					testActionListenerActive = true;
 				}	
+				comboBoxConnectTo.removeAllItems();
+				comboBoxConnectTo.addItem(new Node (-1,"New Node"));
+				for (Node node: scenario.getNextNodes(currentNode)) {
+					comboBoxConnectTo.addItem(node);
+				}	
 			}
 		});
 		

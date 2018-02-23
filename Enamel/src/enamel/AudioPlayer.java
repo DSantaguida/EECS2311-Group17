@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -31,8 +32,8 @@ public class AudioPlayer extends Player {
 	public AudioPlayer(int cellNum, int buttonNum)
 	{
 		super(cellNum, buttonNum);
-//		frame = new JFrame();
-//		frame.setVisible(true);
+		frame = new JFrame();
+		frame.setVisible(true);
 	}
 
 	@Override
@@ -44,11 +45,14 @@ public class AudioPlayer extends Player {
 	@Override
 	public void addSkipButtonListener(int index, String param, ScenarioParser sp) {
 		//Need Skip Button to implement index
-		listener =  new AWTEventListener(){
+		System.out.println("TEST");
+		frame.addKeyListener(new KeyListener(){
+
 
 			@Override
-			public void eventDispatched(AWTEvent e) {
+			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
+				System.out.println("press");
 				KeyEvent evt = (KeyEvent) e;
 				if (evt.getID() == KeyEvent.KEY_PRESSED && evt.getKeyCode() == KeyEvent.VK_1){
 				if (sp.userInput) {
@@ -58,10 +62,21 @@ public class AudioPlayer extends Player {
 				}
 				}
 			}
-			
-		};
-		Toolkit.getDefaultToolkit().addAWTEventListener(listener, AWTEvent.KEY_EVENT_MASK);
-		
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+		});
+
 		 }
 
 
@@ -71,7 +86,7 @@ public class AudioPlayer extends Player {
 		if (index >= this.buttonNumber || index < 0) {
             throw new IllegalArgumentException("Invalid index.");
         }
-		Toolkit.getDefaultToolkit().removeAWTEventListener(listener);
+		
 		
 	}
 
@@ -81,11 +96,14 @@ public class AudioPlayer extends Player {
 		//Look at how to determine when the clip stops reading
 		//Initialize the button
 		//initialize click event handler
-		AWTEventListener listener =  new AWTEventListener(){
+
+		frame.addKeyListener(new KeyListener(){
+		
 
 			@Override
-			public void eventDispatched(AWTEvent e) {
+			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
+
 				KeyEvent evt = (KeyEvent) e;
 				if (evt.getID() == KeyEvent.KEY_PRESSED && evt.getKeyCode() == KeyEvent.VK_2){
 					if (sp.userInput) {
@@ -96,9 +114,19 @@ public class AudioPlayer extends Player {
 					}
 				}
 			}
-			
-		};
-		Toolkit.getDefaultToolkit().addAWTEventListener(listener, AWTEvent.KEY_EVENT_MASK);
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 	}
 }
