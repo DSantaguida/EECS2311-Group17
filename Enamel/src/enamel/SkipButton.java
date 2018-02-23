@@ -6,7 +6,7 @@ import java.util.*;
 public class SkipButton extends NodeButton {
 	protected String response;
 	protected Node nextNode;
-	protected int[] pins = new int[8];
+	protected Map<Integer, int[]> pins;
 	protected String audioFile;
 	
 	public SkipButton(int buttonNumber) {
@@ -14,6 +14,7 @@ public class SkipButton extends NodeButton {
 		this.response = "";
 		this.nextNode = null;
 		this.audioFile = "";
+		this.pins = new HashMap<>();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -22,6 +23,7 @@ public class SkipButton extends NodeButton {
 		this.response = response;
 		this.nextNode = null;
 		this.audioFile = "";
+		this.pins = new HashMap<>();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -30,6 +32,7 @@ public class SkipButton extends NodeButton {
 		this.response = response;
 		this.nextNode = nextNode;
 		this.audioFile = "";
+		this.pins = new HashMap<>();
 
 		// TODO Auto-generated constructor stub
 	}
@@ -39,25 +42,26 @@ public class SkipButton extends NodeButton {
 		this.response = response;
 		this.nextNode = nextNode;
 		this.audioFile = audioFile;
+		this.pins = new HashMap<>();
 
 		// TODO Auto-generated constructor stub
 	}
 
-	public SkipButton(int buttonNumber, String response, Node nextNode, int[] pins) {
+	public SkipButton(int buttonNumber, String response, Node nextNode,  Map<Integer, int[]> pins) {
 		super(buttonNumber);
 		this.response = response;
 		this.nextNode = nextNode;
-		this.setPins(pins);
+		this.pins = new HashMap<>(pins);
 		this.audioFile = "";
 
 		// TODO Auto-generated constructor stub
 	}
 	
-	public SkipButton(int buttonNumber, String response, Node nextNode, int[] pins, String audioFile) {
+	public SkipButton(int buttonNumber, String response, Node nextNode, Map<Integer, int[]> pins, String audioFile) {
 		super(buttonNumber);
 		this.response = response;
 		this.nextNode = nextNode;
-		this.setPins(pins);
+		this.pins = new HashMap<>(pins);
 		this.audioFile = audioFile;
 
 		// TODO Auto-generated constructor stub
@@ -67,6 +71,7 @@ public class SkipButton extends NodeButton {
 		super(buttonNumber);
 		this.response = "";
 		this.nextNode = nextNode;
+		this.pins = new HashMap<>();
 		this.audioFile = "";
 
 		// TODO Auto-generated constructor stub
@@ -76,6 +81,7 @@ public class SkipButton extends NodeButton {
 		super(other);
 		this.response = other.response;
 		this.nextNode = other.nextNode;
+		this.pins = new HashMap<>(other.pins);
 		this.audioFile = other.audioFile;
 
 		// TODO Auto-generated constructor stub
@@ -100,15 +106,15 @@ public class SkipButton extends NodeButton {
 	/**
 	 * @return the listOfPins
 	 */
-	public int[] getPins() {
-		return pins;
+	public int[] getPins(int cellNumber) {
+		return this.pins.get(cellNumber);
 	}
 
 	/**
 	 * @param pins the listOfPins to set
 	 */
-	public void setPins(int[] pins) {
-		this.pins = pins;
+	public void setPins(int[] pins, int cellNumber) {
+		this.pins.put(cellNumber, pins);
 	}
 	
 	public void setAudioFile(String audioFile) {
