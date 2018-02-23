@@ -175,7 +175,7 @@ public class EditingScreen implements ActionListener {
 		frame.getContentPane().add(graphCanvas);
 		graphCanvas.setVisible(true);
 	
-
+//
 		
 		// Initialize Main JPanel
 		panel = new JPanel();
