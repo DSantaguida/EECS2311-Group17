@@ -144,7 +144,7 @@ public class StartScreen {
 				//Choose Existing File Button
 				String file = "";
 				
-				ScenarioParser s = new ScenarioParser(true);
+				//ScenarioParser s = new ScenarioParser(true);
 				JFileChooser chooser = new JFileChooser(new File("FactoryScenarios/"));
 				//Create textfield to allow user to name the file and save as string
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
@@ -154,7 +154,7 @@ public class StartScreen {
 					file = "FactoryScenarios/" + chooser.getSelectedFile().getName();
 				}
 				
-				s.setScenarioFile(file);
+				//s.setScenarioFile(file);
 				frame.dispose(); 
 				ScenarioNode test2 = new ScenarioNode();
 				test2.setScenarioFile(file);
