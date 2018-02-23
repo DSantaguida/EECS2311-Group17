@@ -270,7 +270,7 @@ public class StartScreen {
 		            e1.printStackTrace();
 		        }
 				frame.dispose();
-				String filename = cust_filename + ".txt";
+				String filename = "FactoryScenarios/" +cust_filename + ".txt";
 				ScenarioNode test = new ScenarioNode();
 				test.setScenarioFile(filename);
 			}
