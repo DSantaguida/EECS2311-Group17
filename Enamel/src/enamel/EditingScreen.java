@@ -1216,7 +1216,6 @@ public class EditingScreen implements ActionListener {
 		lblCurrentButton.setText("Node Selected");
 		
 		comboBoxNextNodes.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				currentNode = (Node) comboBoxNextNodes.getSelectedItem();
@@ -1232,13 +1231,11 @@ public class EditingScreen implements ActionListener {
 				comboBoxPrevNodes.removeAllItems();
 				for (Node node: scenario.getPrevNodes(currentNode)) {
 					comboBoxPrevNodes.addItem(node);
-				}
-				
+				}	
 			}
 		});
 		
 		comboBoxPrevNodes.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				currentNode = (Node) comboBoxNextNodes.getSelectedItem();
@@ -1248,14 +1245,15 @@ public class EditingScreen implements ActionListener {
 				graphCanvas.setNode(currentNode);
 				graphCanvas.repaint();
 				comboBoxNextNodes.removeAllItems();
-				for (Node node: scenario.getNextNodes(currentNode)) {
-					comboBoxNextNodes.addItem(node);
+				if (scenario.hasNextNodes(currentNode)) {
+					for (Node node: scenario.getNextNodes(currentNode)) {
+						comboBoxNextNodes.addItem(node);
+					}
 				}
 				comboBoxPrevNodes.removeAllItems();
 				for (Node node: scenario.getPrevNodes(currentNode)) {
 					comboBoxPrevNodes.addItem(node);
-				}
-				
+				}	
 			}
 		});
 
