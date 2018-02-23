@@ -84,6 +84,9 @@ public class GraphCanvas extends JPanel {
     
     
     public void createRectangles(Graphics2D g, int firstX, int bottom, int firstWidth, int y, int space, int height) {
+    	if (!s.hasNextNodes(n)) {
+    		return;
+    	}
     	Node[] nextNodes = (Node[]) s.getNextNodes(n);
     	int num = nextNodes.length;
     	int spaces = (num + 1) * space;

@@ -67,6 +67,7 @@ public class EditingScreen implements ActionListener {
 	private JTextField speakText2;
 	private JTextField pauseText;
 	private GraphCanvas graphCanvas;
+	protected boolean testActionListenerActive = true;
 
 	// int[] indvCell = new int[boxCount];
 
@@ -1216,52 +1217,63 @@ public class EditingScreen implements ActionListener {
 		lblCurrentButton.setText("Node Selected");
 		
 		comboBoxNextNodes.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				currentNode = (Node) comboBoxNextNodes.getSelectedItem();
-				CardLayout cl = (CardLayout) (optionCard.getLayout());
-				cl.show(optionCard, "Do Nothing");
-				lblCurrentButton.setText("Node Selected");
-				graphCanvas.setNode(currentNode);
-				graphCanvas.repaint();
-				comboBoxNextNodes.removeAllItems();
+				if (testActionListenerActive){
+					testActionListenerActive = false;
+					currentNode = (Node) comboBoxNextNodes.getSelectedItem();
+					CardLayout cl = (CardLayout) (optionCard.getLayout());
+					cl.show(optionCard, "Do Nothing");
+					lblCurrentButton.setText("Node Selected");
+					graphCanvas.setNode(currentNode);
+					graphCanvas.repaint();
+					comboBoxNextNodes.removeAllItems();
+					for (Node node: scenario.getNextNodes(currentNode)) {
+						comboBoxNextNodes.addItem(node);
+					}
+					comboBoxPrevNodes.removeAllItems();
+					for (Node node: scenario.getPrevNodes(currentNode)) {
+						comboBoxPrevNodes.addItem(node);
+					}
+					testActionListenerActive = true;
+				}	
+				comboBoxConnectTo.removeAllItems();
+				comboBoxConnectTo.addItem(new Node (-1,"New Node"));
 				for (Node node: scenario.getNextNodes(currentNode)) {
-					comboBoxNextNodes.addItem(node);
-				}
-				comboBoxPrevNodes.removeAllItems();
-				for (Node node: scenario.getPrevNodes(currentNode)) {
-					comboBoxPrevNodes.addItem(node);
-				}
-				
+					comboBoxConnectTo.addItem(node);
+				}	
 			}
 		});
 		
 		comboBoxPrevNodes.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				currentNode = (Node) comboBoxNextNodes.getSelectedItem();
-				CardLayout cl = (CardLayout) (optionCard.getLayout());
-				cl.show(optionCard, "Do Nothing");
-				lblCurrentButton.setText("Node Selected");
-				graphCanvas.setNode(currentNode);
-				graphCanvas.repaint();
-				comboBoxNextNodes.removeAllItems();
-				for (Node node: scenario.getNextNodes(currentNode)) {
-					comboBoxNextNodes.addItem(node);
+				if (testActionListenerActive) {
+					testActionListenerActive = false;
+					currentNode = (Node) comboBoxPrevNodes.getSelectedItem();
+					CardLayout cl = (CardLayout) (optionCard.getLayout());
+					cl.show(optionCard, "Do Nothing");
+					lblCurrentButton.setText("Node Selected");
+					graphCanvas.setNode(currentNode);
+					graphCanvas.repaint();
+					comboBoxNextNodes.removeAllItems();
+					if (scenario.hasNextNodes(currentNode)) {
+						for (Node node: scenario.getNextNodes(currentNode)) {
+							comboBoxNextNodes.addItem(node);
+						}
+					}
+					comboBoxPrevNodes.removeAllItems();
+					for (Node node: scenario.getPrevNodes(currentNode)) {
+						comboBoxPrevNodes.addItem(node);
+					}
+					
+					comboBoxConnectTo.removeAllItems();
+					comboBoxConnectTo.addItem(new Node(-1, "New Node"));
+					for (Node node: scenario.getNextNodes(currentNode)) {
+						comboBoxConnectTo.addItem(node);
+					}
+					testActionListenerActive = true;
 				}
-				comboBoxPrevNodes.removeAllItems();
-				for (Node node: scenario.getPrevNodes(currentNode)) {
-					comboBoxPrevNodes.addItem(node);
-				}
-				comboBoxConnectTo.removeAllItems();
-				comboBoxConnectTo.addItem(new Node(-1, "New Node"));
-				for (Node node: scenario.getNextNodes(currentNode)) {
-					comboBoxConnectTo.addItem(node);
-				}
-
-				
 			}
 		});
 
@@ -1274,7 +1286,7 @@ public class EditingScreen implements ActionListener {
 		{
 			if (e.getSource().equals(buttons.get(i))) {
 				currentButton = i;
-				// currentNodeButton = scenario.getHead().getButton(i);
+//				currentNodeButton = currentNode.getButton(i);
 				lblCurrentButton.setText("Current Button: " + currentButton);
 			}
 		}
