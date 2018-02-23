@@ -174,10 +174,8 @@ public class EditingScreen implements ActionListener {
 		graphCanvas.setBounds(0, 0, 600, 600);
 		frame.getContentPane().add(graphCanvas);
 		graphCanvas.setVisible(true);
-		
-		BasicArrowButton b = new BasicArrowButton(BasicArrowButton.NORTH);
-		b.setBounds(100,  100,  20,  20);
-		graphCanvas.add(b);
+	
+
 		
 		// Initialize Main JPanel
 		panel = new JPanel();
@@ -185,7 +183,48 @@ public class EditingScreen implements ActionListener {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		// panel.getAccessibleContext().setAccessibleName("Main panel");
+		JPanel canvasPanel = new JPanel();
+		canvasPanel.setBounds(606, 112, 166, 267);
+		panel.add(canvasPanel);
+		GridBagLayout gbl_canvasPanel = new GridBagLayout();
+		gbl_canvasPanel.columnWidths = new int[]{0, 0, 0};
+		gbl_canvasPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_canvasPanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_canvasPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		canvasPanel.setLayout(gbl_canvasPanel);
 		
+		JButton btnPrevNodes = new JButton("Previous Nodes");
+		btnPrevNodes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		GridBagConstraints gbc_btnPrevNodes = new GridBagConstraints();
+		gbc_btnPrevNodes.insets = new Insets(0, 0, 5, 5);
+		gbc_btnPrevNodes.gridx = 0;
+		gbc_btnPrevNodes.gridy = 1;
+		canvasPanel.add(btnPrevNodes, gbc_btnPrevNodes);
+		
+				JButton btnNode = new JButton("Current Node");
+				GridBagConstraints gbc_btnNode = new GridBagConstraints();
+				gbc_btnNode.insets = new Insets(0, 0, 5, 5);
+				gbc_btnNode.gridx = 0;
+				gbc_btnNode.gridy = 4;
+				canvasPanel.add(btnNode, gbc_btnNode);
+				btnNode.setVisible(true);
+				btnNode.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						CardLayout cl = (CardLayout) (optionCard.getLayout());
+						cl.show(optionCard, "Node");
+						lblCurrentButton.setText("Node Selected");
+					}
+				});
+		
+		JButton btnNextNodes = new JButton("Next Nodes");
+		GridBagConstraints gbc_btnNextNodes = new GridBagConstraints();
+		gbc_btnNextNodes.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNextNodes.gridx = 0;
+		gbc_btnNextNodes.gridy = 7;
+		canvasPanel.add(btnNextNodes, gbc_btnNextNodes);
 		
 		// Label to display the amount of buttons
 		lblAvaliableButtons = new JLabel("Avaliable Buttons:");
@@ -793,18 +832,6 @@ public class EditingScreen implements ActionListener {
 		});
 		btnNewButton.setBounds(12, 454, 120, 25);
 		buttonCard.add(btnNewButton);
-
-		JButton btnNode = new JButton("Node");
-		btnNode.setVisible(true);
-		btnNode.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				CardLayout cl = (CardLayout) (optionCard.getLayout());
-				cl.show(optionCard, "Node");
-				lblCurrentButton.setText("Node Selected");
-			}
-		});
-		btnNode.setBounds(500, 500, 97, 25);
-		panel.add(btnNode);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(12, 636, 726, 75);
@@ -1180,6 +1207,8 @@ public class EditingScreen implements ActionListener {
 		CardLayout cl = (CardLayout) (optionCard.getLayout());
 		cl.show(optionCard, "Do Nothing");
 		lblCurrentButton.setText("Node Selected");
+		
+		
 	}
 	
 	
