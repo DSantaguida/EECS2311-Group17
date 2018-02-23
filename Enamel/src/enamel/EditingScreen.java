@@ -967,7 +967,7 @@ public class EditingScreen implements ActionListener {
 								
 								if (pin1.isSelected())
 									pins[0] = 1;											
-								else
+								else//
 									pins[0] = 0;
 								
 								if (pin2.isSelected())
