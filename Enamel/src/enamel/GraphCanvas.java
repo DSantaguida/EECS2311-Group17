@@ -46,7 +46,9 @@ public class GraphCanvas extends JPanel {
 		repaint();
 	}
 	
-
+	public void setNode(Node node) {
+		this.n = node;
+	}
     /**
      * @wbp.parser.entryPoint
      */

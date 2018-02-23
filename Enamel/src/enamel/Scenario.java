@@ -96,19 +96,7 @@ public class Scenario {
 		return this.head == null;
 	}
 	
-	public Node[] getPrevNodes(Node currNode) {
-		if (currNode.equals(this.head)) {
-			return null;
-		}
-		Set<DefaultEdge> edgeSet = this.graph.incomingEdgesOf(currNode);
-		Node[] nodeArr = new Node[edgeSet.size()];
-		int counter = 0;
-		for (DefaultEdge edge : edgeSet) {
-			nodeArr[counter] = (Node) edge.getSource();
-		}
-		return nodeArr;
-		
-	}
+
 	
 	public Node getNextNode(Node currNode, String name) {
 		Node[] nodes = this.getNextNodes(currNode);
@@ -130,12 +118,27 @@ public class Scenario {
 		return null;
 	}
 	
+	public Node[] getPrevNodes(Node currNode) {
+		if (currNode.equals(this.head)) {
+			return new Node[]{new Node(-1)};
+		}
+		Set<DefaultEdge> edgeSet = this.graph.incomingEdgesOf(currNode);
+		Node[] nodeArr = new Node[edgeSet.size()];
+		int counter = 0;
+		for (DefaultEdge edge : edgeSet) {
+			nodeArr[counter] = this.graph.getEdgeSource(edge);
+			counter++;
+		}
+		return nodeArr;
+		
+	}
+	
 	public Node[] getNextNodes(Node currNode) {
 		Set<DefaultEdge> edgeSet = this.graph.outgoingEdgesOf(currNode);
 		Node[] nodeArr = new Node[edgeSet.size()];
 		int counter = 0;
-		for (Object obj : edgeSet) {
-			DefaultEdge edge = (DefaultEdge) obj;
+		for (DefaultEdge obj : edgeSet) {
+			DefaultEdge edge = obj;
 			nodeArr[counter] = this.graph.getEdgeTarget(edge);
 			counter++;
 		}

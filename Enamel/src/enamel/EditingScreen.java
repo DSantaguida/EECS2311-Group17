@@ -11,14 +11,14 @@ import java.util.*;
 import java.util.List;
 
 public class EditingScreen implements ActionListener {
-	//UNCOMMENT 973 WHEN DONE
+	// UNCOMMENT 973 WHEN DONE
 	private JFrame frame;
 	List<JButton> buttons = new ArrayList<JButton>();
 	Node currentNode;
 	NodeButton currentNodeButton;
 	private static HashMap<Character, String> alphabet = new HashMap<Character, String>();
 	Scenario scenario;
-	
+
 	JPanel panel;
 	JPanel subPanel;
 	JPanel card;
@@ -121,7 +121,7 @@ public class EditingScreen implements ActionListener {
 		boxCount = scenario.getNumCells();
 		initialize();
 	}
-	
+
 	public EditingScreen() {
 		alphabet.put('a', "10000000");
 		alphabet.put('b', "11000000");
@@ -155,13 +155,13 @@ public class EditingScreen implements ActionListener {
 		currentNodeButton = currentNode.getButton(0);
 		currentButton = 0;
 		initialize();
-		
+
 	}
 
 	private void initialize() { // Initialize GUI
-		 int x1 = 0;
+		int x1 = 0;
 
-		// Initialize Main JFrame 
+		// Initialize Main JFrame
 		frame = new JFrame();
 		frame.setVisible(true);
 
@@ -169,24 +169,82 @@ public class EditingScreen implements ActionListener {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		//
-		
-		graphCanvas = new GraphCanvas(scenario, scenario.getHead());
-		graphCanvas.setBounds(0, 0, 600, 600);
-		frame.getContentPane().add(graphCanvas);
-		graphCanvas.setVisible(true);
-		
-		BasicArrowButton b = new BasicArrowButton(BasicArrowButton.NORTH);
-		b.setBounds(100,  100,  20,  20);
-		graphCanvas.add(b);
-		
+
+		 graphCanvas = new GraphCanvas(scenario, scenario.getHead());
+		 graphCanvas.setBounds(0, 0, 600, 600);
+		 frame.getContentPane().add(graphCanvas);
+		 graphCanvas.setVisible(true);
+
+		//
+
 		// Initialize Main JPanel
 		panel = new JPanel();
 		panel.setBounds(12, 0, 957, 740);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		// panel.getAccessibleContext().setAccessibleName("Main panel");
-		
-		
+		JPanel canvasPanel = new JPanel();
+		canvasPanel.setBounds(606, 112, 166, 267);
+		panel.add(canvasPanel);
+		GridBagLayout gbl_canvasPanel = new GridBagLayout();
+		gbl_canvasPanel.columnWidths = new int[] { 0, 0, 0 };
+		gbl_canvasPanel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_canvasPanel.columnWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
+		gbl_canvasPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		canvasPanel.setLayout(gbl_canvasPanel);
+
+		JLabel lblPreviousNodes = new JLabel("Previous Nodes:");
+		GridBagConstraints gbc_lblPreviousNodes = new GridBagConstraints();
+		gbc_lblPreviousNodes.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPreviousNodes.gridx = 0;
+		gbc_lblPreviousNodes.gridy = 0;
+		canvasPanel.add(lblPreviousNodes, gbc_lblPreviousNodes);
+
+		JComboBox<Node> comboBoxPrevNodes = new JComboBox<>();
+		GridBagConstraints gbc_comboBoxPrevNodes = new GridBagConstraints();
+		gbc_comboBoxPrevNodes.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBoxPrevNodes.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBoxPrevNodes.gridx = 0;
+		gbc_comboBoxPrevNodes.gridy = 1;
+		for (Node node: this.scenario.getPrevNodes(this.currentNode)) {
+			comboBoxPrevNodes.addItem(node);
+		}
+		canvasPanel.add(comboBoxPrevNodes, gbc_comboBoxPrevNodes);
+
+		JButton btnNode = new JButton("Current Node");
+		GridBagConstraints gbc_btnNode = new GridBagConstraints();
+		gbc_btnNode.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNode.gridx = 0;
+		gbc_btnNode.gridy = 3;
+		canvasPanel.add(btnNode, gbc_btnNode);
+		btnNode.setVisible(true);
+		btnNode.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CardLayout cl = (CardLayout) (optionCard.getLayout());
+				cl.show(optionCard, "Node");
+				lblCurrentButton.setText("Node Selected");
+			}
+		});
+
+		JLabel lblNextNodes = new JLabel("Next Nodes:");
+		GridBagConstraints gbc_lblNextNodes = new GridBagConstraints();
+		gbc_lblNextNodes.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNextNodes.gridx = 0;
+		gbc_lblNextNodes.gridy = 5;
+		canvasPanel.add(lblNextNodes, gbc_lblNextNodes);
+
+		JComboBox<Node> comboBoxNextNodes = new JComboBox<>();
+		GridBagConstraints gbc_comboBoxNextNodes = new GridBagConstraints();
+		gbc_comboBoxNextNodes.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBoxNextNodes.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBoxNextNodes.gridx = 0;
+		gbc_comboBoxNextNodes.gridy = 6;
+		for (Node node: this.scenario.getNextNodes(this.currentNode)) {
+			comboBoxNextNodes.addItem(node);
+		}
+
+		canvasPanel.add(comboBoxNextNodes, gbc_comboBoxNextNodes);
+
 		// Label to display the amount of buttons
 		lblAvaliableButtons = new JLabel("Avaliable Buttons:");
 		lblAvaliableButtons.setForeground(Color.BLACK);
@@ -203,7 +261,7 @@ public class EditingScreen implements ActionListener {
 
 		optionCard = new JPanel();
 		optionCard.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		optionCard.setBounds(772, 13, 152, 603);
+		optionCard.setBounds(772, 13, 152, 666);
 		optionCard.setLayout(new CardLayout());
 		panel.add(optionCard);
 
@@ -376,7 +434,7 @@ public class EditingScreen implements ActionListener {
 		gbc_radioButton_2_6.gridy = 2;
 		pinsCard2.add(pin21, gbc_radioButton_2_6);
 
-		JRadioButton pin25 = new JRadioButton(""); //5
+		JRadioButton pin25 = new JRadioButton(""); // 5
 		pin25.getAccessibleContext().setAccessibleName("Pin 5");
 		GridBagConstraints gbc_radioButton_2_7 = new GridBagConstraints();
 		gbc_radioButton_2_7.insets = new Insets(0, 0, 5, 5);
@@ -384,7 +442,7 @@ public class EditingScreen implements ActionListener {
 		gbc_radioButton_2_7.gridy = 2;
 		pinsCard2.add(pin25, gbc_radioButton_2_7);
 
-		JRadioButton pin22 = new JRadioButton(""); //2
+		JRadioButton pin22 = new JRadioButton(""); // 2
 		pin22.getAccessibleContext().setAccessibleName("Pin 2");
 		GridBagConstraints gbc_radioButton_2_8 = new GridBagConstraints();
 		gbc_radioButton_2_8.insets = new Insets(0, 0, 5, 5);
@@ -392,7 +450,7 @@ public class EditingScreen implements ActionListener {
 		gbc_radioButton_2_8.gridy = 3;
 		pinsCard2.add(pin22, gbc_radioButton_2_8);
 
-		JRadioButton pin26 = new JRadioButton(""); //6
+		JRadioButton pin26 = new JRadioButton(""); // 6
 		pin26.getAccessibleContext().setAccessibleName("Pin 6");
 		GridBagConstraints gbc_radioButton_2_9 = new GridBagConstraints();
 		gbc_radioButton_2_9.insets = new Insets(0, 0, 5, 5);
@@ -400,7 +458,7 @@ public class EditingScreen implements ActionListener {
 		gbc_radioButton_2_9.gridy = 3;
 		pinsCard2.add(pin26, gbc_radioButton_2_9);
 
-		JRadioButton pin23 = new JRadioButton(""); //3
+		JRadioButton pin23 = new JRadioButton(""); // 3
 		pin23.getAccessibleContext().setAccessibleName("Pin 3");
 		GridBagConstraints gbc_radioButton_2_10 = new GridBagConstraints();
 		gbc_radioButton_2_10.insets = new Insets(0, 0, 5, 5);
@@ -408,7 +466,7 @@ public class EditingScreen implements ActionListener {
 		gbc_radioButton_2_10.gridy = 4;
 		pinsCard2.add(pin23, gbc_radioButton_2_10);
 
-		JRadioButton pin27 = new JRadioButton(""); //7
+		JRadioButton pin27 = new JRadioButton(""); // 7
 		pin27.getAccessibleContext().setAccessibleName("Pin 7");
 		GridBagConstraints gbc_radioButton_2_11 = new GridBagConstraints();
 		gbc_radioButton_2_11.insets = new Insets(0, 0, 5, 5);
@@ -416,7 +474,7 @@ public class EditingScreen implements ActionListener {
 		gbc_radioButton_2_11.gridy = 4;
 		pinsCard2.add(pin27, gbc_radioButton_2_11);
 
-		JRadioButton pin24 = new JRadioButton(""); //4
+		JRadioButton pin24 = new JRadioButton(""); // 4
 		pin24.getAccessibleContext().setAccessibleName("Pin 4");
 		GridBagConstraints gbc_pin2_7 = new GridBagConstraints();
 		gbc_pin2_7.insets = new Insets(0, 0, 0, 5);
@@ -608,15 +666,15 @@ public class EditingScreen implements ActionListener {
 
 		// ComboBox to choose which cell to edit
 		JComboBox blockChooser = new JComboBox();
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.gridx = 0;
-		gbc_comboBox.gridy = 0;
+		GridBagConstraints gbc_blockChooser = new GridBagConstraints();
+		gbc_blockChooser.fill = GridBagConstraints.HORIZONTAL;
+		gbc_blockChooser.insets = new Insets(0, 0, 5, 5);
+		gbc_blockChooser.gridx = 0;
+		gbc_blockChooser.gridy = 0;
 		for (int i = 0; i < boxCount; i++) {
 			blockChooser.addItem(i);
 		}
-		pinsCard.add(blockChooser, gbc_comboBox);
+		pinsCard.add(blockChooser, gbc_blockChooser);
 
 		// Add all pins
 		JRadioButton pin1 = new JRadioButton("");
@@ -628,7 +686,7 @@ public class EditingScreen implements ActionListener {
 		gbc_radioButton_6.gridy = 2;
 		pinsCard.add(pin1, gbc_radioButton_6);
 
-		JRadioButton pin5 = new JRadioButton(""); //5
+		JRadioButton pin5 = new JRadioButton(""); // 5
 		pin5.getAccessibleContext().setAccessibleName("Pin 5");
 		GridBagConstraints gbc_radioButton_7 = new GridBagConstraints();
 		gbc_radioButton_7.insets = new Insets(0, 0, 5, 5);
@@ -636,7 +694,7 @@ public class EditingScreen implements ActionListener {
 		gbc_radioButton_7.gridy = 2;
 		pinsCard.add(pin5, gbc_radioButton_7);
 
-		JRadioButton pin2 = new JRadioButton(""); //2
+		JRadioButton pin2 = new JRadioButton(""); // 2
 		pin2.getAccessibleContext().setAccessibleName("Pin 2");
 		GridBagConstraints gbc_radioButton_8 = new GridBagConstraints();
 		gbc_radioButton_8.insets = new Insets(0, 0, 5, 5);
@@ -644,7 +702,7 @@ public class EditingScreen implements ActionListener {
 		gbc_radioButton_8.gridy = 3;
 		pinsCard.add(pin2, gbc_radioButton_8);
 
-		JRadioButton pin6 = new JRadioButton(""); //6
+		JRadioButton pin6 = new JRadioButton(""); // 6
 		pin6.getAccessibleContext().setAccessibleName("Pin 6");
 		GridBagConstraints gbc_radioButton_9 = new GridBagConstraints();
 		gbc_radioButton_9.insets = new Insets(0, 0, 5, 5);
@@ -652,7 +710,7 @@ public class EditingScreen implements ActionListener {
 		gbc_radioButton_9.gridy = 3;
 		pinsCard.add(pin6, gbc_radioButton_9);
 
-		JRadioButton pin3 = new JRadioButton(""); //3
+		JRadioButton pin3 = new JRadioButton(""); // 3
 		pin3.getAccessibleContext().setAccessibleName("Pin 3");
 		GridBagConstraints gbc_radioButton_10 = new GridBagConstraints();
 		gbc_radioButton_10.insets = new Insets(0, 0, 5, 5);
@@ -660,7 +718,7 @@ public class EditingScreen implements ActionListener {
 		gbc_radioButton_10.gridy = 4;
 		pinsCard.add(pin3, gbc_radioButton_10);
 
-		JRadioButton pin7 = new JRadioButton(""); //7
+		JRadioButton pin7 = new JRadioButton(""); // 7
 		pin7.getAccessibleContext().setAccessibleName("Pin 7");
 		GridBagConstraints gbc_radioButton_11 = new GridBagConstraints();
 		gbc_radioButton_11.insets = new Insets(0, 0, 5, 5);
@@ -668,7 +726,7 @@ public class EditingScreen implements ActionListener {
 		gbc_radioButton_11.gridy = 4;
 		pinsCard.add(pin7, gbc_radioButton_11);
 
-		JRadioButton pin4 = new JRadioButton(""); //4
+		JRadioButton pin4 = new JRadioButton(""); // 4
 		pin4.getAccessibleContext().setAccessibleName("Pin 4");
 		GridBagConstraints gbc_pin7 = new GridBagConstraints();
 		gbc_pin7.insets = new Insets(0, 0, 0, 5);
@@ -793,351 +851,327 @@ public class EditingScreen implements ActionListener {
 		});
 		btnNewButton.setBounds(12, 454, 120, 25);
 		buttonCard.add(btnNewButton);
-
-		JButton btnNode = new JButton("Node");
-		btnNode.setVisible(true);
-		btnNode.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				CardLayout cl = (CardLayout) (optionCard.getLayout());
-				cl.show(optionCard, "Node");
-				lblCurrentButton.setText("Node Selected");
-			}
-		});
-		btnNode.setBounds(500, 500, 97, 25);
-		panel.add(btnNode);
 		
+		JLabel lblConnectedNode = new JLabel("Connect To:");
+		lblConnectedNode.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblConnectedNode.setBounds(12, 601, 123, 16);
+		buttonCard.add(lblConnectedNode);
+		
+		JComboBox<Node>  comboBoxConnectTo = new JComboBox<Node>();
+		comboBoxConnectTo.setBounds(12, 629, 106, 22);
+		comboBoxConnectTo.addItem(new Node(-1, "New Node"));
+		buttonCard.add(comboBoxConnectTo);
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(12, 636, 726, 75);
 		panel.add(panel_1);
 		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-						
-						JPanel panel_2 = new JPanel();
-						panel_2.setBounds(782, 643, 142, 68);
-						panel.add(panel_2);
-						panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-								
-								JButton run = new JButton("Run");
-								panel_2.add(run);
-								run.getAccessibleContext().setAccessibleName("Run a scenario");
-								run.addActionListener(new ActionListener(){
 
-									@Override
-									public void actionPerformed(ActionEvent arg0) {
-										// TODO Auto-generated method stub
-										Thread t = new Thread(new Runnable(){
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(772, 692, 142, 35);
+		panel.add(panel_2);
+		panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-											@Override
-											public void run() {
-												String file = "";
-												JFileChooser chooser = new JFileChooser(new File("FactoryScenarios"));
-												FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
-												chooser.setFileFilter(filter);
-												int returnval = chooser.showOpenDialog(null);
-												if (returnval == JFileChooser.APPROVE_OPTION) {
-													file = "FactoryScenarios/" + chooser.getSelectedFile().getName();
-												}
-												ScenarioParser s = new ScenarioParser(true);
-												s.setScenarioFile(file);						
-											}
-											
-										});
-										frame.dispose();
-										t.start();
+		JButton run = new JButton("Run");
+		panel_2.add(run);
+		run.getAccessibleContext().setAccessibleName("Run a scenario");
+		run.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				Thread t = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						String file = "";
+						JFileChooser chooser = new JFileChooser(new File("FactoryScenarios"));
+						FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
+						chooser.setFileFilter(filter);
+						int returnval = chooser.showOpenDialog(null);
+						if (returnval == JFileChooser.APPROVE_OPTION) {
+							file = "FactoryScenarios/" + chooser.getSelectedFile().getName();
+						}
+						ScenarioParser s = new ScenarioParser(true);
+						s.setScenarioFile(file);
+					}
+
+				});
+				frame.dispose();
+				t.start();
+			}
+
+		});
+
+		// Apply button
+		JButton btnApply = new JButton("Apply");
+		panel_2.add(btnApply);
+		btnApply.addActionListener(new ActionListener() {//
+			public void actionPerformed(ActionEvent arg0) {
+
+				if (lblCurrentButton.getText().equals("Node Selected")) {
+					String option = "" + nodeCellBox.getSelectedItem();
+					currentNode.setResponse(speakText2.getText());
+					currentNode.setRepeatedText(repeatText.getText());
+
+					if (!lblNoFileChosen.getText().equals("No file chosen"))
+						currentNode.setAudioFile(lblNoFileChosen.getText());
+					// ADD PAUSE
+					if (option.equals("Clear")) {
+						int cell = Integer.parseInt("" + clearChoose2.getSelectedItem());
+						int[] pins = new int[8];
+						String[] hold = alphabet.get(' ').split("");
+						if (clearRadioButton2.isSelected()) {
+							for (int i = 0; i < 8; i++) {
+								pins[i] = Integer.parseInt(hold[i]);
+							}
+							currentNode.setPins(pins, cell);
+						}
+
+					}
+
+					else if (option.equals("Pins")) {
+						int cell = Integer.parseInt("" + blockChooser2.getSelectedItem());
+
+						if (pin21.isSelected())
+							currentNode.setPin(cell, 1, 1);
+						else
+							currentNode.setPin(cell, 1, 0);
+
+						if (pin22.isSelected())
+							currentNode.setPin(cell, 2, 1);
+						else
+							currentNode.setPin(cell, 2, 0);
+
+						if (pin23.isSelected())
+							currentNode.setPin(cell, 3, 1);
+						else
+							currentNode.setPin(cell, 3, 0);
+
+						if (pin24.isSelected())
+							currentNode.setPin(cell, 4, 1);
+						else
+							currentNode.setPin(cell, 4, 0);
+
+						if (pin25.isSelected())
+							currentNode.setPin(cell, 5, 1);
+						else
+							currentNode.setPin(cell, 5, 0);
+
+						if (pin26.isSelected())
+							currentNode.setPin(cell, 6, 1);
+						else
+							currentNode.setPin(cell, 6, 0);
+
+						if (pin27.isSelected())
+							currentNode.setPin(cell, 7, 1);
+						else
+							currentNode.setPin(cell, 7, 0);
+
+						if (pin28.isSelected())
+							currentNode.setPin(cell, 8, 1);
+						else
+							currentNode.setPin(cell, 8, 0);
+					}
+
+					else if (option.equals("Character")) {
+						int cell = Integer.parseInt("" + charChoose2.getSelectedItem());
+
+						// System.out.println(nodeEnterCharHere.getText().length());
+						if (nodeEnterCharHere.getText().length() > 1) {
+							// Display Some Error Here
+
+						} else {
+							int[] pins = new int[8];
+							char[] x = nodeEnterCharHere.getText().toCharArray();
+							String[] hold = alphabet.get(x[0]).split("");
+							for (int i = 0; i < 8; i++) {
+								pins[i] = Integer.parseInt(hold[i]);
+								System.out.println(pins[i]);
+							}
+							currentNode.setPins(pins, cell);
+
+						}
+					}
+
+					else if (option.equals("Word")) {
+						if (nodeEnterWordHere.getText().length() > boxCount) {
+							// Display Some Error Here
+						} else {
+							String[] word = nodeEnterWordHere.getText().split("");
+							int[] pins = new int[8];
+							for (int i = 0; i < word.length; i++) {
+								char[] x = word[i].toCharArray();
+
+								String[] hold = alphabet.get(x[0]).split("");
+								for (int j = 0; j < 8; j++) {
+									pins[j] = Integer.parseInt(hold[j]);
+
+								}
+								currentNode.setPins(pins, i);
+							}
+						}
+					}
+
+					else {
+						// Display some error here for nothing selected
+					}
+				}
+
+				else if (lblCurrentButton.getText().split(" ")[0].equals("Current"))// CHANGE
+																					// BUTTON
+																					// STUFF
+				{
+					String option = "" + btnCellBox.getSelectedItem();
+					int[] pins = new int[8];
+
+					if (buttonBox.getSelectedItem().equals("Repeat")) {
+						if (currentNodeButton.getClass() == SkipButton.class) {
+							currentNode.addRepeatButton(currentButton, repeatText.getText());
+						}
+					} else {
+						if (currentNode.getButton(currentButton).equals(null)) {
+							// SkipButton skip = new SkipButton();
+							int number = currentButton;
+							String response = textField.getText();
+							Node next = null; // DONT KNOW WHAT TO PUT HERE
+
+							if (option.equals("Clear")) {
+								int cell = Integer.parseInt("" + clearChoose.getSelectedItem());
+								String[] hold = alphabet.get(' ').split("");
+								if (clearRadioButton.isSelected()) {
+									for (int i = 0; i < 8; i++) {
+										pins[i] = Integer.parseInt(hold[i]);
 									}
-									
-								});
-						
-								// Apply button
-								JButton btnApply = new JButton("Apply");
-								panel_2.add(btnApply);
-								btnApply.addActionListener(new ActionListener() {//
-									public void actionPerformed(ActionEvent arg0) {
-										
-										
-										if (lblCurrentButton.getText().equals("Node Selected")) {
-											String option = "" + nodeCellBox.getSelectedItem();
-											currentNode.setResponse(speakText2.getText());
-											currentNode.setRepeatedText(repeatText.getText());
-											
-											if (!lblNoFileChosen.getText().equals("No file chosen"))
-												currentNode.setAudioFile(lblNoFileChosen.getText());
-											//ADD PAUSE
-											if (option.equals("Clear")) {
-												int cell = Integer.parseInt("" + clearChoose2.getSelectedItem());
-												int[] pins = new int[8];
-												String[] hold = alphabet.get(' ').split("");
-												if (clearRadioButton2.isSelected()){
-												for (int i = 0; i < 8; i++) {
-													pins[i] = Integer.parseInt(hold[i]);
-												}
-												currentNode.setPins(pins, cell);
-												}
+								}
+								if (currentNodeButton.getClass() == SkipButton.class) {
+									((SkipButton) currentNodeButton).setPins(pins, cell);
+								}
 
-											} 
-											
-											else if (option.equals("Pins")) {
-												int cell = Integer.parseInt("" + blockChooser2.getSelectedItem());
+							} else if (option.equals("Pins")) {
+								int cell = Integer.parseInt("" + blockChooser.getSelectedItem());
 
-												
-												if (pin21.isSelected())
-													currentNode.setPin(cell, 1, 1);												
-												else
-													currentNode.setPin(cell, 1, 0);
-												
-												if (pin22.isSelected())
-													currentNode.setPin(cell, 2, 1);
-												else
-													currentNode.setPin(cell, 2, 0);
-												
-												if (pin23.isSelected())
-													currentNode.setPin(cell, 3, 1);
-												else
-													currentNode.setPin(cell, 3, 0);
-												
-												if (pin24.isSelected())
-													currentNode.setPin(cell, 4, 1);
-												else
-													currentNode.setPin(cell, 4, 0);
-												
-												if (pin25.isSelected())
-													currentNode.setPin(cell, 5, 1);
-												else
-													currentNode.setPin(cell, 5, 0);
+								if (pin1.isSelected())
+									pins[0] = 1;
+								else//
+									pins[0] = 0;
 
-												if (pin26.isSelected())
-													currentNode.setPin(cell, 6, 1);
-												else
-													currentNode.setPin(cell, 6, 0);
-												
-												if (pin27.isSelected())
-													currentNode.setPin(cell, 7, 1);
-												else
-													currentNode.setPin(cell, 7, 0);
-												
-												if (pin28.isSelected())
-													currentNode.setPin(cell, 8, 1);
-												else
-													currentNode.setPin(cell, 8, 0);
-												} 
-											
-											else if (option.equals("Character")) {
-												int cell = Integer.parseInt("" + charChoose2.getSelectedItem());
+								if (pin2.isSelected())
+									pins[1] = 1;
+								else
+									pins[1] = 0;
 
-												//System.out.println(nodeEnterCharHere.getText().length());
-												if (nodeEnterCharHere.getText().length() > 1) {
-													// Display Some Error Here
-													
-												}
-												else{
-												int[] pins = new int[8];
-												char[] x = nodeEnterCharHere.getText().toCharArray();
-												String[] hold = alphabet.get(x[0]).split("");
-												for (int i = 0; i < 8; i++) {
-													pins[i] = Integer.parseInt(hold[i]);
-													System.out.println(pins[i]);
-												}
-												currentNode.setPins(pins, cell);
+								if (pin3.isSelected())
+									pins[2] = 1;
+								else
+									pins[2] = 0;
 
-												}
-											} 
-											
-											else if (option.equals("Word")) {
-												if (nodeEnterWordHere.getText().length() > boxCount) {
-													// Display Some Error Here 
-												}
-												else{
-												String[] word = nodeEnterWordHere.getText().split("");
-												int[] pins = new int[8];
-												for (int i = 0; i < word.length; i++)
-												{
-													char[] x = word[i].toCharArray();
+								if (pin4.isSelected())
+									pins[3] = 1;
+								else
+									pins[3] = 0;
 
-													String[] hold = alphabet.get(x[0]).split("");
-													for (int j = 0; j < 8; j++)
-													{
-														pins[j] = Integer.parseInt(hold[j]);
-														
-													}
-													currentNode.setPins(pins, i);
-												}
-											} }
-											
-											else {
-												// Display some error here for nothing selected
-											}
-										}
-										
-										else if (lblCurrentButton.getText().split(" ")[0].equals("Current"))//CHANGE BUTTON STUFF 
-										{	
-											String option = "" + btnCellBox.getSelectedItem();
-											int[] pins = new int[8];
+								if (pin5.isSelected())
+									pins[4] = 1;
+								else
+									pins[4] = 0;
 
-											
-											if (buttonBox.getSelectedItem().equals("Repeat"))
-											{
-												if (currentNodeButton.getClass() == SkipButton.class)
-												{
-													currentNode.addRepeatButton(currentButton, repeatText.getText());
-												}
-											}
-											else
-											{
-												if (currentNode.getButton(currentButton).equals(null))
-												{
-													//SkipButton skip = new SkipButton();
-													int number = currentButton;
-													String response = textField.getText();
-													Node next = null; //DONT KNOW WHAT TO PUT HERE
+								if (pin6.isSelected())
+									pins[5] = 1;
+								else
+									pins[5] = 0;
 
-													
-													if (option.equals("Clear")) {
-														int cell = Integer.parseInt("" + clearChoose.getSelectedItem());
-														String[] hold = alphabet.get(' ').split("");
-														if (clearRadioButton.isSelected()){
-														for (int i = 0; i < 8; i++) {
-															pins[i] = Integer.parseInt(hold[i]);
-															}								
-														}
-														if (currentNodeButton.getClass() == SkipButton.class)
-														{
-															((SkipButton)currentNodeButton).setPins(pins, cell);
-														}
-														
+								if (pin7.isSelected())
+									pins[6] = 1;
+								else
+									pins[6] = 0;
 
-													} 
-													else if (option.equals("Pins")) {
-														int cell = Integer.parseInt("" + blockChooser.getSelectedItem());
+								if (pin8.isSelected())
+									pins[7] = 1;
+								else
+									pins[7] = 0;
 
-														
-															
-														
-														if (pin1.isSelected())
-															pins[0] = 1;											
-														else//
-															pins[0] = 0;
-														
-														if (pin2.isSelected())
-															pins[1] = 1;
-														else
-															pins[1] = 0;
-														
-														if (pin3.isSelected())
-															pins[2] = 1;
-														else
-															pins[2] = 0;
-														
-														if (pin4.isSelected())
-															pins[3] = 1;
-														else
-															pins[3] = 0;
-														
-														if (pin5.isSelected())
-															pins[4] = 1;
-														else
-															pins[4] = 0;
+								if (currentNodeButton.getClass() == SkipButton.class) {
+									((SkipButton) currentNodeButton).setPins(pins, cell);
+								}
 
-														if (pin6.isSelected())
-															pins[5] = 1;
-														else
-															pins[5] = 0;
-														
-														if (pin7.isSelected())
-															pins[6] = 1;
-														else
-															pins[6] = 0;
-														
-														if (pin8.isSelected())
-															pins[7] = 1;
-														else
-															pins[7] = 0;
-														
-														if (currentNodeButton.getClass() == SkipButton.class)
-														{
-															((SkipButton)currentNodeButton).setPins(pins, cell);
-														}
-														
-														}
-														
-													else if (option.equals("Character")) {
-														int cell = Integer.parseInt("" + charChoose.getSelectedItem());
+							}
 
-														//System.out.println(nodeEnterCharHere.getText().length());
-														if (txtEnterCharHere.getText().length() > 1) {
-															// Display Some Error Here
-															
-														}
-														else{
-														char[] x = txtEnterCharHere.getText().toCharArray();
-														String[] hold = alphabet.get(x[0]).split("");
-														for (int i = 0; i < 8; i++) {
-															pins[i] = Integer.parseInt(hold[i]);
-															
-														}
-														}
-														if (currentNodeButton.getClass() == SkipButton.class)
-														{
-															((SkipButton)currentNodeButton).setPins(pins, cell);
-														}
-													}
-													else if (option.equals("Word")) {
-														if (txtEnterWordHere.getText().length() > boxCount) {
-															// Display Some Error Here 
-														}
-														else{
-														String[] word = txtEnterWordHere.getText().split("");
-														for (int i = 0; i < word.length; i++)
-														{
-															char[] x = word[i].toCharArray();
+							else if (option.equals("Character")) {
+								int cell = Integer.parseInt("" + charChoose.getSelectedItem());
 
-															String[] hold = alphabet.get(x[0]).split("");
-															for (int j = 0; j < 8; j++)
-															{
-																pins[j] = Integer.parseInt(hold[j]);
-																
-															}
-															if (currentNodeButton.getClass() == SkipButton.class)
-															{
-																((SkipButton)currentNodeButton).setPins(pins, i);
-															}
-														}
-													} }
-													else{
-														//Do nothing for now
-													}
-													
-													NodeButton button = currentNode.getButton(currentButton);
-													if (currentNodeButton.getClass()==SkipButton.class){
-														
-													}
-													if (!lblCurrentFile.getText().equals("No file chosen"))
-													{
-													//	currentNodeButton = new SkipButton(1);
-														
-														if (currentNodeButton.getClass() == SkipButton.class)
-														{
-															int cell = Integer.parseInt("" + blockChooser.getSelectedItem());
-															((SkipButton)currentNodeButton).setResponse(response);
-															((SkipButton)currentNodeButton).setAudioFile(lblCurrentFile.getText());
-															//
-														}
-													
-													}
-													else
-													{
-													//	SkipButton button = new SkipButton(number, response, next);
-													}
-												
+								// System.out.println(nodeEnterCharHere.getText().length());
+								if (txtEnterCharHere.getText().length() > 1) {
+									// Display Some Error Here
 
-													
-												}
-												
-											}
-										}
+								} else {
+									char[] x = txtEnterCharHere.getText().toCharArray();
+									String[] hold = alphabet.get(x[0]).split("");
+									for (int i = 0; i < 8; i++) {
+										pins[i] = Integer.parseInt(hold[i]);
 
 									}
-								});
-								btnApply.getAccessibleContext().setAccessibleName("Click to apply changes");
-		
+								}
+								if (currentNodeButton.getClass() == SkipButton.class) {
+									((SkipButton) currentNodeButton).setPins(pins, cell);
+								}
+							} else if (option.equals("Word")) {
+								if (txtEnterWordHere.getText().length() > boxCount) {
+									// Display Some Error Here
+								} else {
+									String[] word = txtEnterWordHere.getText().split("");
+									for (int i = 0; i < word.length; i++) {
+										char[] x = word[i].toCharArray();
+
+										String[] hold = alphabet.get(x[0]).split("");
+										for (int j = 0; j < 8; j++) {
+											pins[j] = Integer.parseInt(hold[j]);
+
+										}
+										if (currentNodeButton.getClass() == SkipButton.class) {
+											((SkipButton) currentNodeButton).setPins(pins, i);
+										}
+									}
+								}
+							} else {
+								// Do nothing for now
+							}
+
+							NodeButton button = currentNode.getButton(currentButton);
+							if (currentNodeButton.getClass() == SkipButton.class) {
+
+							}
+							if (!lblCurrentFile.getText().equals("No file chosen")) {
+								// currentNodeButton = new SkipButton(1);
+
+								if (currentNodeButton.getClass() == SkipButton.class) {
+									int cell = Integer.parseInt("" + blockChooser.getSelectedItem());
+									((SkipButton) currentNodeButton).setResponse(response);
+									((SkipButton) currentNodeButton).setAudioFile(lblCurrentFile.getText());
+									if (comboBoxConnectTo.getSelectedItem().equals("New Node"))
+									{
+										//((SkipButton) currentNodeButton).setNextNode(scenario.createNode());
+										Node hold = scenario.createNode();
+										scenario.setEdge(currentNode, hold, currentButton);
+									}
+									else {//
+										((SkipButton) currentNodeButton).setNextNode((Node)comboBoxConnectTo.getSelectedItem());
+									}
+								}
+
+							} else {
+								// SkipButton button = new SkipButton(number,
+								// response, next);
+							}
+
+						}
+
+					}
+				}
+
+			}
+		});
+		btnApply.getAccessibleContext().setAccessibleName("Click to apply changes");
 
 		btnCellBox.addActionListener(new ActionListener() {
 
@@ -1180,10 +1214,59 @@ public class EditingScreen implements ActionListener {
 		CardLayout cl = (CardLayout) (optionCard.getLayout());
 		cl.show(optionCard, "Do Nothing");
 		lblCurrentButton.setText("Node Selected");
+		
+		comboBoxNextNodes.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				currentNode = (Node) comboBoxNextNodes.getSelectedItem();
+				CardLayout cl = (CardLayout) (optionCard.getLayout());
+				cl.show(optionCard, "Do Nothing");
+				lblCurrentButton.setText("Node Selected");
+				graphCanvas.setNode(currentNode);
+				graphCanvas.repaint();
+				comboBoxNextNodes.removeAllItems();
+				for (Node node: scenario.getNextNodes(currentNode)) {
+					comboBoxNextNodes.addItem(node);
+				}
+				comboBoxPrevNodes.removeAllItems();
+				for (Node node: scenario.getPrevNodes(currentNode)) {
+					comboBoxPrevNodes.addItem(node);
+				}
+				
+			}
+		});
+		
+		comboBoxPrevNodes.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				currentNode = (Node) comboBoxNextNodes.getSelectedItem();
+				CardLayout cl = (CardLayout) (optionCard.getLayout());
+				cl.show(optionCard, "Do Nothing");
+				lblCurrentButton.setText("Node Selected");
+				graphCanvas.setNode(currentNode);
+				graphCanvas.repaint();
+				comboBoxNextNodes.removeAllItems();
+				for (Node node: scenario.getNextNodes(currentNode)) {
+					comboBoxNextNodes.addItem(node);
+				}
+				comboBoxPrevNodes.removeAllItems();
+				for (Node node: scenario.getPrevNodes(currentNode)) {
+					comboBoxPrevNodes.addItem(node);
+				}
+				comboBoxConnectTo.removeAllItems();
+				comboBoxConnectTo.addItem(new Node(-1, "New Node"));
+				for (Node node: scenario.getNextNodes(currentNode)) {
+					comboBoxConnectTo.addItem(node);
+				}
+
+				
+			}
+		});
+
 	}
-	
-	
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
@@ -1191,11 +1274,10 @@ public class EditingScreen implements ActionListener {
 		{
 			if (e.getSource().equals(buttons.get(i))) {
 				currentButton = i;
-			//	currentNodeButton = scenario.getHead().getButton(i);
+				// currentNodeButton = scenario.getHead().getButton(i);
 				lblCurrentButton.setText("Current Button: " + currentButton);
 			}
 		}
-
 
 	}
 }
