@@ -117,6 +117,13 @@ public class SkipButton extends NodeButton {
 		this.pins.put(cellNumber, pins);
 	}
 	
+	public void setPin(int cellNumber, int pin, int value) {
+		if (this.pins.get(cellNumber) == null) {
+			this.pins.put(cellNumber, new int[8]);
+		}
+		this.pins.get(cellNumber)[pin-1] = value;
+	}
+	
 	public void setAudioFile(String audioFile) {
 		try {
 			Scanner file = new Scanner(new File(audioFile));
