@@ -2,22 +2,24 @@ package enamel;
 
 import org.jgrapht.Graph;
 import org.jgrapht.graph.*;
+import org.jgraph.graph.DefaultEdge;
 
 public class CanvasTest {
 	
 	private static int counter;
 	private static Graph<Node, DefaultEdge> graph;
-	private static Scenario s;
+	public static Scenario s;
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		graph = new SimpleDirectedGraph<>(DefaultEdge.class);
 		s = new Scenario();
+		s.setNumButtons(3);
 		counter = 0;
 		addNodes();
-		System.out.println(s);
-		GraphCanvas c = new GraphCanvas(s, s.getHead());
-		c.setVisible(true);
+		EditingScreen screen = new EditingScreen(s);
+		
+		
 	}
 	
 	public static void addNodes() {
@@ -39,19 +41,18 @@ public class CanvasTest {
 		node2.addButton(0);
 		graph.addVertex(node2);
 		counter++;
-		
+
 		s.setEdge(node1, node2, 0);
-		
 		
 		arr1[2] = 0;
 		response = "These are pins 1 and 2, the top two pins on the left side.\nPress button 1 to continue.";
-		node1 = new Node(counter, name, response);
-		node1.setPins(arr1, 0);
-		node1.addButton(0);
+		node2 = new Node(counter, name, response);
+		node2.setPins(arr1, 0);
+		node2.addButton(0);
 		graph.addVertex(node1);
 		counter++;
 		
-		s.setEdge(node2, node1, 0);
+		s.setEdge(node1, node2, 0);
 		
 		arr2[5] = 0;
 		response = "These are pins 4 and 5, the top two pins on the right side. Press button 1 to continue.";
@@ -71,7 +72,7 @@ public class CanvasTest {
 		node1.addButton(0);
 		graph.addVertex(node1);
 		counter++;
-
+		
 		s.setEdge(node2, node1, 0);
 		
 		arr2[2] = 1;
@@ -86,7 +87,6 @@ public class CanvasTest {
 		counter++;
 		
 		s.setEdge(node1, node2, 0);
-		
 
 		response = "That's the end of directional orientation!";
 		node1 = new Node(counter, name ,response);

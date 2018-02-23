@@ -20,6 +20,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -27,27 +29,22 @@ import java.awt.event.ActionEvent;
 public class Recorder1 {
 
 	private JFrame frame;
-	public static String cust_file;
-	private JTextField textField;
 	Voice voice;
 	VoiceManager vm;
 
+ 
 	/**
 	 * Launch the application.
 	 */
-    static final long RECORD_TIME = 3000;  // 30 seconds limit past user
+    static final long RECORD_TIME = 15000;  // 30 seconds limit past user
     
-    //Change recording time to allow user to choose when they want to stop
 
- 
     // format of audio file
     AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
  
     // the line from which audio data is captured
     TargetDataLine line;
- 
-	static JButton btnNewButton = new JButton("Start Recording");
-	static Boolean recordstart = btnNewButton.isVisible();
+    private JButton btnStart;
     /**
      * Defines an audio format
      */
@@ -62,7 +59,6 @@ public class Recorder1 {
         return format;
     }
  
-
  
     /**
      * Closes the target data line to finish capturing and recording
@@ -70,7 +66,7 @@ public class Recorder1 {
     void finish() {
         line.stop();
         line.close();
-        System.out.println("Finished");
+        System.out.println("Finished Recording...");
     }
  
     /**
@@ -97,10 +93,12 @@ public class Recorder1 {
             public void run() {
                 try {
                     Thread.sleep(RECORD_TIME);
+                    
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
                 recorder.finish();
+                
             }
         });
  
@@ -121,79 +119,32 @@ public class Recorder1 {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setVisible(true);
+		frame.setBounds(100, 100, 450, 207);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lblEnterInFile = new JLabel("Enter in File Name:");
-		lblEnterInFile.setBounds(10, 11, 90, 14);
-		frame.getContentPane().add(lblEnterInFile);
-		
-		textField = new JTextField();
-		textField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					cust_file = textField.getText();
-					
-					textField.setVisible(false);
-					vm = VoiceManager.getInstance();
-			        voice = vm.getVoice ("kevin16");
-			        voice.allocate();
-			        voice.speak(cust_file);
-			        
-			        
-		            try {
-		            
-		            // path of the wav file
-		            File wavFile = new File("FactoryScenarios\\AudioFiles\\"+cust_file+".wav");	
-		            AudioFormat format = getAudioFormat();
-		            DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
-		     
-		                // checks if system supports the data line
-		            if (!AudioSystem.isLineSupported(info)) {
-		                System.out.println("Line not supported");
-		                System.exit(0);
-		            }
-		            line = (TargetDataLine) AudioSystem.getLine(info);
-		            line.open(format);
-		            line.start();   // start capturing
-
-		 
-
-			        
-		            System.out.println("Start capturing...");
-		            
-		            AudioInputStream ais = new AudioInputStream(line);
-		 
-		            System.out.println("Start recording...");
-		            
-		            
-		 
-		            // start recording
-
-						AudioSystem.write(ais, fileType, wavFile);
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					} catch (LineUnavailableException ex) {
-		            ex.printStackTrace();
-					}
-			        
-				}
+		JButton btnEndRecording = new JButton("End Recording");
+		btnEndRecording.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+				
+				
+				
 			}
 		});
-		textField.setBounds(10, 39, 173, 20);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
-		btnNewButton.addActionListener(new ActionListener() {
+		btnEndRecording.setBounds(10, 95, 414, 50);
+		frame.getContentPane().add(btnEndRecording);
+		
+		btnStart = new JButton("Start");
+		btnStart.setVisible(false);
+		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnNewButton.setVisible(false);
+				start();
 			}
 		});
-		
-
-		btnNewButton.setBounds(10, 76, 173, 23);
-		frame.getContentPane().add(btnNewButton);
+		btnStart.setBounds(10, 11, 414, 59);
+		frame.getContentPane().add(btnStart);
 	}
 	
 
@@ -202,8 +153,41 @@ public class Recorder1 {
      */
     
     void start() {
-    	
+    	try {
+    		
+    		long file_identify = System.currentTimeMillis();
+    	    //Change recording time to allow user to choose when they want to stop
+    		
+    	    File wavFile = new File("FactoryScenarios\\AudioFiles\\" + file_identify + ".wav");	
+    		
+    			AudioFormat format = getAudioFormat();
+    			DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
+ 
+    			// checks if system supports the data line
+    			if (!AudioSystem.isLineSupported(info)) {
+    				System.out.println("Line not supported");
+    				System.exit(0);
+    			}
+    			line = (TargetDataLine) AudioSystem.getLine(info);
+    			line.open(format);
+    			line.start();   // start capturing
+ 
+    			System.out.println("Start capturing...");
+ 
+    			AudioInputStream ais = new AudioInputStream(line);
+ 
+    			System.out.println("Start recording...");
+ 
+    			// start recording
+    			AudioSystem.write(ais, fileType, wavFile);
+    		
+ 
+    		} catch (LineUnavailableException ex) {
+            ex.printStackTrace();
+    		} catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
 
     }
-
 }
