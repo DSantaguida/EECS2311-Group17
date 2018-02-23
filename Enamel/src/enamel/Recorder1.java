@@ -36,7 +36,7 @@ public class Recorder1 {
 	/**
 	 * Launch the application.
 	 */
-    static final long RECORD_TIME = 30000;  // 30 seconds limit past user
+    static final long RECORD_TIME = 15000;  // 30 seconds limit past user
     
 
     // format of audio file
@@ -66,7 +66,7 @@ public class Recorder1 {
     void finish() {
         line.stop();
         line.close();
-        System.out.println("Finished");
+        System.out.println("Finished Recording...");
     }
  
     /**
@@ -128,8 +128,9 @@ public class Recorder1 {
 		btnEndRecording.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
-				System.out.println("Ending Recording...");
-				EditingScreen test = new EditingScreen();
+				line.stop();
+				line.close();
+				
 				
 			}
 		});
