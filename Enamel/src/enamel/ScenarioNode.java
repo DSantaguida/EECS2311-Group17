@@ -221,6 +221,7 @@ public class ScenarioNode {
 			String[] param = breakdown.split("\\s");
 			int brailleCell = Integer.parseInt(param[0]);
 			int[] pins = new int[8];
+			int v = 0;
 			NodeButton button = thisNode.getButton(buttonCount);
 			if (button.getClass() == SkipButton.class) {
 				((SkipButton)button).setNextNode(nextNode1);
