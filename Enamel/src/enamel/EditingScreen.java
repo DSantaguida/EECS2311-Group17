@@ -1147,7 +1147,7 @@ public class EditingScreen implements ActionListener {
 										Node hold = scenario.createNode();
 										scenario.setEdge(currentNode, hold, currentButton);
 									}
-									else {
+									else {//
 										((SkipButton) currentNodeButton).setNextNode((Node)comboBoxConnectTo.getSelectedItem());
 									}
 								}
