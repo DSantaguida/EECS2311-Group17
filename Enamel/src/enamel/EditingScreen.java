@@ -2,12 +2,12 @@ package enamel;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.basic.BasicArrowButton;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
 
 public class EditingScreen implements ActionListener {
@@ -174,6 +174,10 @@ public class EditingScreen implements ActionListener {
 		graphCanvas.setBounds(0, 0, 600, 600);
 		frame.getContentPane().add(graphCanvas);
 		graphCanvas.setVisible(true);
+		
+		BasicArrowButton b = new BasicArrowButton(BasicArrowButton.NORTH);
+		b.setBounds(100,  100,  20,  20);
+		graphCanvas.add(b);
 		
 		// Initialize Main JPanel
 		panel = new JPanel();
