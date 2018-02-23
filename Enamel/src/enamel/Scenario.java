@@ -33,7 +33,7 @@ public class Scenario {
 	
 	@SuppressWarnings("unchecked")
 	public Scenario(Scenario other) {
-//		this.scenarioNumber = other.scenarioNumber;
+		this.scenarioNumber = other.scenarioNumber;
 		this.name = other.name;
 		this.idCounter = other.idCounter;
 		this.numButtons = other.numButtons;
@@ -136,7 +136,6 @@ public class Scenario {
 		int counter = 0;
 		for (Object obj : edgeSet) {
 			DefaultEdge edge = (DefaultEdge) obj;
-			System.out.println(edge + "Hello");
 			nodeArr[counter] = this.graph.getEdgeTarget(edge);
 			counter++;
 		}

@@ -82,15 +82,12 @@ public class GraphCanvas extends JPanel {
     public void createRectangles(Graphics2D g, int firstX, int bottom, int firstWidth, int y, int space, int height) {
     	Node[] nextNodes = (Node[]) s.getNextNodes(n);
     	int num = nextNodes.length;
-    	System.out.println(nextNodes[num-1]);
     	int spaces = (num + 1) * space;
     	int width = (this.width - spaces) / Math.max(num, 1);
-    	System.out.println(width);
     	int rect = space + width;
     	int x = 0;
     	int dline = firstWidth/(num+1);
     	for (int i = 0; i < num; i++) {
-    		System.out.println(i);
     		x = space + this.startingX + rect * i;
     		g.draw(new RoundRectangle2D.Float(x, y, width, height, 10, 10));
     		g.drawString(nextNodes[i].getName(), x+3, y+14);
