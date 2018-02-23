@@ -14,6 +14,7 @@ public class CanvasTest {
 		// TODO Auto-generated method stub
 		graph = new SimpleDirectedGraph<>(DefaultEdge.class);
 		s = new Scenario();
+		s.setNumButtons(3);
 		counter = 0;
 		addNodes();
 		EditingScreen screen = new EditingScreen(s);

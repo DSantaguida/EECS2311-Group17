@@ -164,7 +164,8 @@ public class EditingScreen implements ActionListener {
 		// Initialize Main JFrame 
 		frame = new JFrame();
 		frame.setVisible(true);
-		frame.setBounds(100, 100, 975, 700);
+
+		frame.setBounds(100, 100, 975, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		//
@@ -790,6 +791,7 @@ public class EditingScreen implements ActionListener {
 		buttonCard.add(btnNewButton);
 
 		JButton btnNode = new JButton("Node");
+		btnNode.setVisible(true);
 		btnNode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				CardLayout cl = (CardLayout) (optionCard.getLayout());
@@ -810,6 +812,7 @@ public class EditingScreen implements ActionListener {
 					String option = "" + nodeCellBox.getSelectedItem();
 					currentNode.setResponse(speakText2.getText());
 					currentNode.setRepeatedText(repeatText.getText());
+					
 					if (!lblNoFileChosen.getText().equals("No file chosen"))
 						currentNode.setAudioFile(lblNoFileChosen.getText());
 					//ADD PAUSE
@@ -920,13 +923,91 @@ public class EditingScreen implements ActionListener {
 				
 				else if (lblCurrentButton.getText().split(" ")[0].equals("Current"))//CHANGE BUTTON STUFF 
 				{	
+					String option = "" + btnCellBox.getSelectedItem();
+					int[] pins = new int[8];
+					
 					if (buttonBox.getSelectedItem().equals("Repeat"))
 					{
-					
+						if (currentNode.getButton(currentButton).equals(null))
+						{
+							currentNode.addRepeatButton(currentButton, repeatText.getText());
+						}
+						else{
+							currentNode.removeButton(currentButton);
+							currentNode.addRepeatButton(currentButton, repeatText.getText());		
+						}
 					}
 					else
 					{
+						if (currentNode.getButton(currentButton).equals(null))
+						{
+							//SkipButton skip = new SkipButton();
+							int number = currentButton;
+							String response = textField.getText();
+							Node next; //DONT KNOW WHAT TO PUT HERE
+							if (!lblCurrentFile.getText().equals("No file chosen"))
+							{
+								String aud = lblCurrentFile.getText();
+							}
 						
+							
+							if (option.equals("Clear")) {
+								int cell = Integer.parseInt("" + clearChoose.getSelectedItem());
+								String[] hold = alphabet.get(' ').split("");
+								if (clearRadioButton.isSelected()){
+								for (int i = 0; i < 8; i++) {
+									pins[i] = Integer.parseInt(hold[i]);
+									}								
+								}
+
+							} 
+							else if (option.equals("Pins")) {
+								int cell = Integer.parseInt("" + blockChooser.getSelectedItem());
+
+								
+								if (pin1.isSelected())
+									pins[0] = 1;											
+								else
+									pins[0] = 0;
+								
+								if (pin2.isSelected())
+									pins[1] = 1;
+								else
+									pins[1] = 0;
+								
+								if (pin3.isSelected())
+									pins[2] = 1;
+								else
+									pins[2] = 0;
+								
+								if (pin4.isSelected())
+									pins[3] = 1;
+								else
+									pins[3] = 0;
+								
+								if (pin5.isSelected())
+									pins[4] = 1;
+								else
+									pins[4] = 0;
+
+								if (pin6.isSelected())
+									pins[5] = 1;
+								else
+									pins[5] = 0;
+								
+								if (pin7.isSelected())
+									pins[6] = 1;
+								else
+									pins[6] = 0;
+								
+								if (pin8.isSelected())
+									pins[7] = 1;
+								else
+									pins[7] = 0;
+								} 
+							
+							
+						}
 						
 					}
 				}
