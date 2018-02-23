@@ -14,7 +14,6 @@ import com.sun.speech.freetts.Voice;
 public class ScenarioNode {
 	
 	private Scanner fileScanner;
-	private String scenarioFilePath;
 	private Voice voice;
 	private boolean repeat;
 	//tracks how many nodes were created (may need to be static?):
@@ -32,6 +31,7 @@ public class ScenarioNode {
 	private int numOfButtons; //number of buttons passed by scenario file, used for scenario formatting
 	private boolean userInput;
 	private boolean createdNode;
+	private int buttonCount;
 	
 	/*
 	 * What does this class do?
@@ -48,15 +48,14 @@ public class ScenarioNode {
 		this.nodeTrack++;
 	}
 	
-	public void nodeDelimiter(String fileLine) {
-		int buttonCount = 0;
+	void nodeDelimiter(String fileLine) {
 		//String buttonSound;
 		//String buttonMessage;
 		//String nextNode;
 		//boolean createdNode;
-		if (fileLine.length() >= 4 && fileLine.substring(0, 5).equals("Cells") && 
-			fileLine.substring(6).matches("^[0-9]*[1-9][0-9]*$")) {
-			int num = Integer.parseInt(fileLine.substring(6));
+		if (fileLine.length() >= 4 && fileLine.substring(0, 4).equals("Cell") && 
+			fileLine.substring(5).matches("^[0-9]*[1-9][0-9]*$")) {
+			int num = Integer.parseInt(fileLine.substring(5));
 			this.numOfCells = num;
 		}
 		if (fileLine.length() >= 4 && fileLine.substring(0, 6).equals("Button") && 
@@ -78,13 +77,13 @@ public class ScenarioNode {
 			this.nextNodeName = skipLine;
 			//Node tmp = p.createNode(nextNode);
 			this.nextNode1 = p.createNode(nextNodeName);
-			this.thisNode.addButton(buttonCount, this.buttonMessage, this.buttonSound, this.nextNode1);
-			buttonCount++;
+			this.thisNode.addButton(this.buttonCount, this.buttonMessage, this.buttonSound, this.nextNode1);
+			this.buttonCount++;
 			//need to connect each response node to the next node (NEXTT)
-			if (buttonCount >= numberOfButtons[nodeTrack]){
+			if (this.buttonCount >= numberOfButtons[nodeTrack]){
 				this.userInput = false;
 				nodeTrackIncrement();
-				buttonCount = 0;
+				this.buttonCount = 0;
 				createdNode = true;
 			}
 		}
@@ -240,7 +239,7 @@ public class ScenarioNode {
 	
 	private void play() {
 		String fileLine;
-		try {
+		//try {
 			while (fileScanner.hasNextLine()) {
 				fileLine = fileScanner.nextLine();
 				nodeDelimiter(fileLine);
@@ -260,21 +259,21 @@ public class ScenarioNode {
 				}
 				exit();
 			}
-		} catch (Exception e) {
+		} /*catch (Exception e) {
 			errorLog("Exception error : " + e.toString(),
 					"Strange error occurred if you are able to read this message. Possibilities "
 							+ "could include possible file corruption, or that you have enter characters that "
 							+ "could not be read/interpreted.");
-		}
-	}
+		}*/
+	
 	
 	public Scenario setScenarioFile(String scenarioFile) {
 		try {
-
+			
 			File f = new File(scenarioFile);
 			fileScanner = new Scanner(f);
-			String absolutePath = f.getAbsolutePath();
-			scenarioFilePath = absolutePath.substring(0, absolutePath.lastIndexOf(File.separator));
+			//String absolutePath = f.getAbsolutePath();
+			//scenarioFilePath = absolutePath.substring(0, absolutePath.lastIndexOf(File.separator));
 			play();
 		} catch (Exception e) {
 			errorLog("Exception error: " + e.toString(),
