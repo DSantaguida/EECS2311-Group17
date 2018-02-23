@@ -8,13 +8,29 @@ public class SkipButton extends NodeButton {
 	protected Node nextNode;
 	protected Map<Integer, int[]> pins;
 	protected String audioFile;
+	protected int pauseTime;
 	
+	/**
+	 * @return the pauseTime
+	 */
+	public int getPauseTime() {
+		return pauseTime;
+	}
+
+	/**
+	 * @param pauseTime the pauseTime to set
+	 */
+	public void setPauseTime(int pauseTime) {
+		this.pauseTime = pauseTime;
+	}
+
 	public SkipButton(int buttonNumber) {
 		super(buttonNumber);
 		this.response = "";
 		this.nextNode = null;
 		this.audioFile = "";
 		this.pins = new HashMap<>();
+		this.setPauseTime(0);
 	}
 
 	public SkipButton(int buttonNumber, String response) {
@@ -23,6 +39,7 @@ public class SkipButton extends NodeButton {
 		this.nextNode = null;
 		this.audioFile = "";
 		this.pins = new HashMap<>();
+		this.setPauseTime(0);
 	}
 
 	public SkipButton(int buttonNumber, String response, Node nextNode) {
@@ -31,6 +48,7 @@ public class SkipButton extends NodeButton {
 		this.nextNode = nextNode;
 		this.audioFile = "";
 		this.pins = new HashMap<>();
+		this.setPauseTime(0);
 
 		// TODO Auto-generated constructor stub
 	}
@@ -41,7 +59,7 @@ public class SkipButton extends NodeButton {
 		this.nextNode = nextNode;
 		this.audioFile = audioFile;
 		this.pins = new HashMap<>();
-
+		this.setPauseTime(0);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -51,7 +69,7 @@ public class SkipButton extends NodeButton {
 		this.nextNode = nextNode;
 		this.pins = new HashMap<>(pins);
 		this.audioFile = "";
-
+		this.setPauseTime(0);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -61,7 +79,7 @@ public class SkipButton extends NodeButton {
 		this.nextNode = nextNode;
 		this.pins = new HashMap<>(pins);
 		this.audioFile = audioFile;
-
+		this.setPauseTime(0);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -71,7 +89,7 @@ public class SkipButton extends NodeButton {
 		this.nextNode = nextNode;
 		this.pins = new HashMap<>();
 		this.audioFile = "";
-
+		this.setPauseTime(0);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -81,7 +99,7 @@ public class SkipButton extends NodeButton {
 		this.nextNode = other.nextNode;
 		this.pins = new HashMap<>(other.pins);
 		this.audioFile = other.audioFile;
-
+		this.setPauseTime(other.pauseTime);
 		// TODO Auto-generated constructor stub
 	}
 	
