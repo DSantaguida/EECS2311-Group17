@@ -20,6 +20,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import com.sun.speech.freetts.Voice;
+import com.sun.speech.freetts.VoiceManager;
+
 public class AudioPlayer extends Player {
 	
 
@@ -27,6 +30,8 @@ public class AudioPlayer extends Player {
 	LinkedList<JButton> buttonList = new LinkedList<JButton>();
 	JFrame frame;
 	AWTEventListener listener;
+	VoiceManager vm;
+	Voice voice;
 
 	
 	public AudioPlayer(int cellNum, int buttonNum)
@@ -34,12 +39,26 @@ public class AudioPlayer extends Player {
 		super(cellNum, buttonNum);
 		frame = new JFrame();
 		frame.setVisible(true);
+		vm = VoiceManager.getInstance();
+	    voice = vm.getVoice ("kevin16");
+	    voice.allocate();
 	}
 
 	@Override
 	public void refresh() {
 		// TODO Auto-generated method stub
-		
+		String hold;
+		for (int i = 0; i < brailleList.size(); i++){
+			hold = "On cell" + i + ", these pins are active:";
+			for (int j = 0; j < 8; j++)
+			{
+				if (brailleList.get(i).getPinState(j))
+				{
+					hold += "pin " + j + ", ";
+				}
+			}
+			voice.speak(hold);
+		}
 	}
 
 	@Override
