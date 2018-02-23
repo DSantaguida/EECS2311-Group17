@@ -975,13 +975,9 @@ public class EditingScreen implements ActionListener {
 											
 											if (buttonBox.getSelectedItem().equals("Repeat"))
 											{
-												if (currentNode.getButton(currentButton).equals(null))
+												if (currentNodeButton.getClass() == SkipButton.class)
 												{
 													currentNode.addRepeatButton(currentButton, repeatText.getText());
-												}
-												else{
-													currentNode.removeButton(currentButton);
-													currentNode.addRepeatButton(currentButton, repeatText.getText());		
 												}
 											}
 											else
