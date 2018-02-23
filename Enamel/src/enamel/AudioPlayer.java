@@ -49,15 +49,16 @@ public class AudioPlayer extends Player {
 		// TODO Auto-generated method stub
 		String hold;
 		for (int i = 0; i < brailleList.size(); i++){
-			hold = "On cell" + i + ", these pins are active:";
+			hold = "On cell " + i + ", these pins are active:";
 			for (int j = 0; j < 8; j++)
 			{
 				if (brailleList.get(i).getPinState(j))
 				{
-					hold += "pin " + j + ", ";
+					hold += "pin " + (j + 1) + ", ";
 				}
 			}
-			voice.speak(hold);
+			if (hold.length() > 33)
+				voice.speak(hold);
 		}
 	}
 
