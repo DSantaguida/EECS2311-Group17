@@ -200,12 +200,15 @@ public class EditingScreen implements ActionListener {
 		gbc_lblPreviousNodes.gridy = 0;
 		canvasPanel.add(lblPreviousNodes, gbc_lblPreviousNodes);
 
-		JComboBox comboBoxPrevNodes = new JComboBox();
+		JComboBox<Node> comboBoxPrevNodes = new JComboBox<>();
 		GridBagConstraints gbc_comboBoxPrevNodes = new GridBagConstraints();
 		gbc_comboBoxPrevNodes.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBoxPrevNodes.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBoxPrevNodes.gridx = 0;
 		gbc_comboBoxPrevNodes.gridy = 1;
+		for (Node node: this.scenario.getPrevNodes(this.currentNode)) {
+			comboBoxPrevNodes.addItem(node);
+		}
 		canvasPanel.add(comboBoxPrevNodes, gbc_comboBoxPrevNodes);
 
 		JButton btnNode = new JButton("Current Node");
@@ -230,12 +233,16 @@ public class EditingScreen implements ActionListener {
 		gbc_lblNextNodes.gridy = 5;
 		canvasPanel.add(lblNextNodes, gbc_lblNextNodes);
 
-		JComboBox comboBoxNextNodes = new JComboBox();
+		JComboBox<Node> comboBoxNextNodes = new JComboBox<>();
 		GridBagConstraints gbc_comboBoxNextNodes = new GridBagConstraints();
 		gbc_comboBoxNextNodes.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBoxNextNodes.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBoxNextNodes.gridx = 0;
 		gbc_comboBoxNextNodes.gridy = 6;
+		for (Node node: this.scenario.getNextNodes(this.currentNode)) {
+			comboBoxNextNodes.addItem(node);
+		}
+
 		canvasPanel.add(comboBoxNextNodes, gbc_comboBoxNextNodes);
 
 		// Label to display the amount of buttons
@@ -1189,6 +1196,24 @@ public class EditingScreen implements ActionListener {
 		CardLayout cl = (CardLayout) (optionCard.getLayout());
 		cl.show(optionCard, "Do Nothing");
 		lblCurrentButton.setText("Node Selected");
+		
+		comboBoxNextNodes.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				currentNode = (Node) comboBoxNextNodes.getSelectedItem();
+				CardLayout cl = (CardLayout) (optionCard.getLayout());
+				cl.show(optionCard, "Do Nothing");
+				lblCurrentButton.setText("Node Selected");
+				graphCanvas.setNode(currentNode);
+				graphCanvas.repaint();
+				comboBoxNextNodes.removeAllItems();
+				for (Node node: scenario.getNextNodes(currentNode)) {
+					comboBoxNextNodes.addItem(node);
+				}
+				
+			}
+		});
 
 	}
 

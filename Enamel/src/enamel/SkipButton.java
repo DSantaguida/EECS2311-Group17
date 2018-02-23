@@ -15,7 +15,6 @@ public class SkipButton extends NodeButton {
 		this.nextNode = null;
 		this.audioFile = "";
 		this.pins = new HashMap<>();
-		// TODO Auto-generated constructor stub
 	}
 
 	public SkipButton(int buttonNumber, String response) {
@@ -24,7 +23,6 @@ public class SkipButton extends NodeButton {
 		this.nextNode = null;
 		this.audioFile = "";
 		this.pins = new HashMap<>();
-		// TODO Auto-generated constructor stub
 	}
 
 	public SkipButton(int buttonNumber, String response, Node nextNode) {
