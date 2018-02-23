@@ -22,10 +22,16 @@ public class ScenarioNode {
 	private String[] skipName;
 	BrailleCell b = new BrailleCell();
 	Scenario p = new Scenario();
+	Node thisNode = p.createNode();
+	Node nextNode1 = p.createNode();
+	private String buttonSound;
+	private String buttonMessage;
+	private String nextNodeName;
 	private int numOfCells;
 	private int[] numberOfButtons; //keeping track of number of buttons created per node
 	private int numOfButtons; //number of buttons passed by scenario file, used for scenario formatting
 	private boolean userInput;
+	private boolean createdNode;
 	
 	/*
 	 * What does this class do?
@@ -44,12 +50,11 @@ public class ScenarioNode {
 	
 	public void nodeDelimiter(String fileLine) {
 		int buttonCount = 0;
-		Node thisNode;
 		Node nextNode1;
-		String buttonSound;
-		String buttonMessage;
-		String nextNode;
-		boolean createdNode;
+		//String buttonSound;
+		//String buttonMessage;
+		//String nextNode;
+		//boolean createdNode;
 		if (fileLine.length() >= 4 && fileLine.substring(0, 5).equals("Cells") && 
 			fileLine.substring(6).matches("^[0-9]*[1-9][0-9]*$")) {
 			int num = Integer.parseInt(fileLine.substring(6));
@@ -60,19 +65,21 @@ public class ScenarioNode {
 			int num = Integer.parseInt(fileLine.substring(7));
 			this.numOfButtons = num;
 		}
+		/*
 		if (this.nodeTrack == 0){ //starting with first node
 			thisNode = p.createNode();
 		}
+		*/
 		else if (fileLine.length() >= 8 && fileLine.substring(0, 8).equals("/~sound:")) {
 			String soundFile = fileLine.substring(8);
-			thisNode.setAudioFile(soundFile);
+			this.thisNode.setAudioFile(soundFile);
 		}
 		else if (fileLine.length() >= 7 && fileLine.substring(0, 7).equals("/~skip:")) {
 			String skipLine = fileLine.substring(7);
-			nextNode = skipLine;
+			this.nextNodeName = skipLine;
 			//Node tmp = p.createNode(nextNode);
-			nextNode1 = p.createNode(nextNode);
-			thisNode.addButton(buttonCount, buttonMessage, buttonSound, nextNode1);
+			this.nextNode1 = p.createNode(nextNodeName);
+			this.thisNode.addButton(buttonCount, this.buttonMessage, this.buttonSound, this.nextNode1);
 			buttonCount++;
 			//need to connect each response node to the next node (NEXTT)
 			if (buttonCount >= numberOfButtons[nodeTrack]){
@@ -82,8 +89,8 @@ public class ScenarioNode {
 				createdNode = true;
 			}
 		}
-		else if (createdNode && fileLine.substring(0).equals("/~" + nextNode)) {
-			thisNode = p.createNode(nextNode);
+		else if (this.createdNode && fileLine.substring(0).equals("/~" + this.nextNodeName)) {
+			thisNode = p.createNode(nextNodeName);
 			createdNode = false;
 		}
 		else if (fileLine.length() >= 8 && fileLine.substring(0, 8).equals("/~pause:")) {
@@ -224,7 +231,7 @@ public class ScenarioNode {
 			int v = 0;
 			NodeButton button = thisNode.getButton(buttonCount);
 			if (button.getClass() == SkipButton.class) {
-				((SkipButton)button).setNextNode(nextNode1);
+				((SkipButton)button).setNextNode(this.nextNode1);
 			}
 			((SkipButton)button).setPins(pins, brailleCell);
 		}
