@@ -66,6 +66,7 @@ public class EditingScreen implements ActionListener {
 	private JButton btnNewButton;
 	private JTextField speakText2;
 	private JTextField pauseText;
+	private GraphCanvas graphCanvas;
 
 	// int[] indvCell = new int[boxCount];
 
@@ -75,7 +76,7 @@ public class EditingScreen implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					EditingScreen window = new EditingScreen();
+					EditingScreen window = new EditingScreen(new CanvasTest().s);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -119,7 +120,6 @@ public class EditingScreen implements ActionListener {
 		buttonCount = scenario.getNumButtons();
 		boxCount = scenario.getNumCells();
 		initialize();
-
 	}
 	
 	public EditingScreen() {
@@ -155,26 +155,33 @@ public class EditingScreen implements ActionListener {
 		currentNodeButton = currentNode.getButton(0);
 		currentButton = 0;
 		initialize();
-
+		
 	}
 
 	private void initialize() { // Initialize GUI
-		int x1 = 0;
+		 int x1 = 0;
 
 		// Initialize Main JFrame 
 		frame = new JFrame();
 		frame.setVisible(true);
-		frame.setBounds(100, 100, 975, 739);
+		frame.setBounds(100, 100, 975, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		//
+		
+		graphCanvas = new GraphCanvas(scenario, scenario.getHead());
+		graphCanvas.setBounds(0, 0, 600, 600);
+		frame.getContentPane().add(graphCanvas);
+		graphCanvas.setVisible(true);
+		
 		// Initialize Main JPanel
 		panel = new JPanel();
 		panel.setBounds(0, 0, 957, 692);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		// panel.getAccessibleContext().setAccessibleName("Main panel");
-
+		
+		
 		// Label to display the amount of buttons
 		lblAvaliableButtons = new JLabel("Avaliable Buttons:");
 		lblAvaliableButtons.setForeground(Color.BLACK);
@@ -790,7 +797,7 @@ public class EditingScreen implements ActionListener {
 				lblCurrentButton.setText("Node Selected");
 			}
 		});
-		btnNode.setBounds(279, 255, 97, 25);
+		btnNode.setBounds(500, 500, 97, 25);
 		panel.add(btnNode);
 
 		// Apply button
@@ -915,7 +922,7 @@ public class EditingScreen implements ActionListener {
 				{	
 					if (buttonBox.getSelectedItem().equals("Repeat"))
 					{
-						
+					
 					}
 					else
 					{
@@ -969,7 +976,9 @@ public class EditingScreen implements ActionListener {
 			panel.add(buttons.get(i));
 		}
 	}
-
+	
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 

@@ -1,6 +1,6 @@
 package enamel;
 
-import java.io.File;
+import java.io.*;
 import java.io.FileNotFoundException;
 import java.util.*;
 
@@ -70,10 +70,10 @@ public class Node {
 	public Node(Node other) {
 		this.id = other.id;
 		this.name = other.name;
-		this.pins = other.pins;
+		this.pins = new HashMap<>(other.pins);
 		this.response = other.response;
 		this.repeatText = other.repeatText;
-		this.buttonList = other.buttonList;
+		this.buttonList = new HashMap<>(other.buttonList);
 		this.audioFile = other.audioFile;
 	}
 	
@@ -140,6 +140,10 @@ public class Node {
 		this.buttonList.put(number, new SkipButton(number, nextNode));
 	}
 	
+	public NodeButton removeButton(int number) {
+		return this.buttonList.remove(number);
+	}
+	
 	public NodeButton getButton(int buttonNumber) {
 		if (!this.buttonList.containsKey(buttonNumber)) {
 			throw new IllegalArgumentException("This button does not exist yet");
@@ -180,7 +184,6 @@ public class Node {
 	public String getAudioFile() {
 		return this.audioFile;
 	}
-	
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -214,9 +217,6 @@ public class Node {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return String.valueOf(id);
