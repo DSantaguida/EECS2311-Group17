@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.BasicStroke;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicArrowButton;
 
 @SuppressWarnings("serial")
 public class GraphCanvas extends JPanel {
@@ -36,8 +37,9 @@ public class GraphCanvas extends JPanel {
 	private void initialize() {
 		this.startingX = 50;
 		this.startingY = 23;
-		this.width = 550;
+		this.width = 500;
 		this.height = 484;
+		
 	}
 	
 	public void update() {
