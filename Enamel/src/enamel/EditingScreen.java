@@ -1069,7 +1069,35 @@ public class EditingScreen implements ActionListener {
 		JButton run = new JButton("Run");
 		run.getAccessibleContext().setAccessibleName("Run a scenario");
 		run.setBounds(791, 665, 97, 25);
+		run.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				Thread t = new Thread(new Runnable(){
+
+					@Override
+					public void run() {
+						String file = "";
+						JFileChooser chooser = new JFileChooser(new File("FactoryScenarios"));
+						FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
+						chooser.setFileFilter(filter);
+						int returnval = chooser.showOpenDialog(null);
+						if (returnval == JFileChooser.APPROVE_OPTION) {
+							file = "FactoryScenarios/" + chooser.getSelectedFile().getName();
+						}
+						ScenarioParser s = new ScenarioParser(true);
+						s.setScenarioFile(file);						
+					}
+					
+				});
+				frame.dispose();
+				t.start();
+			}
+			
+		});
 		panel.add(run);
+		
 
 		btnCellBox.addActionListener(new ActionListener() {
 
