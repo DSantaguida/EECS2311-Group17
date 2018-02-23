@@ -925,6 +925,10 @@ public class EditingScreen implements ActionListener {
 				{	
 					String option = "" + btnCellBox.getSelectedItem();
 					int[] pins = new int[8];
+					for(int i = 0; i < 8; i++)
+					{
+						pins[i] = 0;
+					}
 					
 					if (buttonBox.getSelectedItem().equals("Repeat"))
 					{
@@ -944,12 +948,8 @@ public class EditingScreen implements ActionListener {
 							//SkipButton skip = new SkipButton();
 							int number = currentButton;
 							String response = textField.getText();
-							Node next; //DONT KNOW WHAT TO PUT HERE
-							if (!lblCurrentFile.getText().equals("No file chosen"))
-							{
-								String aud = lblCurrentFile.getText();
-							}
-						
+							Node next = null; //DONT KNOW WHAT TO PUT HERE
+
 							
 							if (option.equals("Clear")) {
 								int cell = Integer.parseInt("" + clearChoose.getSelectedItem());
@@ -1004,8 +1004,56 @@ public class EditingScreen implements ActionListener {
 									pins[7] = 1;
 								else
 									pins[7] = 0;
-								} 
-							
+								}
+							else if (option.equals("Character")) {
+								int cell = Integer.parseInt("" + charChoose.getSelectedItem());
+
+								//System.out.println(nodeEnterCharHere.getText().length());
+								if (txtEnterCharHere.getText().length() > 1) {
+									// Display Some Error Here
+									
+								}
+								else{
+								char[] x = txtEnterCharHere.getText().toCharArray();
+								String[] hold = alphabet.get(x[0]).split("");
+								for (int i = 0; i < 8; i++) {
+									pins[i] = Integer.parseInt(hold[i]);
+									System.out.println(pins[i]);
+								}
+								}
+							}
+							else if (option.equals("Word")) {
+								if (txtEnterWordHere.getText().length() > boxCount) {
+									// Display Some Error Here 
+								}
+								else{
+								String[] word = txtEnterWordHere.getText().split("");
+								for (int i = 0; i < word.length; i++)
+								{
+									char[] x = word[i].toCharArray();
+
+									String[] hold = alphabet.get(x[0]).split("");
+									for (int j = 0; j < 8; j++)
+									{
+										pins[j] = Integer.parseInt(hold[j]);
+										
+									}
+								}
+							} }
+							else{
+								//Do nothing for now
+							}
+							if (!lblCurrentFile.getText().equals("No file chosen"))
+							{
+								String aud = lblCurrentFile.getText();
+								SkipButton button = new SkipButton(number, response, next, pins, aud);
+							}
+							else
+							{
+								SkipButton button = new SkipButton(number, response, next, pins);
+							}
+						
+
 							
 						}
 						
