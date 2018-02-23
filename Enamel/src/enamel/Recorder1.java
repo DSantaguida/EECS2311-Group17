@@ -128,8 +128,7 @@ public class Recorder1 {
 		btnEndRecording.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
-				line.stop();
-				line.close();
+				
 				
 				
 			}
