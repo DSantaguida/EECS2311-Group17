@@ -170,10 +170,10 @@ public class EditingScreen implements ActionListener {
 		frame.getContentPane().setLayout(null);
 		//
 
-//		 graphCanvas = new GraphCanvas(scenario, scenario.getHead());
-//		 graphCanvas.setBounds(0, 0, 600, 600);
-//		 frame.getContentPane().add(graphCanvas);
-//		 graphCanvas.setVisible(true);
+		 graphCanvas = new GraphCanvas(scenario, scenario.getHead());
+		 graphCanvas.setBounds(0, 0, 600, 600);
+		 frame.getContentPane().add(graphCanvas);
+		 graphCanvas.setVisible(true);
 
 		//
 
