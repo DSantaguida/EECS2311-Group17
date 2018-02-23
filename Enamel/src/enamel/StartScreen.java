@@ -263,7 +263,7 @@ public class StartScreen {
 		    	    System.out.println("File is copied successful!");
 
 		            
-		            
+		            //moves from lib to FactoryScenarios
 
 		        } catch (IOException e1) {
 		            System.err.println("Error occurred");
