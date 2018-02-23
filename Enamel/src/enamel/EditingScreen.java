@@ -1122,7 +1122,7 @@ public class EditingScreen implements ActionListener {
 															int cell = Integer.parseInt("" + blockChooser.getSelectedItem());
 															((SkipButton)currentNodeButton).setResponse(response);
 															((SkipButton)currentNodeButton).setAudioFile(lblCurrentFile.getText());
-															
+															//
 														}
 													
 													}
