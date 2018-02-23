@@ -45,6 +45,7 @@ public class ScenarioNode {
 	public void nodeDelimiter(String fileLine) {
 		int buttonCount = 0;
 		Node thisNode;
+		Node nextNode1;
 		String buttonSound;
 		String buttonMessage;
 		String nextNode;
@@ -69,8 +70,9 @@ public class ScenarioNode {
 		else if (fileLine.length() >= 7 && fileLine.substring(0, 7).equals("/~skip:")) {
 			String skipLine = fileLine.substring(7);
 			nextNode = skipLine;
-			Node tmp = p.createNode(nextNode);
-			thisNode.addButton(buttonCount, buttonMessage, buttonSound, tmp);
+			//Node tmp = p.createNode(nextNode);
+			nextNode1 = p.createNode(nextNode);
+			thisNode.addButton(buttonCount, buttonMessage, buttonSound, nextNode1);
 			buttonCount++;
 			//need to connect each response node to the next node (NEXTT)
 			if (buttonCount >= numberOfButtons[nodeTrack]){
@@ -219,7 +221,11 @@ public class ScenarioNode {
 			String[] param = breakdown.split("\\s");
 			int brailleCell = Integer.parseInt(param[0]);
 			int[] pins = new int[8];
-			thisNode.getButton(buttonCount).setPins(pins, brailleCell);
+			NodeButton button = thisNode.getButton(buttonCount);
+			if (button.getClass() == SkipButton.class) {
+				((SkipButton)button).setNextNode(nextNode1);
+			}
+			((SkipButton)button).setPins(pins, brailleCell);
 		}
 		else { //no key phrase, therefore must be plain text
 			thisNode.setResponse(fileLine);
