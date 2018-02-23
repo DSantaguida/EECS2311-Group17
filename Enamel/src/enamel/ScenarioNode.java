@@ -220,6 +220,7 @@ public class ScenarioNode {
 		else if (this.userInput && fileLine.substring(0, 8).equals("/~sound:")) {
 			String soundFile = fileLine.substring(8);
 			buttonSound = soundFile;
+			int h = 0;
 		}
 		else if (this.userInput && fileLine.substring(0, 18).equals("/~disp-cell-clear:")) {
 			String breakdown = fileLine.substring(18);
