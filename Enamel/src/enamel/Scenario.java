@@ -43,7 +43,13 @@ public class Scenario {
 		this.head = other.head;
 	}
 
-
+	public boolean hasNextNodes(Node node) {
+		return this.getNextNodes(node).length != 0;
+	}
+	
+	public boolean hasPrevNodes(Node node) {
+		return this.getPrevNodes(node).length != 0;
+	}
 
 	public String getFileName() {
 		return this.fileName;
@@ -129,6 +135,7 @@ public class Scenario {
 			nodeArr[counter] = this.graph.getEdgeSource(edge);
 			counter++;
 		}
+		
 		return nodeArr;
 		
 	}
