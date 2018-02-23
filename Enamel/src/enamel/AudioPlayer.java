@@ -1,16 +1,38 @@
 package enamel;
 
+import java.awt.AWTEvent;
+import java.awt.Toolkit;
+import java.awt.event.AWTEventListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.LinkedList;
+import java.util.logging.Level;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 public class AudioPlayer extends Player {
 	
+
+	LinkedList<JPanel> panelList = new LinkedList<JPanel>();
+	LinkedList<JButton> buttonList = new LinkedList<JButton>();
+	JFrame frame;
+	AWTEventListener listener;
+
 	
-	public AudioPlayer(int cellNum, int buttonNum) {
-		
+	public AudioPlayer(int cellNum, int buttonNum)
+	{
+		super(cellNum, buttonNum);
+//		frame = new JFrame();
+//		frame.setVisible(true);
 	}
 
 	@Override
@@ -21,14 +43,35 @@ public class AudioPlayer extends Player {
 
 	@Override
 	public void addSkipButtonListener(int index, String param, ScenarioParser sp) {
+		//Need Skip Button to implement index
+		listener =  new AWTEventListener(){
+
+			@Override
+			public void eventDispatched(AWTEvent e) {
+				// TODO Auto-generated method stub
+				KeyEvent evt = (KeyEvent) e;
+				if (evt.getID() == KeyEvent.KEY_PRESSED && evt.getKeyCode() == KeyEvent.VK_1){
+				if (sp.userInput) {
+					sp.skip(param);
+					//logger.log(Level.INFO, "Button {0} was pressed", index+1);
+					sp.userInput = false;
+				}
+				}
+			}
+			
+		};
+		Toolkit.getDefaultToolkit().addAWTEventListener(listener, AWTEvent.KEY_EVENT_MASK);
 		
-	}
+		 }
 
 
 	@Override
 	public void removeButtonListener(int index) {
 		// TODO Auto-generated method stub
-
+		if (index >= this.buttonNumber || index < 0) {
+            throw new IllegalArgumentException("Invalid index.");
+        }
+		Toolkit.getDefaultToolkit().removeAWTEventListener(listener);
 		
 	}
 
@@ -38,7 +81,24 @@ public class AudioPlayer extends Player {
 		//Look at how to determine when the clip stops reading
 		//Initialize the button
 		//initialize click event handler
+		AWTEventListener listener =  new AWTEventListener(){
+
+			@Override
+			public void eventDispatched(AWTEvent e) {
+				// TODO Auto-generated method stub
+				KeyEvent evt = (KeyEvent) e;
+				if (evt.getID() == KeyEvent.KEY_PRESSED && evt.getKeyCode() == KeyEvent.VK_2){
+					if (sp.userInput) {
+						repeat++;
+						logger.log(Level.INFO, "Repeat Button was pressed.");
+						logger.log(Level.INFO, "Repeat Button was pressed {0} times", repeat);
+						sp.repeatText();
+					}
+				}
+			}
+			
+		};
+		Toolkit.getDefaultToolkit().addAWTEventListener(listener, AWTEvent.KEY_EVENT_MASK);
 		
 	}
 }
-
