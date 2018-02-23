@@ -219,7 +219,7 @@ public class Node {
 
 	@Override
 	public String toString() {
-		return String.valueOf(id);
+		return this.name;
 	}
 
 }
