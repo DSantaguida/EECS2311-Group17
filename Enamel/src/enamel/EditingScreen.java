@@ -1229,6 +1229,32 @@ public class EditingScreen implements ActionListener {
 				for (Node node: scenario.getNextNodes(currentNode)) {
 					comboBoxNextNodes.addItem(node);
 				}
+				comboBoxPrevNodes.removeAllItems();
+				for (Node node: scenario.getPrevNodes(currentNode)) {
+					comboBoxPrevNodes.addItem(node);
+				}
+				
+			}
+		});
+		
+		comboBoxPrevNodes.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				currentNode = (Node) comboBoxNextNodes.getSelectedItem();
+				CardLayout cl = (CardLayout) (optionCard.getLayout());
+				cl.show(optionCard, "Do Nothing");
+				lblCurrentButton.setText("Node Selected");
+				graphCanvas.setNode(currentNode);
+				graphCanvas.repaint();
+				comboBoxNextNodes.removeAllItems();
+				for (Node node: scenario.getNextNodes(currentNode)) {
+					comboBoxNextNodes.addItem(node);
+				}
+				comboBoxPrevNodes.removeAllItems();
+				for (Node node: scenario.getPrevNodes(currentNode)) {
+					comboBoxPrevNodes.addItem(node);
+				}
 				
 			}
 		});
