@@ -76,7 +76,7 @@ public class EditingScreen implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					EditingScreen window = new EditingScreen(new CanvasTest().s);
+					EditingScreen window = new EditingScreen();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -177,7 +177,7 @@ public class EditingScreen implements ActionListener {
 		
 		// Initialize Main JPanel
 		panel = new JPanel();
-		panel.setBounds(0, 0, 957, 692);
+		panel.setBounds(12, 0, 957, 740);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		// panel.getAccessibleContext().setAccessibleName("Main panel");
@@ -801,302 +801,310 @@ public class EditingScreen implements ActionListener {
 		});
 		btnNode.setBounds(500, 500, 97, 25);
 		panel.add(btnNode);
-
-		// Apply button
-		JButton btnApply = new JButton("Apply");
-		btnApply.addActionListener(new ActionListener() {//
-			public void actionPerformed(ActionEvent arg0) {
-				
-				
-				if (lblCurrentButton.getText().equals("Node Selected")) {
-					String option = "" + nodeCellBox.getSelectedItem();
-					currentNode.setResponse(speakText2.getText());
-					currentNode.setRepeatedText(repeatText.getText());
-					
-					if (!lblNoFileChosen.getText().equals("No file chosen"))
-						currentNode.setAudioFile(lblNoFileChosen.getText());
-					//ADD PAUSE
-					if (option.equals("Clear")) {
-						int cell = Integer.parseInt("" + clearChoose2.getSelectedItem());
-						int[] pins = new int[8];
-						String[] hold = alphabet.get(' ').split("");
-						if (clearRadioButton2.isSelected()){
-						for (int i = 0; i < 8; i++) {
-							pins[i] = Integer.parseInt(hold[i]);
-						}
-						currentNode.setPins(pins, cell);
-						}
-
-					} 
-					
-					else if (option.equals("Pins")) {
-						int cell = Integer.parseInt("" + blockChooser2.getSelectedItem());
-
-						
-						if (pin21.isSelected())
-							currentNode.setPin(cell, 1, 1);												
-						else
-							currentNode.setPin(cell, 1, 0);
-						
-						if (pin22.isSelected())
-							currentNode.setPin(cell, 2, 1);
-						else
-							currentNode.setPin(cell, 2, 0);
-						
-						if (pin23.isSelected())
-							currentNode.setPin(cell, 3, 1);
-						else
-							currentNode.setPin(cell, 3, 0);
-						
-						if (pin24.isSelected())
-							currentNode.setPin(cell, 4, 1);
-						else
-							currentNode.setPin(cell, 4, 0);
-						
-						if (pin25.isSelected())
-							currentNode.setPin(cell, 5, 1);
-						else
-							currentNode.setPin(cell, 5, 0);
-
-						if (pin26.isSelected())
-							currentNode.setPin(cell, 6, 1);
-						else
-							currentNode.setPin(cell, 6, 0);
-						
-						if (pin27.isSelected())
-							currentNode.setPin(cell, 7, 1);
-						else
-							currentNode.setPin(cell, 7, 0);
-						
-						if (pin28.isSelected())
-							currentNode.setPin(cell, 8, 1);
-						else
-							currentNode.setPin(cell, 8, 0);
-						} 
-					
-					else if (option.equals("Character")) {
-						int cell = Integer.parseInt("" + charChoose2.getSelectedItem());
-
-						//System.out.println(nodeEnterCharHere.getText().length());
-						if (nodeEnterCharHere.getText().length() > 1) {
-							// Display Some Error Here
-							
-						}
-						else{
-						int[] pins = new int[8];
-						char[] x = nodeEnterCharHere.getText().toCharArray();
-						String[] hold = alphabet.get(x[0]).split("");
-						for (int i = 0; i < 8; i++) {
-							pins[i] = Integer.parseInt(hold[i]);
-							System.out.println(pins[i]);
-						}
-						currentNode.setPins(pins, cell);
-
-						}
-					} 
-					
-					else if (option.equals("Word")) {
-						if (nodeEnterWordHere.getText().length() > boxCount) {
-							// Display Some Error Here 
-						}
-						else{
-						String[] word = nodeEnterWordHere.getText().split("");
-						int[] pins = new int[8];
-						for (int i = 0; i < word.length; i++)
-						{
-							char[] x = word[i].toCharArray();
-
-							String[] hold = alphabet.get(x[0]).split("");
-							for (int j = 0; j < 8; j++)
-							{
-								pins[j] = Integer.parseInt(hold[j]);
-								
-							}
-							currentNode.setPins(pins, i);
-						}
-					} }
-					
-					else {
-						// Display some error here for nothing selected
-					}
-				}
-				
-				else if (lblCurrentButton.getText().split(" ")[0].equals("Current"))//CHANGE BUTTON STUFF 
-				{	
-					String option = "" + btnCellBox.getSelectedItem();
-					int[] pins = new int[8];
-					for(int i = 0; i < 8; i++)
-					{
-						pins[i] = 0;
-					}
-					
-					if (buttonBox.getSelectedItem().equals("Repeat"))
-					{
-						if (currentNode.getButton(currentButton).equals(null))
-						{
-							currentNode.addRepeatButton(currentButton, repeatText.getText());
-						}
-						else{
-							currentNode.removeButton(currentButton);
-							currentNode.addRepeatButton(currentButton, repeatText.getText());		
-						}
-					}
-					else
-					{
-						if (currentNode.getButton(currentButton).equals(null))
-						{
-							//SkipButton skip = new SkipButton();
-							int number = currentButton;
-							String response = textField.getText();
-							Node next = null; //DONT KNOW WHAT TO PUT HERE
-
-							
-							if (option.equals("Clear")) {
-								int cell = Integer.parseInt("" + clearChoose.getSelectedItem());
-								String[] hold = alphabet.get(' ').split("");
-								if (clearRadioButton.isSelected()){
-								for (int i = 0; i < 8; i++) {
-									pins[i] = Integer.parseInt(hold[i]);
-									}								
-								}
-
-							} 
-							else if (option.equals("Pins")) {
-								int cell = Integer.parseInt("" + blockChooser.getSelectedItem());
-
-								
-								if (pin1.isSelected())
-									pins[0] = 1;											
-								else//
-									pins[0] = 0;
-								
-								if (pin2.isSelected())
-									pins[1] = 1;
-								else
-									pins[1] = 0;
-								
-								if (pin3.isSelected())
-									pins[2] = 1;
-								else
-									pins[2] = 0;
-								
-								if (pin4.isSelected())
-									pins[3] = 1;
-								else
-									pins[3] = 0;
-								
-								if (pin5.isSelected())
-									pins[4] = 1;
-								else
-									pins[4] = 0;
-
-								if (pin6.isSelected())
-									pins[5] = 1;
-								else
-									pins[5] = 0;
-								
-								if (pin7.isSelected())
-									pins[6] = 1;
-								else
-									pins[6] = 0;
-								
-								if (pin8.isSelected())
-									pins[7] = 1;
-								else
-									pins[7] = 0;
-								}
-							else if (option.equals("Character")) {
-								int cell = Integer.parseInt("" + charChoose.getSelectedItem());
-
-								//System.out.println(nodeEnterCharHere.getText().length());
-								if (txtEnterCharHere.getText().length() > 1) {
-									// Display Some Error Here
-									
-								}
-								else{
-								char[] x = txtEnterCharHere.getText().toCharArray();
-								String[] hold = alphabet.get(x[0]).split("");
-								for (int i = 0; i < 8; i++) {
-									pins[i] = Integer.parseInt(hold[i]);
-									System.out.println(pins[i]);
-								}
-								}
-							}
-							else if (option.equals("Word")) {
-								if (txtEnterWordHere.getText().length() > boxCount) {
-									// Display Some Error Here 
-								}
-								else{
-								String[] word = txtEnterWordHere.getText().split("");
-								for (int i = 0; i < word.length; i++)
-								{
-									char[] x = word[i].toCharArray();
-
-									String[] hold = alphabet.get(x[0]).split("");
-									for (int j = 0; j < 8; j++)
-									{
-										pins[j] = Integer.parseInt(hold[j]);
-										
-									}
-								}
-							} }
-							else{
-								//Do nothing for now
-							}
-							if (!lblCurrentFile.getText().equals("No file chosen"))
-							{
-								String aud = lblCurrentFile.getText();
-								SkipButton button = new SkipButton(number, response, next, pins, aud);
-							}
-							else
-							{
-								SkipButton button = new SkipButton(number, response, next, pins);
-							}
-						
-
-							
-						}
-						
-					}
-				}
-
-			}
-		});
-		btnApply.setBounds(791, 636, 97, 25);
-		btnApply.getAccessibleContext().setAccessibleName("Click to apply changes");
-		panel.add(btnApply);
 		
-		JButton run = new JButton("Run");
-		run.getAccessibleContext().setAccessibleName("Run a scenario");
-		run.setBounds(791, 665, 97, 25);
-		run.addActionListener(new ActionListener(){
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(12, 636, 726, 75);
+		panel.add(panel_1);
+		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+						
+						JPanel panel_2 = new JPanel();
+						panel_2.setBounds(782, 643, 142, 68);
+						panel.add(panel_2);
+						panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+								
+								JButton run = new JButton("Run");
+								panel_2.add(run);
+								run.getAccessibleContext().setAccessibleName("Run a scenario");
+								run.addActionListener(new ActionListener(){
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				Thread t = new Thread(new Runnable(){
+									@Override
+									public void actionPerformed(ActionEvent arg0) {
+										// TODO Auto-generated method stub
+										Thread t = new Thread(new Runnable(){
 
-					@Override
-					public void run() {
-						String file = "";
-						JFileChooser chooser = new JFileChooser(new File("FactoryScenarios"));
-						FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
-						chooser.setFileFilter(filter);
-						int returnval = chooser.showOpenDialog(null);
-						if (returnval == JFileChooser.APPROVE_OPTION) {
-							file = "FactoryScenarios/" + chooser.getSelectedFile().getName();
-						}
-						ScenarioParser s = new ScenarioParser(true);
-						s.setScenarioFile(file);						
-					}
-					
-				});
-				frame.dispose();
-				t.start();
-			}
-			
-		});
-		panel.add(run);
+											@Override
+											public void run() {
+												String file = "";
+												JFileChooser chooser = new JFileChooser(new File("FactoryScenarios"));
+												FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
+												chooser.setFileFilter(filter);
+												int returnval = chooser.showOpenDialog(null);
+												if (returnval == JFileChooser.APPROVE_OPTION) {
+													file = "FactoryScenarios/" + chooser.getSelectedFile().getName();
+												}
+												ScenarioParser s = new ScenarioParser(true);
+												s.setScenarioFile(file);						
+											}
+											
+										});
+										frame.dispose();
+										t.start();
+									}
+									
+								});
+						
+								// Apply button
+								JButton btnApply = new JButton("Apply");
+								panel_2.add(btnApply);
+								btnApply.addActionListener(new ActionListener() {//
+									public void actionPerformed(ActionEvent arg0) {
+										
+										
+										if (lblCurrentButton.getText().equals("Node Selected")) {
+											String option = "" + nodeCellBox.getSelectedItem();
+											currentNode.setResponse(speakText2.getText());
+											currentNode.setRepeatedText(repeatText.getText());
+											
+											if (!lblNoFileChosen.getText().equals("No file chosen"))
+												currentNode.setAudioFile(lblNoFileChosen.getText());
+											//ADD PAUSE
+											if (option.equals("Clear")) {
+												int cell = Integer.parseInt("" + clearChoose2.getSelectedItem());
+												int[] pins = new int[8];
+												String[] hold = alphabet.get(' ').split("");
+												if (clearRadioButton2.isSelected()){
+												for (int i = 0; i < 8; i++) {
+													pins[i] = Integer.parseInt(hold[i]);
+												}
+												currentNode.setPins(pins, cell);
+												}
+
+											} 
+											
+											else if (option.equals("Pins")) {
+												int cell = Integer.parseInt("" + blockChooser2.getSelectedItem());
+
+												
+												if (pin21.isSelected())
+													currentNode.setPin(cell, 1, 1);												
+												else
+													currentNode.setPin(cell, 1, 0);
+												
+												if (pin22.isSelected())
+													currentNode.setPin(cell, 2, 1);
+												else
+													currentNode.setPin(cell, 2, 0);
+												
+												if (pin23.isSelected())
+													currentNode.setPin(cell, 3, 1);
+												else
+													currentNode.setPin(cell, 3, 0);
+												
+												if (pin24.isSelected())
+													currentNode.setPin(cell, 4, 1);
+												else
+													currentNode.setPin(cell, 4, 0);
+												
+												if (pin25.isSelected())
+													currentNode.setPin(cell, 5, 1);
+												else
+													currentNode.setPin(cell, 5, 0);
+
+												if (pin26.isSelected())
+													currentNode.setPin(cell, 6, 1);
+												else
+													currentNode.setPin(cell, 6, 0);
+												
+												if (pin27.isSelected())
+													currentNode.setPin(cell, 7, 1);
+												else
+													currentNode.setPin(cell, 7, 0);
+												
+												if (pin28.isSelected())
+													currentNode.setPin(cell, 8, 1);
+												else
+													currentNode.setPin(cell, 8, 0);
+												} 
+											
+											else if (option.equals("Character")) {
+												int cell = Integer.parseInt("" + charChoose2.getSelectedItem());
+
+												//System.out.println(nodeEnterCharHere.getText().length());
+												if (nodeEnterCharHere.getText().length() > 1) {
+													// Display Some Error Here
+													
+												}
+												else{
+												int[] pins = new int[8];
+												char[] x = nodeEnterCharHere.getText().toCharArray();
+												String[] hold = alphabet.get(x[0]).split("");
+												for (int i = 0; i < 8; i++) {
+													pins[i] = Integer.parseInt(hold[i]);
+													System.out.println(pins[i]);
+												}
+												currentNode.setPins(pins, cell);
+
+												}
+											} 
+											
+											else if (option.equals("Word")) {
+												if (nodeEnterWordHere.getText().length() > boxCount) {
+													// Display Some Error Here 
+												}
+												else{
+												String[] word = nodeEnterWordHere.getText().split("");
+												int[] pins = new int[8];
+												for (int i = 0; i < word.length; i++)
+												{
+													char[] x = word[i].toCharArray();
+
+													String[] hold = alphabet.get(x[0]).split("");
+													for (int j = 0; j < 8; j++)
+													{
+														pins[j] = Integer.parseInt(hold[j]);
+														
+													}
+													currentNode.setPins(pins, i);
+												}
+											} }
+											
+											else {
+												// Display some error here for nothing selected
+											}
+										}
+										
+										else if (lblCurrentButton.getText().split(" ")[0].equals("Current"))//CHANGE BUTTON STUFF 
+										{	
+											String option = "" + btnCellBox.getSelectedItem();
+											int[] pins = new int[8];
+											for(int i = 0; i < 8; i++)
+											{
+												pins[i] = 0;
+											}
+											
+											if (buttonBox.getSelectedItem().equals("Repeat"))
+											{
+												if (currentNode.getButton(currentButton).equals(null))
+												{
+													currentNode.addRepeatButton(currentButton, repeatText.getText());
+												}
+												else{
+													currentNode.removeButton(currentButton);
+													currentNode.addRepeatButton(currentButton, repeatText.getText());		
+												}
+											}
+											else
+											{
+												if (currentNode.getButton(currentButton).equals(null))
+												{
+													//SkipButton skip = new SkipButton();
+													int number = currentButton;
+													String response = textField.getText();
+													Node next = null; //DONT KNOW WHAT TO PUT HERE
+
+													
+													if (option.equals("Clear")) {
+														int cell = Integer.parseInt("" + clearChoose.getSelectedItem());
+														String[] hold = alphabet.get(' ').split("");
+														if (clearRadioButton.isSelected()){
+														for (int i = 0; i < 8; i++) {
+															pins[i] = Integer.parseInt(hold[i]);
+															}								
+														}
+
+													} 
+													else if (option.equals("Pins")) {
+														int cell = Integer.parseInt("" + blockChooser.getSelectedItem());
+
+														
+														if (pin1.isSelected())
+															pins[0] = 1;											
+														else//
+															pins[0] = 0;
+														
+														if (pin2.isSelected())
+															pins[1] = 1;
+														else
+															pins[1] = 0;
+														
+														if (pin3.isSelected())
+															pins[2] = 1;
+														else
+															pins[2] = 0;
+														
+														if (pin4.isSelected())
+															pins[3] = 1;
+														else
+															pins[3] = 0;
+														
+														if (pin5.isSelected())
+															pins[4] = 1;
+														else
+															pins[4] = 0;
+
+														if (pin6.isSelected())
+															pins[5] = 1;
+														else
+															pins[5] = 0;
+														
+														if (pin7.isSelected())
+															pins[6] = 1;
+														else
+															pins[6] = 0;
+														
+														if (pin8.isSelected())
+															pins[7] = 1;
+														else
+															pins[7] = 0;
+														}
+													else if (option.equals("Character")) {
+														int cell = Integer.parseInt("" + charChoose.getSelectedItem());
+
+														//System.out.println(nodeEnterCharHere.getText().length());
+														if (txtEnterCharHere.getText().length() > 1) {
+															// Display Some Error Here
+															
+														}
+														else{
+														char[] x = txtEnterCharHere.getText().toCharArray();
+														String[] hold = alphabet.get(x[0]).split("");
+														for (int i = 0; i < 8; i++) {
+															pins[i] = Integer.parseInt(hold[i]);
+															System.out.println(pins[i]);
+														}
+														}
+													}
+													else if (option.equals("Word")) {
+														if (txtEnterWordHere.getText().length() > boxCount) {
+															// Display Some Error Here 
+														}
+														else{
+														String[] word = txtEnterWordHere.getText().split("");
+														for (int i = 0; i < word.length; i++)
+														{
+															char[] x = word[i].toCharArray();
+
+															String[] hold = alphabet.get(x[0]).split("");
+															for (int j = 0; j < 8; j++)
+															{
+																pins[j] = Integer.parseInt(hold[j]);
+																
+															}
+														}
+													} }
+													else{
+														//Do nothing for now
+													}
+													if (!lblCurrentFile.getText().equals("No file chosen"))
+													{
+														String aud = lblCurrentFile.getText();
+														SkipButton button = new SkipButton(number, response, next, pins, aud);
+													}
+													else
+													{
+														SkipButton button = new SkipButton(number, response, next, pins);
+													}
+												
+
+													
+												}
+												
+											}
+										}
+
+									}
+								});
+								btnApply.getAccessibleContext().setAccessibleName("Click to apply changes");
 		
 
 		btnCellBox.addActionListener(new ActionListener() {
@@ -1132,11 +1140,14 @@ public class EditingScreen implements ActionListener {
 				}
 
 			});
-			buttons.get(i).setBounds(x1, 625, 50, 25);
+			buttons.get(i).setBounds(x1, 0, 50, 25);
 			buttons.get(i).addActionListener(this);
 			buttons.get(i).getAccessibleContext().setAccessibleName("Button " + i);
-			panel.add(buttons.get(i));
+			panel_1.add(buttons.get(i));
 		}
+		CardLayout cl = (CardLayout) (optionCard.getLayout());
+		cl.show(optionCard, "Do Nothing");
+		lblCurrentButton.setText("Node Selected");
 	}
 	
 	
