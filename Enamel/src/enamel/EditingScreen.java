@@ -1065,6 +1065,11 @@ public class EditingScreen implements ActionListener {
 		btnApply.setBounds(791, 636, 97, 25);
 		btnApply.getAccessibleContext().setAccessibleName("Click to apply changes");
 		panel.add(btnApply);
+		
+		JButton run = new JButton("Run");
+		run.getAccessibleContext().setAccessibleName("Run a scenario");
+		run.setBounds(791, 665, 97, 25);
+		panel.add(run);
 
 		btnCellBox.addActionListener(new ActionListener() {
 
