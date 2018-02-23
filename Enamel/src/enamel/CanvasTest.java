@@ -19,7 +19,6 @@ public class CanvasTest {
 		addNodes();
 		EditingScreen screen = new EditingScreen(s);
 		
-		
 	}
 	
 	public static void addNodes() {

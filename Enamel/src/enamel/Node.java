@@ -9,7 +9,7 @@ public class Node {
 	private String name;
 	private String response;
 	private String repeatText;
-	Map<Integer, NodeButton> buttonList;
+	private Map<Integer, NodeButton> buttonList;
 	private Map<Integer, int[]> pins;
 	private String audioFile;
 	
