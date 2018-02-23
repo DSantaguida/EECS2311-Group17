@@ -1,6 +1,4 @@
-Feb 22, 2018 10:35:25 PM enamel.ScenarioParser errorLog
-WARNING: Exception error: java.lang.NullPointerException
-Feb 22, 2018 10:35:25 PM enamel.ScenarioParser errorLog
-INFO: Expected format: 
- num1 string1 
- where num1 is the cell affected, and string1 is the representation of the raised and lowered pins. Also that num1 is a valid interger and string1 is a valid 8 character sequence of 1's and 0's. Received format was: 0 10100000
+Feb 23, 2018 12:47:10 AM enamel.ScenarioNode errorLog
+WARNING: Exception error : java.lang.NullPointerException
+Feb 23, 2018 12:47:10 AM enamel.ScenarioNode errorLog
+INFO: Strange error occurred if you are able to read this message. Possibilities could include possible file corruption, or that you have enter characters that could not be read/interpreted.

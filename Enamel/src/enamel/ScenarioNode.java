@@ -50,7 +50,6 @@ public class ScenarioNode {
 	
 	public void nodeDelimiter(String fileLine) {
 		int buttonCount = 0;
-		Node nextNode1;
 		//String buttonSound;
 		//String buttonMessage;
 		//String nextNode;
@@ -228,7 +227,6 @@ public class ScenarioNode {
 			String[] param = breakdown.split("\\s");
 			int brailleCell = Integer.parseInt(param[0]);
 			int[] pins = new int[8];
-			int v = 0;
 			NodeButton button = thisNode.getButton(buttonCount);
 			if (button.getClass() == SkipButton.class) {
 				((SkipButton)button).setNextNode(this.nextNode1);
