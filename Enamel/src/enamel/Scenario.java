@@ -104,6 +104,14 @@ public class Scenario {
 		return this.head == null;
 	}
 	
+	public void setButtons(int n){
+		this.numButtons = n;
+	}
+	
+	public void setCells(int n) {
+		this.numCells = n;
+	}
+	
 
 	
 	public Node getNextNode(Node currNode, String name) {

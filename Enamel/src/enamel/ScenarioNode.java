@@ -64,11 +64,13 @@ public class ScenarioNode {
 			this.numOfCells = num;
 			this.nodeTrack = 0;
 			this.numberOfButtons[nodeTrack] = 0;
+			p.setCells(this.numOfCells);
 		}
 		if (fileLine.length() >= 6 && fileLine.substring(0, 6).equals("Button") && 
 				fileLine.substring(7).matches("^[0-9]*[1-9][0-9]*$")) {
 			int num = Integer.parseInt(fileLine.substring(7));
 			this.numOfButtons = num;
+			p.setButtons(this.numOfButtons);
 			for (int i = 0; i <= this.numOfButtons; i++) {
 				this.thisNode.addButton(i);
 			}
