@@ -174,10 +174,10 @@ public class EditingScreen implements ActionListener {
 		frame.getContentPane().setLayout(null);
 		//
 
-		 graphCanvas = new GraphCanvas(scenario, scenario.getHead());
-		 graphCanvas.setBounds(0, 0, 600, 600);
-		 frame.getContentPane().add(graphCanvas);
-		 graphCanvas.setVisible(true);
+//		 graphCanvas = new GraphCanvas(scenario, scenario.getHead());
+//		 graphCanvas.setBounds(0, 0, 600, 600);
+//		 frame.getContentPane().add(graphCanvas);
+//		 graphCanvas.setVisible(true);
 
 		//
 
@@ -243,9 +243,9 @@ public class EditingScreen implements ActionListener {
 		gbc_comboBoxNextNodes.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBoxNextNodes.gridx = 0;
 		gbc_comboBoxNextNodes.gridy = 6;
-		for (Node node: this.scenario.getNextNodes(this.currentNode)) {
-			comboBoxNextNodes.addItem(node);
-		}
+//		for (Node node: this.scenario.getNextNodes(this.currentNode)) {
+//			comboBoxNextNodes.addItem(node);
+//		}
 
 		canvasPanel.add(comboBoxNextNodes, gbc_comboBoxNextNodes);
 
