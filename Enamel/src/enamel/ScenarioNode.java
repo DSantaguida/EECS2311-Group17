@@ -169,7 +169,7 @@ public class ScenarioNode {
 				String brailleString = b.getCharacter(a);
 				for (int n = 0; i < 8; n++) {
 					int k = Character.getNumericValue(brailleString.charAt(n));
-					thisNode.setPin(i + 1, n, k);
+					thisNode.setPin(i, n, k);
 				}
 			}
 				//display string in braille cells, if greater than number of cells, then string will be cut off
@@ -301,6 +301,7 @@ public class ScenarioNode {
 			//String absolutePath = f.getAbsolutePath();
 			//scenarioFilePath = absolutePath.substring(0, absolutePath.lastIndexOf(File.separator));
 			try {
+				p.setName(scenarioFile);
 			    this.reader = new FileReader(scenarioFile);
 			   
 
