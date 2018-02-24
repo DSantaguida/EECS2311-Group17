@@ -65,8 +65,10 @@ public class Scenario {
 	
 	public Node createNode() {
 		idCounter++;
-		return new Node(idCounter-1);
-		
+		if (this.head == null) {
+			return this.head = new Node(idCounter-1);
+		}
+		return new Node(idCounter - 1);
 	}
 	
 	public Node createNode(String name) {
