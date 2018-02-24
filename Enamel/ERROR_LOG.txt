@@ -1,1 +1,6 @@
-
+Feb 23, 2018 6:45:31 PM enamel.ScenarioNode errorLog
+WARNING: Exception error: java.lang.NullPointerException
+Feb 23, 2018 6:45:31 PM enamel.ScenarioNode errorLog
+INFO: Expected the directory path of the scenario file to a file exists in the project folder. 
+ Could not find directory to path: FactoryScenarios/4.txt 
+ Perhaps you forgot to add the file to the directory or  you are looking for a different directory?

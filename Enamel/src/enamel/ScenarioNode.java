@@ -1,6 +1,8 @@
 package enamel;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -18,20 +20,22 @@ public class ScenarioNode {
 	private boolean repeat;
 	//tracks how many nodes were created (may need to be static?):
 	private int nodeTrack;
-	private String[] skipName;
-	BrailleCell b = new BrailleCell();
-	Scenario p = new Scenario();
-	Node thisNode = p.createNode();
-	Node nextNode1 = p.createNode();
+	private String[] skipName = new String[50];
+	private BrailleCell b = new BrailleCell();
+	private Scenario p = new Scenario();
+	private Node thisNode = p.createNode();
+	private Node nextNode1 = p.createNode();
 	private String buttonSound;
 	private String buttonMessage;
 	private String nextNodeName;
 	private int numOfCells;
-	private int[] numberOfButtons; //keeping track of number of buttons created per node
+	private int[] numberOfButtons = new int[50]; //keeping track of number of buttons created per node
 	private int numOfButtons; //number of buttons passed by scenario file, used for scenario formatting
 	private boolean userInput;
 	private boolean createdNode;
 	private int buttonCount;
+	
+	private FileReader reader;
 	
 	/*
 	 * What does this class do?
@@ -53,15 +57,21 @@ public class ScenarioNode {
 		//String buttonMessage;
 		//String nextNode;
 		//boolean createdNode;
+		this.thisNode.addButton(0);
 		if (fileLine.length() >= 4 && fileLine.substring(0, 4).equals("Cell") && 
 			fileLine.substring(5).matches("^[0-9]*[1-9][0-9]*$")) {
 			int num = Integer.parseInt(fileLine.substring(5));
 			this.numOfCells = num;
+			this.nodeTrack = 0;
+			this.numberOfButtons[nodeTrack] = 0;
 		}
-		if (fileLine.length() >= 4 && fileLine.substring(0, 6).equals("Button") && 
+		if (fileLine.length() >= 6 && fileLine.substring(0, 6).equals("Button") && 
 				fileLine.substring(7).matches("^[0-9]*[1-9][0-9]*$")) {
 			int num = Integer.parseInt(fileLine.substring(7));
 			this.numOfButtons = num;
+			for (int i = 0; i <= this.numOfButtons; i++) {
+				this.thisNode.addButton(i);
+			}
 		}
 		/*
 		if (this.nodeTrack == 0){ //starting with first node
@@ -70,7 +80,7 @@ public class ScenarioNode {
 		*/
 		else if (fileLine.length() >= 8 && fileLine.substring(0, 8).equals("/~sound:")) {
 			String soundFile = fileLine.substring(8);
-			this.thisNode.setAudioFile(soundFile);
+			//this.thisNode.setAudioFile(soundFile);
 		}
 		else if (fileLine.length() >= 7 && fileLine.substring(0, 7).equals("/~skip:")) {
 			String skipLine = fileLine.substring(7);
@@ -125,7 +135,7 @@ public class ScenarioNode {
 			int buttonIndex = Integer.parseInt(split[0]); //jbutton index
 			String button = split[1]; //key phrase that button will skip to
 			this.skipName[this.numberOfButtons[nodeTrack]] = button;
-			thisNode.addButton(buttonIndex);
+			this.thisNode.addButton(buttonIndex);
 			//Node next = p.createNode(button);
 			//p.setEdge(firstNode, next, buttonIndex);
 			this.numberOfButtons[nodeTrack]++;
@@ -141,7 +151,7 @@ public class ScenarioNode {
 			String[] split = breakDown.split("\\s");
 			int brailleCell = Integer.parseInt(split[0]);
 			for (int i = 0; i < 8; i++) {
-				thisNode.setPin(brailleCell, i, split[1].charAt(i));	
+				thisNode.setPin(brailleCell, i + 1, split[1].charAt(i));	
 			}
 		}
 		else if (fileLine.length() >= 14 && fileLine.substring(0, 14).equals("/~disp-string:")) {
@@ -208,9 +218,9 @@ public class ScenarioNode {
 			//nodeTrackIncrement();
 			this.userInput = true;
 		}
-		else if (buttonCount >= numberOfButtons[nodeTrack]){
+		/*else if (buttonCount >= numberOfButtons[nodeTrack]){
 			this.userInput = false;
-		}
+		}*/
 		else if (this.userInput && fileLine.substring(0).equals("/~" + this.skipName[buttonCount])) {
 			//detecting /~ONEE, i.e., first button
 		}
@@ -238,12 +248,22 @@ public class ScenarioNode {
 	}
 	
 	private void play() {
-		String fileLine;
-		//try {
-			while (fileScanner.hasNextLine()) {
-				fileLine = fileScanner.nextLine();
-				nodeDelimiter(fileLine);
-			}
+		//String fileLine;
+		try {
+		 BufferedReader bufferedReader = new BufferedReader(reader);
+
+		    String line;
+
+		    while ((line = bufferedReader.readLine()) != null) {
+		     nodeDelimiter(line);
+		    }
+		    EditingScreen g = new EditingScreen(p);
+		    reader.close();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+			/*
 			if (!fileScanner.hasNextLine()) {
 				fileScanner.close();
 				// The if statement is created to check if there is an
@@ -258,7 +278,7 @@ public class ScenarioNode {
 									+ "incorrect formatted scenario file.");
 				}
 				exit();
-			}
+			}*/
 		} /*catch (Exception e) {
 			errorLog("Exception error : " + e.toString(),
 					"Strange error occurred if you are able to read this message. Possibilities "
@@ -268,21 +288,29 @@ public class ScenarioNode {
 	
 	
 	public Scenario setScenarioFile(String scenarioFile) {
-		try {
+		//try {
 			
-			File f = new File(scenarioFile);
-			fileScanner = new Scanner(f);
+			//File f = new File(scenarioFile);
+			//fileScanner = new Scanner(f);
 			//String absolutePath = f.getAbsolutePath();
 			//scenarioFilePath = absolutePath.substring(0, absolutePath.lastIndexOf(File.separator));
+			try {
+			    this.reader = new FileReader(scenarioFile);
+			   
+
+			   } catch (IOException e) {
+			    e.printStackTrace();
+			   }
 			play();
-		} catch (Exception e) {
+			
+		/*} catch (Exception e) {
 			errorLog("Exception error: " + e.toString(),
 					"Expected the directory path of the scenario file to"
 							+ " a file exists in the project folder. \n Could not find directory to path: "
 							+ scenarioFile + " \n Perhaps" + " you forgot to add the file to the directory or "
 							+ " you are looking for a different directory?");
-		}
-		return p;
+		}*/
+			return p;
 	}
 	
 	private void errorLog(String exception, String message) {
