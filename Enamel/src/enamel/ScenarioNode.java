@@ -91,6 +91,7 @@ public class ScenarioNode {
 			this.nextNode1 = p.createNode(nextNodeName);
 			this.thisNode.addButton(this.buttonCount, this.buttonMessage, this.buttonSound, this.nextNode1);
 			this.buttonCount++;
+			p.setEdge(this.thisNode, this.nextNode1, 0);
 			//need to connect each response node to the next node (NEXTT)
 			if (this.buttonCount >= numberOfButtons[nodeTrack]){
 				this.userInput = false;
@@ -168,7 +169,7 @@ public class ScenarioNode {
 				String brailleString = b.getCharacter(a);
 				for (int n = 0; i < 8; n++) {
 					int k = Character.getNumericValue(brailleString.charAt(n));
-					thisNode.setPin(i, n, k);
+					thisNode.setPin(i + 1, n, k);
 				}
 			}
 				//display string in braille cells, if greater than number of cells, then string will be cut off
@@ -226,14 +227,17 @@ public class ScenarioNode {
 		else if (this.userInput && fileLine.substring(0).equals("/~" + this.skipName[buttonCount])) {
 			//detecting /~ONEE, i.e., first button
 		}
-		else if (this.userInput && !(fileLine.substring(0, 2).equals("/~"))) {
+		else if (this.userInput && fileLine.length() >= 1
+				&& !(fileLine.substring(0, 2).equals("/~"))) {
 			buttonMessage = fileLine;
 		}
-		else if (this.userInput && fileLine.substring(0, 8).equals("/~sound:")) {
+		else if (this.userInput && fileLine.length() >= 8
+				&& fileLine.substring(0, 8).equals("/~sound:")) {
 			String soundFile = fileLine.substring(8);
 			buttonSound = soundFile;
 		}
-		else if (this.userInput && fileLine.substring(0, 18).equals("/~disp-cell-clear:")) {
+		else if (this.userInput && fileLine.length() >= 18
+				&& fileLine.substring(0, 18).equals("/~disp-cell-clear:")) {
 			String breakdown = fileLine.substring(18);
 			String[] param = breakdown.split("\\s");
 			int brailleCell = Integer.parseInt(param[0]);
