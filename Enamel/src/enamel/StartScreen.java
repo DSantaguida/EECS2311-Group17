@@ -87,6 +87,12 @@ public class StartScreen {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
+		buttontextfield = new JTextField();
+		buttontextfield.setVisible(false);
+		
+		celltextfield = new JTextField();
+		celltextfield.setVisible(false);
+		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 434, 261);
 		frame.getContentPane().add(panel);
@@ -187,7 +193,9 @@ public class StartScreen {
 				btnChooseExistingFile.setVisible(false);
 				txtNewtextfile.setVisible(true);
 				txtSetFileName.setVisible(true);
-				lblSelectCellNumber .setVisible(true);
+				buttontextfield.setVisible(true);
+				celltextfield.setVisible(true);
+				lblSelectButtonNumber .setVisible(true);
 				lblSelectCellNumber .setVisible(true);
 				lblEnterFileText.setVisible(true);
 				lblEnterFileName.setVisible(true);
@@ -278,7 +286,7 @@ public class StartScreen {
 		btnSaveNewFile.setBounds(237, 210, 177, 40);
 		panel.add(btnSaveNewFile);
 		
-		buttontextfield = new JTextField();
+
 		buttontextfield.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
@@ -302,7 +310,7 @@ public class StartScreen {
 		panel.add(buttontextfield);
 		buttontextfield.setColumns(10);
 		
-		celltextfield = new JTextField();
+		
 		celltextfield.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
