@@ -188,6 +188,7 @@ public class StartScreen {
 				
 				//Close this JFrame
 				//Open new frame to read new text
+				//fixed visibility
 				
 				btnCreateNewFile.setVisible(false);
 				btnChooseExistingFile.setVisible(false);
