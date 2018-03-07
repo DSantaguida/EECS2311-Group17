@@ -42,6 +42,10 @@ public class Scenario {
 		this.fileName = other.fileName;
 		this.head = other.head;
 	}
+	
+	public void setHeadNode(String response) {
+		
+	}
 
 	public boolean hasNextNodes(Node node) {
 		return this.getNextNodes(node).length != 0;
@@ -175,7 +179,10 @@ public class Scenario {
 		try {
 			NodeButton button = from.getButton(buttonNumber);
 			if (button.getClass() == SkipButton.class) {
-				((SkipButton) button).setNextNode(to);
+				SkipButton b = ((SkipButton) button);
+				if (!to.equals(b.getNextNode())) {
+					b.setNextNode(to);
+				}
 			} else {
 				throw new IllegalArgumentException("This button is not designed to point to any node");
 			}
