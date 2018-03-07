@@ -15,18 +15,19 @@ public class CanvasTest {
 	
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-		graph = new SimpleDirectedGraph<>(DefaultEdge.class);
-		s = new Scenario();
-		s.setNumButtons(3);
-		s.setNumCells(1);
-		counter = 0;
-		addNodes();
-		s.setFileName("testing.txt");
-//		EditingScreen screen = new EditingScreen(s)
-		System.out.println(s.getFileName());
-		ScenarioWriter f = new ScenarioWriter(s);
-		f.save();
-		
+//		graph = new SimpleDirectedGraph<>(DefaultEdge.class);
+//		s = new Scenario();
+//		s.setNumButtons(3);
+//		s.setNumCells(1);
+//		counter = 0;
+//		addNodes();
+//		s.setFileName("testing.txt");
+//		//EditingScreen screen = new EditingScreen(s);
+//		System.out.println(s.getFileName());
+//	//	ScenarioWriter f = new ScenarioWriter(s);
+//		//f.save();
+		ScenarioNode sc = new ScenarioNode();
+		sc.setScenarioFile("FactoryScenarios/Scenario_2.txt");
 	}
 	
 	public static void addNodes() {

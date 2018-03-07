@@ -170,8 +170,16 @@ public class Node {
 		return this.buttonList.get(buttonNumber);
 	}
 	
-	public Object[] getButtons() {
-		return this.buttonList.values().toArray();
+	public NodeButton[] getButtons() {
+		NodeButton[] result = new NodeButton[this.buttonList.values().size()];
+		int count = 0;
+		for (NodeButton b: this.buttonList.values())
+		{
+			result[count] = b;
+			count++;
+		}
+		//System.out.println(result.length);
+		return result;
 	}
 	
 	public void addRepeatButton(int number) {

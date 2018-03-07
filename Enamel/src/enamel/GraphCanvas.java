@@ -98,7 +98,7 @@ public class GraphCanvas extends JPanel {
     		x = space + this.startingX + rect * i;
     		g.draw(new RoundRectangle2D.Float(x, y, width, height, 10, 10));
     		g.drawString(nextNodes[i].getName(), x+3, y+14);
-            g.drawString(nextNodes[i].getResponse().substring(0, Math.min(n.getResponse().length(), width*9/55-74/11)) + "...",
+            g.drawString(nextNodes[i].getResponse().substring(0, Math.min(nextNodes[i].getResponse().length(), width*9/55-74/11)) + "...",
             		x + 20, y+44);
     		g.drawLine(firstX + dline * (i + 1), bottom, x + width / 2, y);
     	}

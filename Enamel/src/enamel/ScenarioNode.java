@@ -20,16 +20,16 @@ public class ScenarioNode {
 	private boolean repeat;
 	//tracks how many nodes were created (may need to be static?):
 	private int nodeTrack;
-	private String[] skipName = new String[50];
-	private BrailleCell b = new BrailleCell();
-	private Scenario p = new Scenario();
-	private Node thisNode = p.createNode();
-	private Node nextNode1 = p.createNode();
+	private String[] skipName;
+	private BrailleCell b;
+	private Scenario p;
+	private Node thisNode;
+	private Node nextNode1;
 	private String buttonSound;
 	private String buttonMessage;
 	private String nextNodeName;
 	private int numOfCells;
-	private int[] numberOfButtons = new int[50]; //keeping track of number of buttons created per node
+	private int[] numberOfButtons; //keeping track of number of buttons created per node
 	private int numOfButtons; //number of buttons passed by scenario file, used for scenario formatting
 	private boolean userInput;
 	private boolean createdNode;
@@ -43,6 +43,15 @@ public class ScenarioNode {
 	 * Within the provided scenarios, each scenario node is delimited by a
 	 * certain phrase.
 	 */
+	public ScenarioNode(){
+		b = new BrailleCell();
+		p = new Scenario();
+		thisNode = p.createNode();
+		p.addNode(thisNode);
+		nextNode1 = p.createNode();
+		skipName = new String[50];
+		numberOfButtons = new int[50];
+	}
 	
 	public int nodeTrack() {
 		return this.nodeTrack;
@@ -57,7 +66,8 @@ public class ScenarioNode {
 		//String buttonMessage;
 		//String nextNode;
 		//boolean createdNode;
-		this.thisNode.addButton(0);
+		//this.thisNode.addButton(0);
+		//System.out.println(thisNode);
 		if (fileLine.length() >= 4 && fileLine.substring(0, 4).equals("Cell") && 
 			fileLine.substring(5).matches("^[0-9]*[1-9][0-9]*$")) {
 			int num = Integer.parseInt(fileLine.substring(5));
@@ -66,7 +76,7 @@ public class ScenarioNode {
 			this.numberOfButtons[nodeTrack] = 0;
 			p.setCells(this.numOfCells);
 		}
-		if (fileLine.length() >= 6 && fileLine.substring(0, 6).equals("Button") && 
+		else if (fileLine.length() >= 6 && fileLine.substring(0, 6).equals("Button") && 
 				fileLine.substring(7).matches("^[0-9]*[1-9][0-9]*$")) {
 			int num = Integer.parseInt(fileLine.substring(7));
 			this.numOfButtons = num;
@@ -90,8 +100,9 @@ public class ScenarioNode {
 			//Node tmp = p.createNode(nextNode);
 			this.nextNode1 = p.createNode(nextNodeName);
 			this.thisNode.addButton(this.buttonCount, this.buttonMessage, this.buttonSound, this.nextNode1);
+			
+			System.out.println(( thisNode.getButtons()[0]));
 			this.buttonCount++;
-			p.setEdge(this.thisNode, this.nextNode1, 0);
 			//need to connect each response node to the next node (NEXTT)
 			if (this.buttonCount >= numberOfButtons[nodeTrack]){
 				this.userInput = false;
@@ -101,7 +112,9 @@ public class ScenarioNode {
 			}
 		}
 		else if (this.createdNode && fileLine.substring(0).equals("/~" + this.nextNodeName)) {
-			thisNode = p.createNode(nextNodeName);
+			//System.out.println(thisNode.getResponse());
+			//thisNode = p.createNode(nextNodeName);
+			thisNode = p.getNextNode(thisNode, nextNodeName);
 			createdNode = false;
 		}
 		else if (fileLine.length() >= 8 && fileLine.substring(0, 8).equals("/~pause:")) {
@@ -138,7 +151,10 @@ public class ScenarioNode {
 			int buttonIndex = Integer.parseInt(split[0]); //jbutton index
 			String button = split[1]; //key phrase that button will skip to
 			this.skipName[this.numberOfButtons[nodeTrack]] = button;
+	
+			
 			this.thisNode.addButton(buttonIndex);
+			//System.out.println(thisNode.getButton(buttonIndex));
 			//Node next = p.createNode(button);
 			//p.setEdge(firstNode, next, buttonIndex);
 			this.numberOfButtons[nodeTrack]++;
@@ -249,7 +265,8 @@ public class ScenarioNode {
 			((SkipButton)button).setPins(pins, brailleCell);
 		}
 		else { //no key phrase, therefore must be plain text
-			thisNode.setResponse(fileLine);
+			//thisNode.setResponse(fileLine);
+			thisNode.addToResponse(fileLine + "\n");
 		}
 	}
 	
@@ -261,10 +278,30 @@ public class ScenarioNode {
 		    String line;
 
 		    while ((line = bufferedReader.readLine()) != null) {
+		    	System.out.println(line);
 		     nodeDelimiter(line);
 		    }
-		    EditingScreen g = new EditingScreen(p);
 		    reader.close();
+		    bufferedReader.close();
+		    
+		    for(Node n: p.getNodeSet())
+		    {
+		    	System.out.println(n.getButtons().length);
+		    	for(NodeButton b: n.getButtons())
+		    	{
+		    		System.out.println(b);
+		    		if (b.getClass() == SkipButton.class) {
+						SkipButton button = ((SkipButton) b);
+						System.out.println(button);
+						System.out.println(button.getNextNode());
+						p.setEdge(n, button.getNextNode(), b.getNumber());
+		    		}
+		    		
+		    	}
+		    }
+		    System.out.println(p.getEdgeSet());
+		    EditingScreen g = new EditingScreen(p);
+		    
 		}
 		catch (IOException e) {
 			e.printStackTrace();

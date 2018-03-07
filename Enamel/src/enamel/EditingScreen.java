@@ -116,7 +116,8 @@ public class EditingScreen implements ActionListener {
 		alphabet.put('y', "10111100");
 		alphabet.put('z', "10101100");
 		alphabet.put(' ', "11111111");
-		scenario = new Scenario(hold);
+		//scenario = new Scenario(hold);
+		scenario = hold;
 		currentNode = scenario.getHead();
 		currentNodeButton = scenario.getHead().getButton(0);
 		currentButton = 0;
