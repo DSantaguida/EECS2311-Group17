@@ -216,6 +216,18 @@ public class Node {
 		return this.audioFile;
 	}
 
+	public Node getNextNode(String name) {
+		for (int i : this.buttonList.keySet()) {
+			NodeButton b = this.getButton(i);
+			if (b.getClass() == SkipButton.class) {
+				if (((SkipButton) b).getNextNode().getName().equals(name)) {
+					return ((SkipButton) b).getNextNode();
+				}
+			}
+		}
+		throw new IllegalArgumentException("Node name does not exist as next node");
+		
+	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
