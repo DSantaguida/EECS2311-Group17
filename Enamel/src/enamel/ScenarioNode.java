@@ -48,7 +48,6 @@ public class ScenarioNode {
 		p = new Scenario();
 		thisNode = p.createNode();
 		p.addNode(thisNode);
-		nextNode1 = p.createNode();
 		skipName = new String[50];
 		numberOfButtons = new int[50];
 	}
@@ -62,12 +61,7 @@ public class ScenarioNode {
 	}
 	
 	void nodeDelimiter(String fileLine) {
-		//String buttonSound;
-		//String buttonMessage;
-		//String nextNode;
-		//boolean createdNode;
-		//this.thisNode.addButton(0);
-		//System.out.println(thisNode);
+
 		if (fileLine.length() >= 4 && fileLine.substring(0, 4).equals("Cell") && 
 			fileLine.substring(5).matches("^[0-9]*[1-9][0-9]*$")) {
 			int num = Integer.parseInt(fileLine.substring(5));
@@ -81,27 +75,27 @@ public class ScenarioNode {
 			int num = Integer.parseInt(fileLine.substring(7));
 			this.numOfButtons = num;
 			p.setButtons(this.numOfButtons);
-			for (int i = 0; i <= this.numOfButtons; i++) {
-				this.thisNode.addButton(i);
-			}
 		}
-		/*
-		if (this.nodeTrack == 0){ //starting with first node
-			thisNode = p.createNode();
-		}
-		*/
-		else if (fileLine.length() >= 8 && fileLine.substring(0, 8).equals("/~sound:")) {
+		else if (!userInput && fileLine.length() >= 8 && fileLine.substring(0, 8).equals("/~sound:")) {
 			String soundFile = fileLine.substring(8);
-			//this.thisNode.setAudioFile(soundFile);
 		}
 		else if (fileLine.length() >= 7 && fileLine.substring(0, 7).equals("/~skip:")) {
 			String skipLine = fileLine.substring(7);
 			this.nextNodeName = skipLine;
-			//Node tmp = p.createNode(nextNode);
-			this.nextNode1 = p.createNode(nextNodeName);
-			this.thisNode.addButton(this.buttonCount, this.buttonMessage, this.buttonSound, this.nextNode1);
+			try{
+				this.nextNode1 = thisNode.getNextNode(nextNodeName);
+			}
+			catch(IllegalArgumentException e)
+			{
+				this.nextNode1 = p.createNode(nextNodeName);
+				p.addNode(nextNode1);
+			}
+			SkipButton b = (SkipButton) thisNode.getButton(buttonCount);
+			b.setResponse(buttonMessage);			
+			b.setAudioFile(this.buttonSound);
+			b.setNextNode(nextNode1);
+		//	this.thisNode.addButton(this.buttonCount, this.buttonMessage, this.buttonSound, this.nextNode1);
 			
-			System.out.println(( thisNode.getButtons()[0]));
 			this.buttonCount++;
 			//need to connect each response node to the next node (NEXTT)
 			if (this.buttonCount >= numberOfButtons[nodeTrack]){
@@ -112,9 +106,7 @@ public class ScenarioNode {
 			}
 		}
 		else if (this.createdNode && fileLine.substring(0).equals("/~" + this.nextNodeName)) {
-			//System.out.println(thisNode.getResponse());
-			//thisNode = p.createNode(nextNodeName);
-			thisNode = p.getNextNode(thisNode, nextNodeName);
+			thisNode = thisNode.getNextNode(nextNodeName);
 			createdNode = false;
 		}
 		else if (fileLine.length() >= 8 && fileLine.substring(0, 8).equals("/~pause:")) {
@@ -126,7 +118,7 @@ public class ScenarioNode {
 			int buttonIndex = Integer.parseInt(repeatButtonLine);
 			//buttonIndex may not be a unique integer because skip button also produces integers
 			//to account for this, we add 100
-			thisNode.addButton(buttonIndex, thisNode);
+			thisNode.addRepeatButton(buttonIndex);
 			//this.numberOfButtons[nodeTrack]++; THIS should not increment because this does not create new node
 		}
 		else if (fileLine.length() >= 8 && fileLine.substring(0, 8).equals("/~repeat")) {
@@ -154,9 +146,6 @@ public class ScenarioNode {
 	
 			
 			this.thisNode.addButton(buttonIndex);
-			//System.out.println(thisNode.getButton(buttonIndex));
-			//Node next = p.createNode(button);
-			//p.setEdge(firstNode, next, buttonIndex);
 			this.numberOfButtons[nodeTrack]++;
 		}
 		else if (fileLine.length() >= 15 && fileLine.substring(0, 15).equals("/~disp-clearAll")) {
@@ -237,9 +226,7 @@ public class ScenarioNode {
 			//nodeTrackIncrement();
 			this.userInput = true;
 		}
-		/*else if (buttonCount >= numberOfButtons[nodeTrack]){
-			this.userInput = false;
-		}*/
+
 		else if (this.userInput && fileLine.substring(0).equals("/~" + this.skipName[buttonCount])) {
 			//detecting /~ONEE, i.e., first button
 		}
@@ -265,41 +252,38 @@ public class ScenarioNode {
 			((SkipButton)button).setPins(pins, brailleCell);
 		}
 		else { //no key phrase, therefore must be plain text
-			//thisNode.setResponse(fileLine);
 			thisNode.addToResponse(fileLine + "\n");
 		}
 	}
 	
 	private void play() {
-		//String fileLine;
 		try {
 		 BufferedReader bufferedReader = new BufferedReader(reader);
 
 		    String line;
 
 		    while ((line = bufferedReader.readLine()) != null) {
-		    	System.out.println(line);
 		     nodeDelimiter(line);
 		    }
 		    reader.close();
 		    bufferedReader.close();
 		    
-		    for(Node n: p.getNodeSet())
-		    {
-		    	System.out.println(n.getButtons().length);
-		    	for(NodeButton b: n.getButtons())
-		    	{
-		    		System.out.println(b);
-		    		if (b.getClass() == SkipButton.class) {
-						SkipButton button = ((SkipButton) b);
-						System.out.println(button);
-						System.out.println(button.getNextNode());
-						p.setEdge(n, button.getNextNode(), b.getNumber());
-		    		}
-		    		
-		    	}
-		    }
-		    System.out.println(p.getEdgeSet());
+//		    for(Node n: p.getNodes())
+//		    {
+//		    	System.out.println("Hi");
+//		    	NodeButton[] array = n.getButtons();
+//		    	System.out.println(Arrays.toString(array));
+//		    	for(int i = 0; i < array.length; i++)
+//		    	{
+//		    		NodeButton b = array[i];
+//		    		if (b.getClass() == SkipButton.class) {
+//						SkipButton button = ((SkipButton) b);
+//						p.setEdge(n, button.getNextNode(), b.getNumber());
+//		    		}
+//		    		
+//		    	}
+//		    }
+		    createEdges(p.getHead());
 		    EditingScreen g = new EditingScreen(p);
 		    
 		}
@@ -328,7 +312,21 @@ public class ScenarioNode {
 							+ "could include possible file corruption, or that you have enter characters that "
 							+ "could not be read/interpreted.");
 		}*/
-	
+	public void createEdges(Node n)
+	{
+		
+		NodeButton[] array = n.getButtons();
+    	for(int i = 0; i < array.length; i++)
+    	{
+    		NodeButton b = array[i];
+    		if (b.getClass() == SkipButton.class) {
+				SkipButton button = ((SkipButton) b);
+				p.setEdge(n, button.getNextNode(), b.getNumber());
+				createEdges(button.getNextNode());
+    		}
+    		
+    	}
+	}
 	
 	public Scenario setScenarioFile(String scenarioFile) {
 		//try {

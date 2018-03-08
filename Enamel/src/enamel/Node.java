@@ -173,8 +173,10 @@ public class Node {
 	public NodeButton[] getButtons() {
 		NodeButton[] result = new NodeButton[this.buttonList.values().size()];
 		int count = 0;
+		System.out.println(this.buttonList.keySet());
 		for (NodeButton b: this.buttonList.values())
 		{
+			System.out.println(b + "\t" + count);
 			result[count] = b;
 			count++;
 		}
@@ -183,7 +185,7 @@ public class Node {
 	}
 	
 	public void addRepeatButton(int number) {
-		this.buttonList.put(number, new SkipButton(number));
+		this.buttonList.put(number, new RepeatButton(number));
 	}
 	
 	public void addRepeatButton(int number, String repeatText) {
@@ -220,8 +222,9 @@ public class Node {
 		for (int i : this.buttonList.keySet()) {
 			NodeButton b = this.getButton(i);
 			if (b.getClass() == SkipButton.class) {
-				if (((SkipButton) b).getNextNode().getName().equals(name)) {
-					return ((SkipButton) b).getNextNode();
+				SkipButton button = ((SkipButton) b);
+				if (button.getNextNode() != null && button.getNextNode().getName().equals(name)) {
+					return button.getNextNode();
 				}
 			}
 		}

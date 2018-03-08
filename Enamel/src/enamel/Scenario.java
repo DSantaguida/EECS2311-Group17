@@ -104,6 +104,10 @@ public class Scenario {
 		return this.graph.vertexSet();
 	}
 	
+	public Node[] getNodes(){
+		return this.graph.vertexSet().toArray(new Node[graph.vertexSet().size()]);
+	}
+	
 	public boolean isEmpty() {
 		return this.head == null;
 	}
