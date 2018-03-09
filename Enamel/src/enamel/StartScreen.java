@@ -177,9 +177,18 @@ public class StartScreen {
 				
 				//s.setScenarioFile(file);
 				frame.dispose(); 
-				ScenarioNode test2 = new ScenarioNode();
-				test2.setScenarioFile(file);
-				
+				//ScenarioNode test2 = new ScenarioNode();
+				//test2.setScenarioFile(file);
+				try {
+					String line4 = Files.readAllLines(Paths.get(file)).get(4);
+					Scenario test2 = new Scenario();
+					Node headnode = test2.createNode(line4);
+					test2.addNode(headnode);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 			
 		});
@@ -289,9 +298,12 @@ public class StartScreen {
 		            e1.printStackTrace();
 		        }
 				frame.dispose();
-				String filename = "FactoryScenarios/" +cust_filename + ".txt";
-				ScenarioNode test = new ScenarioNode();
-				test.setScenarioFile(filename);
+				//String filename = "FactoryScenarios/" +cust_filename + ".txt";
+				//ScenarioNode test = new ScenarioNode();
+				//test.setScenarioFile(filename);
+				Scenario test = new Scenario();
+				Node headnode = test.createNode(cust_file);
+				test.addNode(headnode);
 			}
 		});
 		btnNewProject.setBounds(6, 330, 631, 94);
