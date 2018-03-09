@@ -38,13 +38,16 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import java.awt.event.KeyAdapter;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.Font;
 
 
 public class StartScreen {
 	public String cust_file;
 	public String cust_filename;
 	private JFrame frame;
-	private JTextField txtNewtextfile;
+	private JTextField txtProjectTitle;
 	Voice voice;
 	VoiceManager vm;
 	private JTextField txtSetFileName;
@@ -54,6 +57,7 @@ public class StartScreen {
 	public String celltext;
 	private JTextField buttontextfield;
 	private JTextField celltextfield;
+	public String invalidkey = "This is an invalid key, please enter a real number";
 
 	/**
 	 * Launch the application.
@@ -83,7 +87,7 @@ public class StartScreen {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 663, 474);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -94,62 +98,65 @@ public class StartScreen {
 		celltextfield.setVisible(false);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 434, 261);
+		panel.setBounds(0, 0, 647, 435);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JButton btnSaveNewFile = new JButton("Save New File");
-		btnSaveNewFile.getAccessibleContext().setAccessibleName("Save New File");
-		btnSaveNewFile.setVisible(false);
+		JButton btnNewProject = new JButton("Create New Project");
+		btnNewProject.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		btnNewProject.getAccessibleContext().setAccessibleName("Save New File");
+		btnNewProject.setVisible(false);
 		
-		JLabel lblSelectButtonNumber = new JLabel("Select Button Number");
+		JLabel lblSelectButtonNumber = new JLabel("Select Button Number:");
+		lblSelectButtonNumber.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblSelectButtonNumber .setVisible(false);
-		lblSelectButtonNumber.setBounds(58, 125, 110, 14);
+		lblSelectButtonNumber.setBounds(6, 164, 188, 14);
 		panel.add(lblSelectButtonNumber);
 		
-		JLabel lblSelectCellNumber = new JLabel("Select Cell Number");
+		JLabel lblSelectCellNumber = new JLabel("Select Cell Number:");
+		lblSelectCellNumber.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblSelectCellNumber .setVisible(false);
-		lblSelectCellNumber.setBounds(281, 125, 110, 14);
+		lblSelectCellNumber.setBounds(322, 164, 178, 14);
 		panel.add(lblSelectCellNumber);
 		
-		JLabel lblEnterFileText = new JLabel("Enter File Text:");
+		JLabel lblEnterFileText = new JLabel("Enter Title of Project:");
+		lblEnterFileText.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblEnterFileText.setVisible(false);
-		lblEnterFileText.setBounds(6, 62, 188, 14);
+		lblEnterFileText.setBounds(6, 97, 188, 14);
 		panel.add(lblEnterFileText);
 		
 		JLabel lblEnterFileName = new JLabel("Enter File Name Text:");
+		lblEnterFileName.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblEnterFileName.setVisible(false);
-		lblEnterFileName.setBounds(16, 210, 178, 14);
+		lblEnterFileName.setBounds(6, 240, 178, 14);
 		panel.add(lblEnterFileName);
 		
 		txtSetFileName = new JTextField();
 		txtSetFileName.getAccessibleContext().setAccessibleDescription("Set File Name");
 		txtSetFileName.setVisible(false);
 		
-		txtNewtextfile = new JTextField();
-		txtNewtextfile.getAccessibleContext().setAccessibleName("New Text File");
-		txtNewtextfile.addKeyListener(new KeyAdapter() {
+		txtProjectTitle = new JTextField();
+		txtProjectTitle.getAccessibleContext().setAccessibleName("New Text File");
+		txtProjectTitle.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-					cust_file = txtNewtextfile.getText();
-			
-					txtNewtextfile.setVisible(false);
 					vm = VoiceManager.getInstance();
 			        voice = vm.getVoice ("kevin16");
 			        voice.allocate();
-			        voice.speak(cust_file);
+			        voice.speak(txtProjectTitle.getText());
 			       
-			        btnSaveNewFile.setVisible(true);
+			        btnNewProject.setVisible(true);
 			       
 				}
 			}
 		});
-		txtNewtextfile.setVisible(false);
+		txtProjectTitle.setVisible(false);
 		
 		
 		
 		JButton btnChooseExistingFile = new JButton("Choose Existing File");
+		btnChooseExistingFile.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		btnChooseExistingFile.getAccessibleContext().setAccessibleName("Choose Existing File");
 		btnChooseExistingFile.addActionListener(new ActionListener() {
 			
@@ -176,10 +183,11 @@ public class StartScreen {
 			}
 			
 		});
-		btnChooseExistingFile.setBounds(6, 11, 188, 40);
+		btnChooseExistingFile.setBounds(6, 11, 306, 75);
 		panel.add(btnChooseExistingFile);
 		
 		JButton btnCreateNewFile = new JButton("Create New File");
+		btnCreateNewFile.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		btnCreateNewFile.getAccessibleContext().setAccessibleName("Create New File");
 		btnCreateNewFile.addActionListener(new ActionListener() {
 			
@@ -192,7 +200,7 @@ public class StartScreen {
 				
 				btnCreateNewFile.setVisible(false);
 				btnChooseExistingFile.setVisible(false);
-				txtNewtextfile.setVisible(true);
+				txtProjectTitle.setVisible(true);
 				txtSetFileName.setVisible(true);
 				buttontextfield.setVisible(true);
 				celltextfield.setVisible(true);
@@ -202,47 +210,49 @@ public class StartScreen {
 				lblEnterFileName.setVisible(true);
 			}
 		});
-		btnCreateNewFile.setBounds(237, 11, 177, 40);
+		btnCreateNewFile.setBounds(331, 11, 306, 75);
 		panel.add(btnCreateNewFile);
 		
 		txtSetFileName.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-					cust_filename = txtSetFileName.getText();
-			
-					txtNewtextfile.setVisible(false);
-					lblEnterFileText.setVisible(false);
 					vm = VoiceManager.getInstance();
 			        voice = vm.getVoice ("kevin16");
 			        voice.allocate();
-			        voice.speak(cust_filename);
+			        voice.speak(txtSetFileName.getText());
 			       
-			        btnSaveNewFile.setVisible(true);
+			        btnNewProject.setVisible(true);
 			}}});
-		txtSetFileName.setBounds(10, 227, 188, 23);
+		txtSetFileName.setBounds(6, 265, 631, 54);
 		panel.add(txtSetFileName);
 		txtSetFileName.setColumns(10);
-		txtNewtextfile.setBounds(6, 87, 404, 31);
-		panel.add(txtNewtextfile);
-		txtNewtextfile.setColumns(10);
+		txtProjectTitle.setBounds(6, 122, 631, 31);
+		panel.add(txtProjectTitle);
+		txtProjectTitle.setColumns(10);
 		
 
-		btnSaveNewFile.addActionListener(new ActionListener() {
+		btnNewProject.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				InputStream inStream = null;
 				OutputStream outStream = null;
 				
+				cust_file = txtProjectTitle.getText();
+				buttontext = buttontextfield.getText();
+				cust_filename = txtSetFileName.getText();
+				celltext = celltextfield.getText();
+				
 				try {
 					
 		            PrintWriter out = new PrintWriter(new FileWriter(cust_filename + ".txt"));
 					String filename = cust_filename + ".txt";
-		            txtNewtextfile.getText();
+		            txtProjectTitle.getText();
 		            buttontextfield.getText();
 		            celltextfield.getText();
 		            out.println("Button " + buttontext);
 		            out.println("Cell "+ celltext);
+		            out.println();
 		            out.println(cust_file);
 		            out.flush();
 		            out.close();
@@ -284,30 +294,36 @@ public class StartScreen {
 				test.setScenarioFile(filename);
 			}
 		});
-		btnSaveNewFile.setBounds(237, 210, 177, 40);
-		panel.add(btnSaveNewFile);
+		btnNewProject.setBounds(6, 330, 631, 94);
+		panel.add(btnNewProject);
 		
 
 		buttontextfield.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-					buttontext = buttontextfield.getText();
-					buttonnumber = Integer.parseInt(buttontext);
-					if (buttonnumber / 1 == buttonnumber) {
-					buttontextfield.setVisible(false);
-					lblSelectButtonNumber.setVisible(false);
-					vm = VoiceManager.getInstance();
-			        voice = vm.getVoice ("kevin16");
-			        voice.allocate();
-			        voice.speak(buttontext);
-			       
-			        btnSaveNewFile.setVisible(true);
+
+					if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+						try {
+						buttonnumber = Integer.parseInt(buttontextfield.getText());
+						if (buttonnumber / 1 == buttonnumber) {
+
+						vm = VoiceManager.getInstance();
+				        voice = vm.getVoice ("kevin16");
+				        voice.allocate();
+				        voice.speak(buttontextfield.getText());
+				       
+				        btnNewProject.setVisible(true);
+						}
+						}
+						catch (Exception e) {
+							JOptionPane.showMessageDialog(null, invalidkey, "", JOptionPane.INFORMATION_MESSAGE);
+							buttontextfield.setText("");
+					    }
+					
 					}
 			}
-			}
 		});
-		buttontextfield.setBounds(6, 150, 188, 20);
+		buttontextfield.setBounds(6, 189, 306, 40);
 		panel.add(buttontextfield);
 		buttontextfield.setColumns(10);
 		
@@ -315,24 +331,29 @@ public class StartScreen {
 		celltextfield.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
+
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					celltext = celltextfield.getText();
-					cellnumber = Integer.parseInt(celltext);
-					
+				try {
+					cellnumber = Integer.parseInt(celltextfield.getText());
 					if (cellnumber / 1 == cellnumber) {
-					celltextfield.setVisible(false);
-					lblSelectButtonNumber.setVisible(false);
+
 					vm = VoiceManager.getInstance();
 			        voice = vm.getVoice ("kevin16");
 			        voice.allocate();
-			        voice.speak(celltext);
+			        voice.speak(celltextfield.getText());
 			       
-			        btnSaveNewFile.setVisible(true);
+			        btnNewProject.setVisible(true);
 					}
+					}
+					catch (Exception m) {
+						JOptionPane.showMessageDialog(null, invalidkey, "", JOptionPane.INFORMATION_MESSAGE);
+						celltextfield.setText("");
+				    }
+				}
 			}
-			}});
+		});
 		
-		celltextfield.setBounds(237, 150, 173, 20);
+		celltextfield.setBounds(322, 189, 315, 40);
 		panel.add(celltextfield);
 		celltextfield.setColumns(10);
 
