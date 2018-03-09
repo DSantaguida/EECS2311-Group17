@@ -140,16 +140,24 @@ public class StartScreen {
 		txtProjectTitle.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
+				
 				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-					vm = VoiceManager.getInstance();
-			        voice = vm.getVoice ("kevin16");
-			        voice.allocate();
-			        voice.speak(txtProjectTitle.getText());
-			       
-			        btnNewProject.setVisible(true);
-			       
+		
+					String titlestring = txtProjectTitle.getText();
+					if (!titlestring.isEmpty()){
+						vm = VoiceManager.getInstance();
+				        voice = vm.getVoice ("kevin16");
+				        voice.allocate();
+				        voice.speak(txtProjectTitle.getText());
+				       
+				        btnNewProject.setVisible(true);
+					}
+					else {
+					JOptionPane.showMessageDialog(null, "Please Enter a Non-null title", "", JOptionPane.INFORMATION_MESSAGE);
+					}
 				}
 			}
+				
 		});
 		txtProjectTitle.setVisible(false);
 		
@@ -226,13 +234,21 @@ public class StartScreen {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-					vm = VoiceManager.getInstance();
-			        voice = vm.getVoice ("kevin16");
-			        voice.allocate();
-			        voice.speak(txtSetFileName.getText());
-			       
-			        btnNewProject.setVisible(true);
-			}}});
+					String filenamecheck = txtSetFileName.getText();
+					if (!filenamecheck.isEmpty()) {
+						vm = VoiceManager.getInstance();
+				        voice = vm.getVoice ("kevin16");
+				        voice.allocate();
+				        voice.speak(txtSetFileName.getText());
+				       
+				        btnNewProject.setVisible(true);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Please Enter a non-null file name", "", JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+
+			}});
 		txtSetFileName.setBounds(6, 265, 631, 54);
 		panel.add(txtSetFileName);
 		txtSetFileName.setColumns(10);
