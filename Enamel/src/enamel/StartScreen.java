@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -169,10 +170,9 @@ public class StartScreen {
 		btnChooseExistingFile.addActionListener(new ActionListener() {
 			
 			
-			public void actionPerformed(ActionEvent arg0) {
-				//Choose Existing File Button
+			public void actionPerformed(ActionEvent arg0){
 				String file = "";
-				
+				try{
 				//ScenarioParser s = new ScenarioParser(true);
 				JFileChooser chooser = new JFileChooser(new File("FactoryScenarios/"));
 				//Create textfield to allow user to name the file and save as string
@@ -189,15 +189,12 @@ public class StartScreen {
 				//test2.setScenarioFile(file);
 				ScenarioNode test2 = new ScenarioNode();
 				test2.setScenarioFile(file);
-//				try {
-//					String line4 = Files.readAllLines(Paths.get(file)).get(4);
-//					Scenario test2 = new Scenario();
-//					Node headnode = test2.createNode(line4);
-//					test2.addNode(headnode);
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
+				}
+				catch (Exception e)
+				{
+					StartScreen go = new StartScreen();
+					go.frame.setVisible(true);
+				}
 
 			}
 			
