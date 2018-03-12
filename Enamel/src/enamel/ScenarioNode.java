@@ -265,6 +265,7 @@ public class ScenarioNode {
 		    while ((line = bufferedReader.readLine()) != null) {
 		     nodeDelimiter(line);
 		    }
+		    
 		    reader.close();
 		    bufferedReader.close();
 		    
@@ -284,6 +285,10 @@ public class ScenarioNode {
 //		    	}
 //		    }
 		    createEdges(p.getHead());
+		    for (int i = 0; i < numOfButtons; i++)
+		    {
+		    	thisNode.addButton(i);
+		    }
 		    EditingScreen g = new EditingScreen(p);
 		    
 		}
