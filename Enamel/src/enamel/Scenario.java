@@ -143,9 +143,6 @@ public class Scenario {
 	}
 	
 	public Node[] getPrevNodes(Node currNode) {
-		if (currNode.equals(this.head)) {
-			return new Node[]{new Node(-1)};
-		}
 		Set<DefaultEdge> edgeSet = this.graph.incomingEdgesOf(currNode);
 		Node[] nodeArr = new Node[edgeSet.size()];
 		int counter = 0;
