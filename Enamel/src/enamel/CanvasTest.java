@@ -1,16 +1,10 @@
 package enamel;
 
-import org.jgrapht.Graph;
-import org.jgrapht.graph.*;
-
 import java.io.IOException;
-
-import org.jgraph.graph.DefaultEdge;
 
 public class CanvasTest {
 	
 	private static int counter;
-	private static Graph<Node, DefaultEdge> graph;
 	public static Scenario s;
 	
 	public static void main(String[] args) throws IOException {
@@ -37,7 +31,7 @@ public class CanvasTest {
 		Node node1 = new Node(counter, name, response);
 		node1.setPins(arr1, 0);
 		node1.addButton(0);
-		graph.addVertex(node1);
+		//graph.addVertex(node1);
 		counter++;
 		
 		
@@ -47,7 +41,7 @@ public class CanvasTest {
 		Node node2 = new Node(counter, name, response);
 		node2.setPins(arr2, 0);
 		node2.addButton(0);
-		graph.addVertex(node2);
+		//graph.addVertex(node2);
 		counter++;
 
 		s.setEdge(node1, node2, 0);
@@ -57,7 +51,7 @@ public class CanvasTest {
 		node2 = new Node(counter, name, response);
 		node2.setPins(arr1, 0);
 		node2.addButton(0);
-		graph.addVertex(node1);
+		//graph.addVertex(node1);
 		counter++;
 		
 		s.setEdge(node1, node2, 0);
@@ -67,7 +61,7 @@ public class CanvasTest {
 		node2 = new Node(counter, name, response);
 		node2.setPins(arr2, 0);
 		node2.addButton(0);
-		graph.addVertex(node2);
+		//graph.addVertex(node2);
 		counter++;
 		
 		s.setEdge(node1, node2, 0);
@@ -78,7 +72,7 @@ public class CanvasTest {
 		node1 = new Node(counter, name, response);
 		node1.setPins(arr1, 0);
 		node1.addButton(0);
-		graph.addVertex(node1);
+		//graph.addVertex(node1);
 		counter++;
 		
 		s.setEdge(node2, node1, 0);
@@ -91,14 +85,14 @@ public class CanvasTest {
 		node2 = new Node(counter, name, response);
 		node2.setPins(arr2, 0);
 		node2.addButton(0);
-		graph.addVertex(node2);
+		//graph.addVertex(node2);
 		counter++;
 		
 		s.setEdge(node1, node2, 0);
 
 		response = "That's the end of directional orientation!";
 		node1 = new Node(counter, name ,response);
-		graph.addVertex(node1);
+		//graph.addVertex(node1);
 		counter++;
 		
 		s.setEdge(node2, node1, 0);
