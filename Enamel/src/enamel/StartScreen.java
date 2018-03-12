@@ -187,15 +187,17 @@ public class StartScreen {
 				frame.dispose(); 
 				//ScenarioNode test2 = new ScenarioNode();
 				//test2.setScenarioFile(file);
-				try {
-					String line4 = Files.readAllLines(Paths.get(file)).get(4);
-					Scenario test2 = new Scenario();
-					Node headnode = test2.createNode(line4);
-					test2.addNode(headnode);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				ScenarioNode test2 = new ScenarioNode();
+				test2.setScenarioFile(file);
+//				try {
+//					String line4 = Files.readAllLines(Paths.get(file)).get(4);
+//					Scenario test2 = new Scenario();
+//					Node headnode = test2.createNode(line4);
+//					test2.addNode(headnode);
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 
 			}
 			
@@ -319,7 +321,14 @@ public class StartScreen {
 				//test.setScenarioFile(filename);
 				Scenario test = new Scenario();
 				Node headnode = test.createNode(cust_file);
+				test.setNumButtons(Integer.parseInt(buttontextfield.getText()));
+				test.setNumCells(Integer.parseInt(celltextfield.getText()));
 				test.addNode(headnode);
+				for (int i = 0; i < Integer.parseInt(buttontextfield.getText()); i++)
+				{
+					test.getHead().addButton(i);
+				}
+				EditingScreen go = new EditingScreen(test);
 			}
 		});
 		btnNewProject.setBounds(6, 330, 631, 94);
