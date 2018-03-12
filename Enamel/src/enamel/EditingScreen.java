@@ -420,6 +420,7 @@ public class EditingScreen implements ActionListener {
 		JComboBox blockChooser2 = new JComboBox();
 		blockChooser2.getAccessibleContext().setAccessibleName("Choose which cell to edit");
 		GridBagConstraints gbc_comboBox2 = new GridBagConstraints();
+		gbc_comboBox2.gridwidth = 4;
 		gbc_comboBox2.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox2.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox2.gridx = 0;
@@ -672,6 +673,7 @@ public class EditingScreen implements ActionListener {
 		// ComboBox to choose which cell to edit
 		JComboBox blockChooser = new JComboBox();
 		GridBagConstraints gbc_blockChooser = new GridBagConstraints();
+		gbc_blockChooser.gridwidth = 4;
 		gbc_blockChooser.fill = GridBagConstraints.HORIZONTAL;
 		gbc_blockChooser.insets = new Insets(0, 0, 5, 5);
 		gbc_blockChooser.gridx = 0;
@@ -873,7 +875,7 @@ public class EditingScreen implements ActionListener {
 		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(772, 692, 142, 35);
+		panel_2.setBounds(750, 692, 195, 35);
 		panel.add(panel_2);
 		panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
