@@ -123,6 +123,7 @@ public class EditingScreen implements ActionListener {
 		currentButton = 0;
 		buttonCount = scenario.getNumButtons();
 		boxCount = scenario.getNumCells();
+		writer = new ScenarioWriter(scenario);
 		initialize();
 	}
 
@@ -158,7 +159,6 @@ public class EditingScreen implements ActionListener {
 		currentNode.addButton(0);
 		currentNodeButton = currentNode.getButton(0);
 		currentButton = 0;
-		writer = new ScenarioWriter(scenario);
 		initialize();
 
 	}
