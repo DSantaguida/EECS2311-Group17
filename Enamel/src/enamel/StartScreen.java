@@ -47,7 +47,7 @@ import java.awt.Font;
  public class StartScreen {
 	public String cust_file;
 	public String cust_filename;
-	private JFrame frame;
+	public JFrame frame;
 	private JTextField txtProjectTitle;
 	Voice voice;
 	VoiceManager vm;

@@ -1228,6 +1228,21 @@ public class EditingScreen implements ActionListener {
 		cl.show(optionCard, "Do Nothing");
 		lblCurrentButton.setText("Node Selected");
 		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBounds(606, 13, 152, 35);
+		panel.add(panel_3);
+		panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JButton btnMainMenu = new JButton("Main Menu");
+		btnMainMenu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				StartScreen go = new StartScreen();
+				go.frame.setVisible(true);
+			}
+		});
+		panel_3.add(btnMainMenu);
+		
 		comboBoxNextNodes.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
