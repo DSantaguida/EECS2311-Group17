@@ -10,23 +10,24 @@ public class CanvasTest {
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 //		graph = new SimpleDirectedGraph<>(DefaultEdge.class);
-//		s = new Scenario();
-//		s.setNumButtons(3);
-//		s.setNumCells(1);
+		s = new Scenario();
+		s.setNumButtons(3);
+		s.setNumCells(1);
+		System.out.println(s.getName());
 //		counter = 0;
-//		addNodes();
+		addNodes();
 //		s.setFileName("testing.txt");
 //		//EditingScreen screen = new EditingScreen(s);
 //		System.out.println(s.getFileName());
-//	//	ScenarioWriter f = new ScenarioWriter(s);
-//		//f.save();
-		ScenarioNode sc = new ScenarioNode();
-		sc.setScenarioFile("FactoryScenarios/Scenario_2.txt");
+		ScenarioWriter f = new ScenarioWriter(s);
+		f.save();
+//		ScenarioNode sc = new ScenarioNode();
+//		sc.setScenarioFile("FactoryScenarios/Scenario_2.txt");
 	}
 	
 	public static void addNodes() {
 		int[] arr1 = {1,1,1,0,0,0,0,0};
-		String name = "ONEE";
+		String name = "NEXTT";
 		String response = "These are pins 1, 2 and 3, the 3 pins on the left side.\nPress button 1 to continue.";
 		Node node1 = new Node(counter, name, response);
 		node1.setPins(arr1, 0);

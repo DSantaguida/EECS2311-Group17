@@ -44,7 +44,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 
 
-public class StartScreen {
+ public class StartScreen {
 	public String cust_file;
 	public String cust_filename;
 	private JFrame frame;

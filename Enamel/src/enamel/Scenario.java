@@ -16,7 +16,7 @@ public class Scenario {
 	static {
 		scenarioCounter = 1;
 	};
-	public Graph<Node, DefaultEdge> graph;
+	private Graph<Node, DefaultEdge> graph;
 	private String fileName;
 	private Node head;
 	
