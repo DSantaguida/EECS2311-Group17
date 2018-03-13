@@ -1,7 +1,6 @@
 package enamel;
 
 import java.io.*;
-import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Node {
@@ -202,15 +201,17 @@ public class Node {
 	}
 	
 	public void setAudioFile(String audioFile) {
-		try {
-			Scanner file = new Scanner(new File(audioFile));
-			file.close();
-			this.audioFile = audioFile;
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			throw new IllegalArgumentException("The file name does not exist"); 
-		}
 		
+		FileSearch fileSearch = new FileSearch();
+        
+		fileSearch.searchDirectory(new File(System.getProperty("user.dir")), audioFile);
+	
+		int count = fileSearch.getResult().size();
+		if (count == 0) {
+		    throw new IllegalArgumentException("File does not exist");
+		} else {
+		 this.audioFile = audioFile;
+		}
 		
 	}
 	
