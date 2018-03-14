@@ -182,6 +182,11 @@ import java.awt.Font;
 				if (returnval == JFileChooser.APPROVE_OPTION) {
 					file = "FactoryScenarios/" + chooser.getSelectedFile().getName();
 				}
+				else if (returnval == JFileChooser.CANCEL_OPTION) {
+					frame.dispose();
+					frame.revalidate();
+					frame.repaint();
+				}
 				
 				//s.setScenarioFile(file);
 				frame.dispose(); 
