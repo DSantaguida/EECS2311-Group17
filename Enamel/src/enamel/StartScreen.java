@@ -42,6 +42,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.SystemColor;
 
 
  public class StartScreen {
@@ -99,14 +100,19 @@ import java.awt.Font;
 		celltextfield.setVisible(false);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(SystemColor.activeCaption);
 		panel.setBounds(0, 0, 647, 435);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JButton btnNewProject = new JButton("Create New Project");
 		btnNewProject.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		btnNewProject.getAccessibleContext().setAccessibleName("Save New File");
+		btnNewProject.getAccessibleContext().setAccessibleName("Create New Project");
 		btnNewProject.setVisible(false);
+		
+		JButton btnBackToScenario = new JButton("Back to Scenario Selection");
+		btnBackToScenario.getAccessibleContext().setAccessibleName("Back to Scenario Selection");
+		btnBackToScenario.setVisible(false);
 		
 		JLabel lblSelectButtonNumber = new JLabel("Select Button Number:");
 		lblSelectButtonNumber.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -229,6 +235,7 @@ import java.awt.Font;
 				lblSelectCellNumber .setVisible(true);
 				lblEnterFileText.setVisible(true);
 				lblEnterFileName.setVisible(true);
+				btnBackToScenario.setVisible(true);
 			}
 		});
 		btnCreateNewFile.setBounds(331, 11, 306, 75);
@@ -333,7 +340,7 @@ import java.awt.Font;
 				EditingScreen go = new EditingScreen(test);
 			}
 		});
-		btnNewProject.setBounds(6, 330, 631, 94);
+		btnNewProject.setBounds(6, 330, 306, 94);
 		panel.add(btnNewProject);
 		
 
@@ -395,6 +402,28 @@ import java.awt.Font;
 		celltextfield.setBounds(322, 189, 315, 40);
 		panel.add(celltextfield);
 		celltextfield.setColumns(10);
+		
+
+		btnBackToScenario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				btnCreateNewFile.setVisible(true);
+				btnChooseExistingFile.setVisible(true);
+				txtProjectTitle.setVisible(false);
+				txtSetFileName.setVisible(false);
+				buttontextfield.setVisible(false);
+				celltextfield.setVisible(false);
+				lblSelectButtonNumber .setVisible(false);
+				lblSelectCellNumber .setVisible(false);
+				lblEnterFileText.setVisible(false);
+				lblEnterFileName.setVisible(false);
+				btnBackToScenario.setVisible(false);
+				
+			}
+		});
+		btnBackToScenario.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		btnBackToScenario.setBounds(322, 330, 315, 94);
+		panel.add(btnBackToScenario);
 
 	}
 }
