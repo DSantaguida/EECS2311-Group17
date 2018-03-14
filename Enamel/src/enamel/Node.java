@@ -6,12 +6,11 @@ import java.util.*;
 public class Node {
 	private int id;
 	private String name;
-	private String response;
 	private String repeatText;
 	private Map<Integer, NodeButton> buttonList;
-	private Map<Integer, int[]> pins;
-	private String audioFile;
+	private Timeline t;
 	private int pauseTime;
+	private String audioFile;
 	
 	/**
 	 * @return the pauseTime
@@ -28,70 +27,44 @@ public class Node {
 	}
 
 	public Node(int id) {
-		this(id, String.valueOf(id), new HashMap<Integer, int[]>(), "");
+		this(id, String.valueOf(id));
 	}
+	
 	
 	public Node(int id, String name) {
-		this(id, name, new HashMap<Integer, int[]>(), "");
-	}
-	
-	public Node(int id, String name, String response) {
-		this(id, name, new HashMap<Integer, int[]>(), response);
-	}
-	
-	public Node(int id, String name, Map<Integer, int[]> pins) {
-		this(id, name, pins, "");
-	
-	}
-	
-	public Node(int id, String name, Map<Integer, int[]> pins, String response) {
 		this.id = id;
 		this.name = name;
-		this.response = response;
-		this.pins = pins;
 		this.buttonList = new HashMap<>();
-		this.audioFile = "";
+		this.t = new Timeline();
 		this.setPauseTime(0);
 	}
 	
-	public Node(int id, Map<Integer, int[]> pins) {
-		this(id, String.valueOf(id), pins, "");
+	public Node(int id, String name, Map<Integer, NodeButton> buttonList) {
+		this(id, name, "", buttonList);
 	}
 	
-	public Node(int id, String name, Map<Integer, int[]> listOfPins, String response, Map<Integer, NodeButton> buttonList) {
-		this(id, name, listOfPins, response, "", buttonList);
-	}
-	
-	public Node(int id, String name, Map<Integer, int[]> listOfPins, String response, String repeatText) {
+	public Node(int id, String name, String repeatText) {
 		this.id = id;
 		this.name = name;
-		this.pins = listOfPins;
-		this.response = response;
 		this.repeatText = repeatText;
 		this.buttonList = new HashMap<>(buttonList);
-		this.audioFile = "";
 		this.setPauseTime(0);
 	}
 	
-	public Node(int id, String name, Map<Integer, int[]> listOfPins, String response, String repeatText, Map<Integer, NodeButton> buttonList) {
+	public Node(int id, String name, String repeatText, Map<Integer, NodeButton> buttonList) {
 		this.id = id;
 		this.name = name;
-		this.pins = listOfPins;
-		this.response = response;
 		this.repeatText = repeatText;
 		this.buttonList = new HashMap<>(buttonList);
-		this.audioFile = "";
 		this.setPauseTime(0);
 	}
 	
 	public Node(Node other) {
 		this.id = other.id;
 		this.name = other.name;
-		this.pins = new HashMap<>(other.pins);
-		this.response = other.response;
+		this.t = new Timeline(other.t);
 		this.repeatText = other.repeatText;
 		this.buttonList = new HashMap<>(other.buttonList);
-		this.audioFile = other.audioFile;
 		this.setPauseTime(other.pauseTime);	
 	}
 	
@@ -107,16 +80,18 @@ public class Node {
 		return this.name;
 	}
 	
-	public void setResponse(String response) {
-		this.response = response;
-	}
-	
-	public String getResponse() {
-		return this.response;
+	public String[] getResponses() {
+		List<String> l = new LinkedList<>();
+		for (Event e : this.t.getEvents()) {
+			if (e.getClass() == Response.class) {
+				l.add(e.getData());
+			}
+		}
+		return l.toArray(new String[l.size()]);
 	}
 	
 	public void addToResponse(String addition) {
-		this.response += addition;
+		this.t.addEvent(new Response(addition));
 	}
 	
 	public void setRepeatedText(String repeatText) {
@@ -131,20 +106,24 @@ public class Node {
 		return this.repeatText;
 	}
 	
-	public int[] getPins(int cellNumber) {
-		return this.pins.get(cellNumber);
-	}
-	
 	public void setPins(int[] pins, int cellNumber) {
-		this.pins.put(cellNumber, pins);
+		String s = "";
+		for (int i = 0; i < pins.length; i++) {
+			s += pins[i];
+		}
+		setPins(s, cellNumber);
 	}
 	
-	public void setPin(int cellNumber, int pin, int value) {
-		if (this.pins.get(cellNumber) == null) {
-			this.pins.put(cellNumber, new int[8]);
-		}
-		this.pins.get(cellNumber)[pin-1] = value;
+	public void setPins(String pins, int cellNumber) {
+		this.t.addEvent(new DisplayPins(pins, cellNumber));
 	}
+	
+//	public void setPin(int cellNumber, int pin, int value) {
+//		if (this.pins.get(cellNumber) == null) {
+//			this.pins.put(cellNumber, new int[8]);
+//		}
+//		this.pins.get(cellNumber)[pin-1] = value;
+//	}
 	
 	public void addButton(int number) {
 		this.buttonList.put(number, new SkipButton(number));
@@ -201,17 +180,8 @@ public class Node {
 	}
 	
 	public void setAudioFile(String audioFile) {
-		
-		FileSearch fileSearch = new FileSearch();
-        
-		fileSearch.searchDirectory(new File(System.getProperty("user.dir")), audioFile);
-	
-		int count = fileSearch.getResult().size();
-		if (count == 0) {
-		    throw new IllegalArgumentException("File does not exist");
-		} else {
-		 this.audioFile = audioFile;
-		}
+		this.audioFile = audioFile;
+		this.t.addEvent(new Sound(audioFile));
 		
 	}
 	

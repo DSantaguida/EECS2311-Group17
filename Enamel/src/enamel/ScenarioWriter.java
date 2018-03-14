@@ -30,13 +30,16 @@ public class ScenarioWriter {
 	private void initializeScanner() {
 		System.out.println(s.getHead());
 		try {
-			this.fileWriter = new PrintWriter( new FileWriter(new File(System.getProperty("user.dir") + "/test_" + this.s.getName())));
+			this.fileWriter = new PrintWriter( new FileWriter(new File(System.getProperty("user.dir") + "/test_" + this.s.getFileName())));
+			System.out.println("First");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			File file = new File(System.getProperty("user.dir") + "/test_" + this.s.getName());
+			File file = new File(System.getProperty("user.dir") + "/test_" + this.s.getFileName());
 			try {
+				System.out.println("first nested");
 				file.createNewFile();
 				this.initializeScanner();
+				System.out.println("finished");
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -72,7 +75,7 @@ public class ScenarioWriter {
 	public void write(Node n) throws IOException {
 		if (!n.equals(this.s.getHead())) {
 			write("/~" + n.getName() + "\n");
-			write("/~reset-buttons");
+			write("/~reset-buttons\n");
 			for (int i = 0; i < s.getNumCells(); i++) {
 				if (n.getPins(i) != null) {
 					write("/~disp-cell-clear:" + i + "\n");
@@ -81,9 +84,6 @@ public class ScenarioWriter {
 		}
 		if (n.getPauseTime() != 0) {
 			write("/~pause:" + n.getPauseTime() + "\n");
-		}
-		if (!n.equals(this.s.getHead())) {
-			write("/~reset-buttons");			
 		}
 //		if (!n.getRepeatedText().equals("")) {
 //			write("/~repeat\n" + n.getRepeatedText() + "\n~endrepeat");
