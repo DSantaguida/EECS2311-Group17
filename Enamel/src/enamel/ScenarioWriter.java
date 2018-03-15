@@ -30,10 +30,10 @@ public class ScenarioWriter {
 	private void initializeScanner() {
 		System.out.println(s.getHead());
 		try {
-			this.fileWriter = new PrintWriter( new FileWriter(new File(System.getProperty("user.dir") + "/test_" + this.s.getName())));
+			this.fileWriter = new PrintWriter( new FileWriter(new File(System.getProperty("user.dir") + "/test_" + this.s.getFileName())));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			File file = new File(System.getProperty("user.dir") + "/test_" + this.s.getName());
+			File file = new File(System.getProperty("user.dir") + "/test_" + this.s.getFileName());
 			try {
 				file.createNewFile();
 				this.initializeScanner();

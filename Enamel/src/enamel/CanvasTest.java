@@ -17,10 +17,10 @@ public class CanvasTest {
 //		counter = 0;
 		addNodes();
 //		s.setFileName("testing.txt");
-//		//EditingScreen screen = new EditingScreen(s);
+		EditingScreen screen = new EditingScreen(s);
 //		System.out.println(s.getFileName());
-		ScenarioWriter f = new ScenarioWriter(s);
-		f.save();
+//		ScenarioWriter f = new ScenarioWriter(s);
+//		f.save();
 //		ScenarioNode sc = new ScenarioNode();
 //		sc.setScenarioFile("FactoryScenarios/Scenario_2.txt");
 	}

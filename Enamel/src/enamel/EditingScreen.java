@@ -904,7 +904,6 @@ public class EditingScreen implements ActionListener {
 					}
 
 				});
-				frame.dispose();
 				t.start();
 			}
 
@@ -1175,7 +1174,7 @@ public class EditingScreen implements ActionListener {
 
 					}
 				}
-				writer.changeFileName(scenario.getName());
+//				writer.changeFifleName(scenario.getName());
 				try {
 					writer.save();
 				} catch (IOException e) {
