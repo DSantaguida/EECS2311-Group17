@@ -68,6 +68,11 @@ public class Node {
 		this.setPauseTime(other.pauseTime);	
 	}
 	
+	public Timeline getTimeline()
+	{
+		return this.t;
+	}
+	
 	public int getId() {
 		return this.id;
 	}
