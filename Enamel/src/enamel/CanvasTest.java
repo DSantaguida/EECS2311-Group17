@@ -74,11 +74,11 @@ public class CanvasTest {
 		arr1[1] = 0;
 		arr1[3] = 1;
 		response = "These are pins 1 and 4, the two pins on the top. Press button 1 to continue.";
-		node2 = new Node(counter, name);
-		node2.addToResponse(response);	
-		node2.addToResponse(response);
-		node2.setPins(arr1, 0);
-		node2.addButton(0);
+		node1 = new Node(counter, name);
+		node1.addToResponse(response);	
+		node1.addToResponse(response);
+		node1.setPins(arr1, 0);
+		node1.addButton(0);
 		//graph.addVertex(node1);
 		counter++;
 		
