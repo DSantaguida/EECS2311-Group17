@@ -24,7 +24,7 @@ public class EditingScreen implements ActionListener {
 	JPanel panel;
 	JPanel subPanel;
 	JPanel optionCard;
-	JPanel blankOCard;
+	JPanel eventPanel;
 	JPanel nodeCard;
 	JLabel lblAvaliableButtons;
 	JLabel lblCurrentButton;
@@ -95,6 +95,7 @@ public class EditingScreen implements ActionListener {
 		boxCount = scenario.getNumCells();
 		writer = new ScenarioWriter(scenario);
 		initialize();
+
 	}
 
 	public EditingScreen() {
@@ -131,6 +132,7 @@ public class EditingScreen implements ActionListener {
 		currentButton = 0;
 		initialize();
 
+		loadNodeEvents();
 	}
 
 	private void initialize() { // Initialize GUI
@@ -145,10 +147,10 @@ public class EditingScreen implements ActionListener {
 		frame.getContentPane().setLayout(null);
 		//
 
-		// graphCanvas = new GraphCanvas(scenario, scenario.getHead());
-		// graphCanvas.setBounds(0, 0, 600, 600);
-		// frame.getContentPane().add(graphCanvas);
-		// graphCanvas.setVisible(true);
+		 graphCanvas = new GraphCanvas(scenario, scenario.getHead());
+		 graphCanvas.setBounds(0, 0, 600, 600);
+		 frame.getContentPane().add(graphCanvas);
+		 graphCanvas.setVisible(true);
 
 		//
 
@@ -178,15 +180,15 @@ public class EditingScreen implements ActionListener {
 		optionCard.setLayout(new CardLayout());
 		panel.add(optionCard);
 
-		blankOCard = new JPanel();
-		blankOCard.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		blankOCard.setBounds(772, 13, 152, 603);
-		optionCard.add(blankOCard);
+		eventPanel = new JPanel();
+		eventPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		eventPanel.setBounds(772, 13, 152, 603);
+		optionCard.add(eventPanel);
 
 		JPanel panel_5 = new JPanel();
-		blankOCard.add(panel_5);
+		eventPanel.add(panel_5);
 		panel_5.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
+
 		JLabel lblEventEditor = new JLabel("Event Editor:");
 		lblEventEditor.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		panel_5.add(lblEventEditor);
@@ -592,7 +594,9 @@ public class EditingScreen implements ActionListener {
 		gbl_panel_4.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
 		gbl_panel_4.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panel_4.setLayout(gbl_panel_4);
+		
 
+		
 		JLabel lblPreviousNodes = new JLabel("Previous Nodes:");
 		GridBagConstraints gbc_lblPreviousNodes = new GridBagConstraints();
 		gbc_lblPreviousNodes.insets = new Insets(0, 0, 5, 0);
@@ -666,24 +670,9 @@ public class EditingScreen implements ActionListener {
 				nodeCard.removeAll();
 				nodeCard.revalidate();
 				nodeCard.repaint();
-				cl.show(optionCard, "Node");
-				lblCurrentButton.setText("Node Selected");
-				for (int i = 0; i < currentNode.getTimeline().size(); i++) {
-					int count = i;
-					nodeCard.add(new JLabel ("Event " + count + 1 + ":"));
-					
-					JButton event = new JButton("Event " + count + 1);
-					event.addActionListener(new ActionListener(){
 
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							
-							
-						}
-						
-					});
-					
-				}
+				loadNodeEvents();
+				System.out.println(currentNode.getTimeline().getEvents());
 			}
 		});
 
@@ -714,6 +703,27 @@ public class EditingScreen implements ActionListener {
 			}
 		});
 
+	}
+
+	public void loadNodeEvents() {
+		int count = 0;
+		Timeline t = currentNode.getTimeline();
+		for (Event e : t.getEvents()) {
+			count++;
+			System.out.println(count);
+			eventPanel.add(new JLabel("Event " + count));
+			JButton eventButton = new JButton("Edit event");
+			eventButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// EDIT EVENT SCREEN
+
+				}
+
+			});
+			eventPanel.add(eventButton);
+		}
 	}
 
 	@Override

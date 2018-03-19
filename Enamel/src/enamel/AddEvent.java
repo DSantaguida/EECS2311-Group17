@@ -244,16 +244,12 @@ public class AddEvent {
 				
 				if (comboBox.getSelectedItem().equals("Response"))
 				{
-					Response res = new Response(textField.getText());
-					int pos = Integer.parseInt(positionField.getText());
-					node.getTimeline().insert(pos, res);
+					node.addToResponse(textField.getText());
 					frame.dispose();					
 				}
 				else if (comboBox.getSelectedItem().equals("Sound"))
 				{
-					Sound sd = new Sound(file);
-					int pos = Integer.parseInt(positionField.getText());
-					node.getTimeline().insert(pos, sd);
+					node.setAudioFile(file);
 					frame.dispose();
 				}
 				else if (comboBox.getSelectedItem().equals("Pins"))
@@ -291,8 +287,7 @@ public class AddEvent {
 					else
 						pins += 0;
 					
-					DisplayPins dp = new DisplayPins(pins, Integer.parseInt((String) cellBox.getSelectedItem()));
-					node.getTimeline().insert(Integer.parseInt(positionField.getText()), dp);
+					node.setPins(pins, Integer.parseInt((String) cellBox.getSelectedItem()));
 					frame.dispose();
 					
 				}
