@@ -46,4 +46,9 @@ public class Timeline {
 	public int size() {
 		return this.t.size();
 	}
+
+	@Override
+	public String toString() {
+		return t.toString();
+	}
 }
