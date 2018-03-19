@@ -65,7 +65,7 @@ public class GraphCanvas extends JPanel {
         int nodeY = this.height / 2 + this.startingY- height / 2;
         
         graphics2.drawString(n.getName(), nodeX + 3, this.height/2);
-        graphics2.drawString(n.getResponse().substring(0, Math.min(n.getResponse().length(), 26)) + "...",
+        graphics2.drawString(n.getResponses()[0].substring(0, Math.min(n.getResponses()[0].length(), 26)) + "...",
         		nodeX + 20, this.height/2+30);
 
         RoundRectangle2D roundedRectangle = new RoundRectangle2D.Float(nodeX, nodeY, width, height, 10, 10);
@@ -98,7 +98,7 @@ public class GraphCanvas extends JPanel {
     		x = space + this.startingX + rect * i;
     		g.draw(new RoundRectangle2D.Float(x, y, width, height, 10, 10));
     		g.drawString(nextNodes[i].getName(), x+3, y+14);
-            g.drawString(nextNodes[i].getResponse().substring(0, Math.min(nextNodes[i].getResponse().length(), width*9/55-74/11)) + "...",
+            g.drawString(nextNodes[i].getResponses()[0].substring(0, Math.min(nextNodes[i].getResponses()[0].length(), width*9/55-74/11)) + "...",
             		x + 20, y+44);
     		g.drawLine(firstX + dline * (i + 1), bottom, x + width / 2, y);
     	}
