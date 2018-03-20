@@ -13,7 +13,7 @@ public class CanvasTest {
 		s = new Scenario();
 		s.setNumButtons(3);
 		s.setNumCells(1);
-		System.out.println(s.getFileName());
+		//System.out.println(s.getFileName());
 //		counter = 0;
 		addNodes();
 //		s.setFileName("testing.txt");
@@ -35,7 +35,6 @@ public class CanvasTest {
 		node1.addButton(0);
 		//graph.addVertex(node1);
 		counter++;
-		
 		
 		
 		int[] arr2 = {0,0,0,1,1,1,0,0};

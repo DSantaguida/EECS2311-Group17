@@ -76,6 +76,7 @@ public class AddEvent {
 		frame.setBounds(100, 100, 450, 332);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setVisible(true);
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 432, 285);

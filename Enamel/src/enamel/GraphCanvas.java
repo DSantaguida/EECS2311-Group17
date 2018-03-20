@@ -53,6 +53,7 @@ public class GraphCanvas extends JPanel {
      * @wbp.parser.entryPoint
      */
     public void paint(Graphics g) {
+    	super.paintComponent(g);
         Graphics2D graphics2 = (Graphics2D) g;
         graphics2.setStroke(new BasicStroke(2));
         Rectangle Rectangle = new Rectangle (this.startingX, this.startingY, this.width, this.height);

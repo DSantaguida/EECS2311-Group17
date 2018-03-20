@@ -95,7 +95,7 @@ public class EditingScreen implements ActionListener {
 		boxCount = scenario.getNumCells();
 		writer = new ScenarioWriter(scenario);
 		initialize();
-
+		loadNodeEvents();
 	}
 
 	public EditingScreen() {
@@ -145,14 +145,11 @@ public class EditingScreen implements ActionListener {
 		frame.setBounds(100, 100, 975, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		//
 
-		 graphCanvas = new GraphCanvas(scenario, scenario.getHead());
-		 graphCanvas.setBounds(0, 0, 600, 600);
-		 frame.getContentPane().add(graphCanvas);
-		 graphCanvas.setVisible(true);
-
-		//
+		graphCanvas = new GraphCanvas(scenario, scenario.getHead());
+		graphCanvas.setBounds(0, 0, 550, 525);
+		frame.getContentPane().add(graphCanvas);
+		graphCanvas.setVisible(true);
 
 		// Initialize Main JPanel
 		panel = new JPanel();
@@ -185,24 +182,7 @@ public class EditingScreen implements ActionListener {
 		eventPanel.setBounds(772, 13, 152, 603);
 		optionCard.add(eventPanel);
 
-		JPanel panel_5 = new JPanel();
-		eventPanel.add(panel_5);
-		panel_5.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-
-		JLabel lblEventEditor = new JLabel("Event Editor:");
-		lblEventEditor.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		panel_5.add(lblEventEditor);
-
-		JButton btnAddEvent = new JButton("Add");
-		btnAddEvent.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				AddEvent newevent = new AddEvent(currentNode, scenario);
-			}
-		});
-		panel_5.add(btnAddEvent);
-
-		JButton btnDeleteEvent = new JButton("Delete");
-		panel_5.add(btnDeleteEvent);
+		initEventMods();
 
 		nodeCard = new JPanel();
 		nodeCard.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -585,60 +565,48 @@ public class EditingScreen implements ActionListener {
 		});
 		panel_3.add(btnMainMenu);
 
-		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(481, 600, 152, 127);
-		panel.add(panel_4);
-		GridBagLayout gbl_panel_4 = new GridBagLayout();
-		gbl_panel_4.columnWidths = new int[] { 0, 0 };
-		gbl_panel_4.rowHeights = new int[] { 0, 0, 0, 0, 0, 0 };
-		gbl_panel_4.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
-		gbl_panel_4.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		panel_4.setLayout(gbl_panel_4);
-		
+		JPanel panel_6 = new JPanel();
+		panel_6.setBounds(481, 606, 152, 109);
+		panel.add(panel_6);
+		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.Y_AXIS));
 
-		
 		JLabel lblPreviousNodes = new JLabel("Previous Nodes:");
-		GridBagConstraints gbc_lblPreviousNodes = new GridBagConstraints();
-		gbc_lblPreviousNodes.insets = new Insets(0, 0, 5, 0);
-		gbc_lblPreviousNodes.gridx = 0;
-		gbc_lblPreviousNodes.gridy = 0;
-		panel_4.add(lblPreviousNodes, gbc_lblPreviousNodes);
+		panel_6.add(lblPreviousNodes);
 
 		JComboBox<Node> comboBoxPrevNodes = new JComboBox<>();
-		GridBagConstraints gbc_comboBoxPrevNodes = new GridBagConstraints();
-		gbc_comboBoxPrevNodes.fill = GridBagConstraints.BOTH;
-		gbc_comboBoxPrevNodes.insets = new Insets(0, 0, 5, 0);
-		gbc_comboBoxPrevNodes.gridx = 0;
-		gbc_comboBoxPrevNodes.gridy = 1;
-		panel_4.add(comboBoxPrevNodes, gbc_comboBoxPrevNodes);
+		panel_6.add(comboBoxPrevNodes);
 
 		JButton btnNode = new JButton("Current Node");
-		GridBagConstraints gbc_btnNode = new GridBagConstraints();
-		gbc_btnNode.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNode.gridx = 0;
-		gbc_btnNode.gridy = 2;
-		panel_4.add(btnNode, gbc_btnNode);
+		panel_6.add(btnNode);
 
 		JLabel lblNextNodes = new JLabel("Next Nodes:");
-		GridBagConstraints gbc_lblNextNodes = new GridBagConstraints();
-		gbc_lblNextNodes.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNextNodes.gridx = 0;
-		gbc_lblNextNodes.gridy = 3;
-		panel_4.add(lblNextNodes, gbc_lblNextNodes);
+		panel_6.add(lblNextNodes);
 
 		JComboBox<Node> comboBoxNextNodes = new JComboBox<>();
-		GridBagConstraints gbc_comboBoxNextNodes = new GridBagConstraints();
-		gbc_comboBoxNextNodes.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBoxNextNodes.gridx = 0;
-		gbc_comboBoxNextNodes.gridy = 4;
+		panel_6.add(comboBoxNextNodes);
+		
+		btnNode.setVisible(true);
+		btnNode.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CardLayout cl = (CardLayout) (optionCard.getLayout());
+				nodeCard.removeAll();
+				nodeCard.revalidate();
+				nodeCard.repaint();
+
+				loadNodeEvents();
+			}
+		});
+
+		
+
 		for (Node node : this.scenario.getPrevNodes(this.currentNode)) {
+			System.out.println(currentNode + "NO");
 			comboBoxPrevNodes.addItem(node);
 		}
 		for (Node node : this.scenario.getNextNodes(this.currentNode)) {
 			comboBoxNextNodes.addItem(node);
 		}
-		panel_4.add(comboBoxNextNodes, gbc_comboBoxNextNodes);
-
+		
 		comboBoxNextNodes.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -658,24 +626,13 @@ public class EditingScreen implements ActionListener {
 					for (Node node : scenario.getPrevNodes(currentNode)) {
 						comboBoxPrevNodes.addItem(node);
 					}
+					loadNodeEvents();
 					testActionListenerActive = true;
 				}
 
 			}
 		});
-		btnNode.setVisible(true);
-		btnNode.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				CardLayout cl = (CardLayout) (optionCard.getLayout());
-				nodeCard.removeAll();
-				nodeCard.revalidate();
-				nodeCard.repaint();
-
-				loadNodeEvents();
-				System.out.println(currentNode.getTimeline().getEvents());
-			}
-		});
-
+		
 		comboBoxPrevNodes.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -697,16 +654,39 @@ public class EditingScreen implements ActionListener {
 					for (Node node : scenario.getPrevNodes(currentNode)) {
 						comboBoxPrevNodes.addItem(node);
 					}
-
+					loadNodeEvents();
 					testActionListenerActive = true;
 				}
 			}
 		});
+		loadNodeEvents();
+	}
 
+	private void initEventMods() {
+		JPanel panel_5 = new JPanel();
+		eventPanel.add(panel_5);
+		panel_5.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+
+		JLabel lblEventEditor = new JLabel("Event Editor:");
+		lblEventEditor.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		panel_5.add(lblEventEditor);
+
+		JButton btnAddEvent = new JButton("Add");
+		btnAddEvent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddEvent newevent = new AddEvent(currentNode, scenario);
+			}
+		});
+		panel_5.add(btnAddEvent);
+
+		JButton btnDeleteEvent = new JButton("Delete");
+		panel_5.add(btnDeleteEvent);
 	}
 
 	public void loadNodeEvents() {
 		int count = 0;
+		eventPanel.removeAll();
+		initEventMods();
 		Timeline t = currentNode.getTimeline();
 		for (Event e : t.getEvents()) {
 			count++;
