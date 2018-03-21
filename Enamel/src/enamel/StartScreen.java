@@ -59,6 +59,7 @@ import java.awt.Font;
 	private JTextField buttontextfield;
 	private JTextField celltextfield;
 	public String invalidkey = "This is an invalid key, please enter a real number";
+	private FeatureTracker track;
 
 	/**
 	 * Launch the application.
@@ -87,6 +88,7 @@ import java.awt.Font;
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		FeatureTracker track = new FeatureTracker();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 663, 474);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -171,6 +173,8 @@ import java.awt.Font;
 			
 			
 			public void actionPerformed(ActionEvent arg0){
+				track.incrementCounterChooseExisting();
+				track.saveCounter();
 				String file = "";
 				try{
 				//ScenarioParser s = new ScenarioParser(true);
@@ -182,7 +186,6 @@ import java.awt.Font;
 				if (returnval == JFileChooser.APPROVE_OPTION) {
 					file = "FactoryScenarios/" + chooser.getSelectedFile().getName();
 				}
-				
 				//s.setScenarioFile(file);
 				frame.dispose(); 
 				//ScenarioNode test2 = new ScenarioNode();
@@ -208,6 +211,8 @@ import java.awt.Font;
 		btnCreateNewFile.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent arg0) {
+				track.incrementCounterCreateNew();
+				track.saveCounter();
 				//Create New File Button
 				
 				//Close this JFrame
