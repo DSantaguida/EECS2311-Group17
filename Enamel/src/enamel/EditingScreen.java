@@ -22,6 +22,7 @@ public class EditingScreen implements ActionListener {
 	Scenario scenario;
 	private ScenarioWriter writer;
 	JFrame Aframe;
+	JComboBox addEventBox;
 	private JTextField textField;
 	private JTextField positionField;
 	String file;
@@ -37,7 +38,8 @@ public class EditingScreen implements ActionListener {
 	JRadioButton aradioButton_6;
 	JRadioButton aradioButton_7;
 	Node node;
-	Scenario s;
+//	Scenario s;
+	int count = 0;
 	private JPanel panel_2;
 	private JLabel lblChooseCell;
 	private JComboBox cellBox;
@@ -697,6 +699,10 @@ public class EditingScreen implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				
 						// TODO Auto-generated method stub
+						setAddVisible(false);
+						positionField.setText("");
+						textField.setText("");
+						addEventBox.setSelectedItem("");
 						Aframe.setVisible(true);
 					
 					
@@ -713,7 +719,7 @@ public class EditingScreen implements ActionListener {
 	}
 
 	public void loadNodeEvents() {
-		int count = 0;
+		count = 0;
 		
 		eventPanel.removeAll();
 		initEventMods();
@@ -728,9 +734,63 @@ public class EditingScreen implements ActionListener {
 			eventButton.addActionListener(new ActionListener() {
 
 				@Override
-				public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(ActionEvent eve) {
 					// EDIT EVENT SCREEN
-
+					int counter = count;
+					Aframe.setVisible(true);
+					positionField.setText("" + (counter)); 
+					t.removeEvent(e);
+					
+					if (e.getClass() == Response.class)
+					{
+						addEventBox.setSelectedItem("Response");
+						textField.setText(((Response) e).getData());
+					}
+					else if (e.getClass() == DisplayPins.class)
+					{
+						addEventBox.setSelectedItem("Pins");
+						String[] set = ((DisplayPins) e).getData().split("");
+						
+						if (set[0].equals("0"))
+							aradioButton.setSelected(false);
+						else
+							aradioButton.setSelected(true);
+						if (set[1].equals("0"))
+							aradioButton_1.setSelected(false);
+						else
+							aradioButton_1.setSelected(true);
+						if (set[2].equals("0"))
+							aradioButton_2.setSelected(false);
+						else
+							aradioButton_2.setSelected(true);
+						if (set[3].equals("0"))
+							aradioButton_3.setSelected(false);
+						else
+							aradioButton_3.setSelected(true);
+						if (set[4].equals("0"))
+							aradioButton_4.setSelected(false);
+						else
+							aradioButton_4.setSelected(true);
+						if (set[5].equals("0"))
+							aradioButton_5.setSelected(false);
+						else
+							aradioButton_5.setSelected(true);
+						if (set[6].equals("0"))
+							aradioButton_6.setSelected(false);
+						else
+							aradioButton_6.setSelected(true);
+						if (set[7].equals("0"))
+							aradioButton_7.setSelected(false);
+						else
+							aradioButton_7.setSelected(true);
+						
+						cellBox.setSelectedItem(((DisplayPins)e).getCellNumber());
+						
+					}
+					else if (e.getClass() == Sound.class)
+					{
+						addEventBox.setSelectedItem("Sound");
+					}
 				}
 
 			});
@@ -852,18 +912,18 @@ public class EditingScreen implements ActionListener {
 		});
 		panel_1.add(btnChoosewav);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(12, 28, 184, 22);
-		comboBox.addItem("");
-		comboBox.addItem("Response");
-		comboBox.addItem("Sound");
-		comboBox.addItem("Pins");
-		comboBox.addActionListener(new ActionListener() {
+		addEventBox = new JComboBox();
+		addEventBox.setBounds(12, 28, 184, 22);
+		addEventBox.addItem("");
+		addEventBox.addItem("Response");
+		addEventBox.addItem("Sound");
+		addEventBox.addItem("Pins");
+		addEventBox.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if (comboBox.getSelectedItem().equals("Response"))
+				if (addEventBox.getSelectedItem().equals("Response"))
 				{
 					cellBox.setVisible(false);
 					setPinVisible(false);
@@ -873,7 +933,7 @@ public class EditingScreen implements ActionListener {
 					
 					textField.setVisible(true);
 				}
-				else if (comboBox.getSelectedItem().equals("Sound"))
+				else if (addEventBox.getSelectedItem().equals("Sound"))
 				{
 					cellBox.setVisible(false);
 					setPinVisible(false);
@@ -882,7 +942,7 @@ public class EditingScreen implements ActionListener {
 					lblTitle.setText("Choose the sound file you wish to play:");
 					btnChoosewav.setVisible(true);
 				}
-				else if (comboBox.getSelectedItem().equals("Pins"))
+				else if (addEventBox.getSelectedItem().equals("Pins"))
 				{
 					cellBox.setVisible(true);
 					lblTitle.setText("Set active pins:");
@@ -892,14 +952,14 @@ public class EditingScreen implements ActionListener {
 					btnChoosewav.setVisible(false);
 					setPinVisible(true);
 				}
-				else if (comboBox.getSelectedItem().equals(""))
+				else if (addEventBox.getSelectedItem().equals(""))
 				{
 					setAddVisible(false);
 				}
 			}
 			
 		});
-		panel.add(comboBox);
+		panel.add(addEventBox);
 		
 		JLabel lblChooseEventType = new JLabel("Choose Event Type:");
 		lblChooseEventType.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -920,17 +980,17 @@ public class EditingScreen implements ActionListener {
 		btnAddEvent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				if (comboBox.getSelectedItem().equals("Response"))
+				if (addEventBox.getSelectedItem().equals("Response"))
 				{
 					currentNode.addToResponse(textField.getText());
 					Aframe.dispose();					
 				}
-				else if (comboBox.getSelectedItem().equals("Sound"))
+				else if (addEventBox.getSelectedItem().equals("Sound"))
 				{
 					currentNode.setAudioFile(file);
 					Aframe.dispose();
 				}
-				else if (comboBox.getSelectedItem().equals("Pins"))
+				else if (addEventBox.getSelectedItem().equals("Pins"))
 				{
 					pins = "";
 					if(aradioButton.isSelected())
@@ -966,11 +1026,11 @@ public class EditingScreen implements ActionListener {
 					else
 						pins += 0;
 					
-					currentNode.setPins(pins, Integer.parseInt((String) cellBox.getSelectedItem()));
+					currentNode.setPins(pins, (int)cellBox.getSelectedItem());
 					Aframe.dispose();
 					
 				}
-				else if (comboBox.getSelectedItem().equals(""))
+				else if (addEventBox.getSelectedItem().equals(""))
 				{
 					Aframe.dispose();
 				}
@@ -994,10 +1054,10 @@ public class EditingScreen implements ActionListener {
 		cellBox = new JComboBox();
 		cellBox.setVisible(false);
 		cellBox.setBounds(0, 25, 112, 22);
-//		for (int i = 0; i < s.getNumButtons(); i++)
-//		{
-//			cellBox.addItem(i);
-//		}
+		for (int i = 0; i < scenario.getNumButtons(); i++)
+		{
+			cellBox.addItem(i);
+		}
 		panel_2.add(cellBox);
 	}
 	private void setPinVisible(boolean b)
