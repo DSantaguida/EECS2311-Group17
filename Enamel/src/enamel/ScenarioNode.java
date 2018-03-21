@@ -164,7 +164,6 @@ public class ScenarioNode {
 			else {
 				NodeButton button = thisNode.getButton(buttonCount);
 				if (button.getClass() == SkipButton.class) {
-					((SkipButton)button).setNextNode(this.nextNode1);
 					int[] arr = new int[split[1].length()];
 					for (int i = 0; i < split[1].length(); i++){
 						arr[i] = split[1].charAt(i);
@@ -189,7 +188,6 @@ public class ScenarioNode {
 				else {
 					NodeButton button = thisNode.getButton(buttonCount);
 					if (button.getClass() == SkipButton.class) {
-						((SkipButton)button).setNextNode(this.nextNode1);
 						int[] arr = new int[brailleString.length()];
 						for (int j = 0; j < brailleString.length(); j++){
 							arr[j] = brailleString.charAt(j);
@@ -217,7 +215,6 @@ public class ScenarioNode {
 			else {
 				NodeButton button = thisNode.getButton(buttonCount);
 				if (button.getClass() == SkipButton.class) {
-					((SkipButton)button).setNextNode(this.nextNode1);
 					int[] arr = new int[characterBraille.length()];
 					for (int i = 0; i < characterBraille.length(); i++){
 						arr[i] = characterBraille.charAt(i);
@@ -251,7 +248,6 @@ public class ScenarioNode {
 			else {
 				NodeButton button = thisNode.getButton(buttonCount);
 				if (button.getClass() == SkipButton.class) {
-					((SkipButton)button).setNextNode(this.nextNode1);
 					((SkipButton)button).setPins(pins, brailleCell);
 				}
 			}
@@ -288,13 +284,20 @@ public class ScenarioNode {
 			int[] pins = new int[8];
 			NodeButton button = thisNode.getButton(buttonCount);
 			if (button.getClass() == SkipButton.class) {
-				((SkipButton)button).setNextNode(this.nextNode1);
 				((SkipButton)button).setPins(pins, brailleCell);
 			}
 			
 		}
 		else { //no key phrase, therefore must be plain text
-			thisNode.addToResponse(fileLine + "\n");
+			if (!userInput) {
+				thisNode.addToResponse(fileLine + "\n");
+			}
+			else {
+				NodeButton button = thisNode.getButton(buttonCount);
+				if (button.getClass() == SkipButton.class) {
+					((SkipButton)button).setResponse(fileLine + "\n");
+				}
+			}
 		}
 	}
 	
