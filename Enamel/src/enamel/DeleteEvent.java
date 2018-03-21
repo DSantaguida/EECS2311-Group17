@@ -21,7 +21,7 @@ public class DeleteEvent {
 			public void run() {
 				try {
 					DeleteEvent window = new DeleteEvent();
-					window.frame.setVisible(true);
+					window.Dframe.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
