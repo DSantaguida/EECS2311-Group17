@@ -19,6 +19,8 @@ public class EditingScreen implements ActionListener {
 	private String addMod;
 	private JFrame Dframe;
 	ActionListener editListen;
+	SpinnerModel model;
+	JSpinner spinner;
 	ActionListener addListen;
 	Event edit;
 	List<JButton> buttons = new ArrayList<JButton>();
@@ -722,8 +724,9 @@ public class EditingScreen implements ActionListener {
 
 				// TODO Auto-generated method stub
 				setAddVisible(false);
-				positionField.setText("");
-				positionField.setVisible(true);
+				//positionField.setText("");
+				//positionField.setVisible(true);
+				spinner.setVisible(true);
 				lblEventPosition.setVisible(true);
 				textField.setText("");
 				Box.setSelectedItem("");
@@ -772,18 +775,19 @@ public class EditingScreen implements ActionListener {
 					editAction(e, t);
 					Aframe.setVisible(true);
 					addMod = "Edit";
-					positionField.setVisible(false);
-					lblEventPosition.setVisible(false);
+					//positionField.setVisible(false);
 					
-					positionField.setText("" + (counter));
+					lblEventPosition.setVisible(true);
+					
+					//positionField.setText("" + (counter));
 					// t.removeEvent(e);
 
 					if (e.getClass() == Response.class) {
 						Box.setSelectedItem("Response");
 						textField.setText(((Response) e).getData());
 					} else if (e.getClass() == DisplayPins.class) {
-						Box.setSelectedItem("Pins");
-						String[] set = ((DisplayPins) e).getData().split("");
+						Box.setSelectedItem("Pins");//
+						String[] set = ((DisplayPins) e).getPins().split("");
 
 						if (set[0].equals("0"))
 							aradioButton.setSelected(false);
@@ -993,12 +997,17 @@ public class EditingScreen implements ActionListener {
 		lblEventPosition.setBounds(12, 52, 133, 26);
 		panel.add(lblEventPosition);
 
-		positionField = new JTextField();
-		positionField.setBounds(12, 74, 116, 22);
-		panel.add(positionField);
-		positionField.setColumns(10);
+//		positionField = new JTextField();
+//		positionField.setBounds(12, 74, 116, 22);
+//		panel.add(positionField);
+//		positionField.setColumns(10);
+//		
+		model = new SpinnerNumberModel(currentNode.getTimeline().size() + 1, 1, currentNode.getTimeline().size() + 1, 1);
+		spinner = new JSpinner(model);
+		spinner.setBounds(12, 80, 50, 22);
+		panel.add(spinner);
 
-		btn = new JButton("Add Event");
+		btn = new JButton("Confirm");
 
 		btn.setBounds(288, 138, 97, 25);
 		panel_1.add(btn);
@@ -1094,7 +1103,9 @@ public class EditingScreen implements ActionListener {
 	private void initAddListen(){
 		addListen = new ActionListener() {
 			public void actionPerformed(ActionEvent eve) {
-
+				
+				//int pos = Integer.parseInt(positionField.getText());
+				
 				if (Box.getSelectedItem().equals("Response")) {
 					currentNode.addToResponse(textField.getText());
 					Aframe.dispose();
@@ -1157,9 +1168,6 @@ public class EditingScreen implements ActionListener {
 				// TODO Auto-generated method stub
 
 				int pos =t.indexOf(e);
-				System.out.println(pos);
-				System.out.println(t.size());
-				
 				if (Box.getSelectedItem().equals("Response")) {
 
 					Event en = new Response(textField.getText());
@@ -1221,7 +1229,7 @@ public class EditingScreen implements ActionListener {
 	
 	private void resetAddComponents()
 	{
-		positionField.setText("");
+		//positionField.setText("");
 		textField.setText("");
 		aradioButton.setSelected(false);
 		aradioButton_1.setSelected(false);
