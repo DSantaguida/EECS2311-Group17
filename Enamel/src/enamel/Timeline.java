@@ -55,6 +55,10 @@ public class Timeline {
 	public int size() {
 		return this.t.size();
 	}
+	
+	public int indexOf(Event e) {
+		return t.indexOf(e);
+	}
 
 	@Override
 	public String toString() {
