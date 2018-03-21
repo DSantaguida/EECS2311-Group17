@@ -157,8 +157,9 @@ public class Recorder1 {
     		
     		//Allow for name input in editing screen before moving to recorder screen to record??
     		//Need to name before calling this class
+    		RecorderInput file_identify = new RecorderInput();
     		
-    		long file_identify = System.currentTimeMillis();
+    		String name = file_identify.cust_file;
     	    //Change recording time to allow user to choose when they want to stop
     		
     	    File wavFile = new File("FactoryScenarios\\AudioFiles\\" + file_identify + ".wav");	
