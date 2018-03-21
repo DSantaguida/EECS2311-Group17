@@ -14,8 +14,8 @@ public class DisplayPins extends Event {
 	public DisplayPins(String pins, int cellNumber) {
 		super();
 		this.pins = new BrailleCell();
-		this.pins.setPins(pins);
-		this.cellNumber = cellNumber;
+		this.setPins(pins);
+		this.setCellNumber(cellNumber);
 	}
 
 	@Override
