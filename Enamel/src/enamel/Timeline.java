@@ -35,6 +35,7 @@ public class Timeline {
 	
 	public void changePosition(int oldIndex, int newIndex, Event e) {
 		if (newIndex <= oldIndex) {
+			t.remove(oldIndex);
 			t.add(newIndex, e);
 		} else {
 			t.add(newIndex+1, e);
