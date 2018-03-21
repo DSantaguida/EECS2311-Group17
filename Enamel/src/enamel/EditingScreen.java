@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class EditingScreen implements ActionListener {
 	// UNCOMMENT 973 WHEN DONE
@@ -20,7 +21,26 @@ public class EditingScreen implements ActionListener {
 	private static HashMap<Character, String> alphabet = new HashMap<Character, String>();
 	Scenario scenario;
 	private ScenarioWriter writer;
-
+	JFrame Aframe;
+	private JTextField textField;
+	private JTextField positionField;
+	String file;
+	JButton btnChoosewav;
+	JLabel lblTitle;
+	String pins = "";
+	JRadioButton aradioButton;
+	JRadioButton aradioButton_1;
+	JRadioButton aradioButton_2;
+	JRadioButton aradioButton_3;
+	JRadioButton aradioButton_4;
+	JRadioButton aradioButton_5;
+	JRadioButton aradioButton_6;
+	JRadioButton aradioButton_7;
+	Node node;
+	Scenario s;
+	private JPanel panel_2;
+	private JLabel lblChooseCell;
+	private JComboBox cellBox;
 	JPanel panel;
 	JPanel subPanel;
 	JPanel optionCard;
@@ -95,6 +115,7 @@ public class EditingScreen implements ActionListener {
 		boxCount = scenario.getNumCells();
 		writer = new ScenarioWriter(scenario);
 		initialize();
+		initializeAdd();
 		loadNodeEvents();
 	}
 
@@ -173,7 +194,7 @@ public class EditingScreen implements ActionListener {
 
 		optionCard = new JPanel();
 		optionCard.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		optionCard.setBounds(645, 13, 279, 666);
+		optionCard.setBounds(654, 13, 270, 666);
 		optionCard.setLayout(new CardLayout());
 		panel.add(optionCard);
 
@@ -659,7 +680,7 @@ public class EditingScreen implements ActionListener {
 				}
 			}
 		});
-		loadNodeEvents();
+		//loadNodeEvents();
 	}
 
 	private void initEventMods() {
@@ -674,9 +695,17 @@ public class EditingScreen implements ActionListener {
 		JButton btnAddEvent = new JButton("Add");
 		btnAddEvent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AddEvent newevent = new AddEvent(currentNode, scenario);
+				
+						// TODO Auto-generated method stub
+						Aframe.setVisible(true);
+					
+					
 			}
 		});
+				
+				
+			
+		
 		panel_5.add(btnAddEvent);
 
 		JButton btnDeleteEvent = new JButton("Delete");
@@ -685,6 +714,7 @@ public class EditingScreen implements ActionListener {
 
 	public void loadNodeEvents() {
 		int count = 0;
+		
 		eventPanel.removeAll();
 		initEventMods();
 		Timeline t = currentNode.getTimeline();
@@ -692,7 +722,9 @@ public class EditingScreen implements ActionListener {
 			count++;
 			System.out.println(count);
 			eventPanel.add(new JLabel("Event " + count));
-			JButton eventButton = new JButton("Edit event");
+			String disp = e.getClass().toString();
+			System.out.println(disp.split(" ")[1]);
+			JButton eventButton = new JButton(e.getClass().toString());
 			eventButton.addActionListener(new ActionListener() {
 
 				@Override
@@ -703,12 +735,13 @@ public class EditingScreen implements ActionListener {
 
 			});
 			eventPanel.add(eventButton);
+			eventPanel.revalidate();
+			eventPanel.repaint();
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
 		for (int i = 0; i < buttonCount; i++) // Sets the current button to edit
 		{
 			if (e.getSource().equals(buttons.get(i))) {
@@ -718,5 +751,275 @@ public class EditingScreen implements ActionListener {
 			}
 		}
 
+	}
+	
+	public void initializeAdd()
+	{
+		Aframe = new JFrame();
+		Aframe.setBounds(100, 100, 450, 332);
+		Aframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Aframe.getContentPane().setLayout(null);
+		Aframe.setVisible(false);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, 432, 285);
+		Aframe.getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(12, 109, 397, 176);
+		panel.add(panel_1);
+		panel_1.setLayout(null);
+		
+		aradioButton = new JRadioButton("");
+		aradioButton.setBounds(55, 34, 25, 25);
+		aradioButton.setVisible(false);
+		panel_1.add(aradioButton);
+		
+		aradioButton_1 = new JRadioButton("");
+		aradioButton_1.setBounds(55, 63, 25, 25);
+		aradioButton_1.setVisible(false);
+		panel_1.add(aradioButton_1);
+		
+		aradioButton_2 = new JRadioButton("");
+		aradioButton_2.setBounds(55, 93, 25, 25);
+		aradioButton_2.setVisible(false);
+		panel_1.add(aradioButton_2);
+		
+		aradioButton_3 = new JRadioButton("");
+		aradioButton_3.setBounds(55, 119, 25, 25);
+		aradioButton_3.setVisible(false);
+		panel_1.add(aradioButton_3);
+		
+		aradioButton_4 = new JRadioButton("");
+		aradioButton_4.setBounds(84, 34, 25, 25);
+		aradioButton_4.setVisible(false);
+		panel_1.add(aradioButton_4);
+		
+		aradioButton_5 = new JRadioButton("");
+		aradioButton_5.setBounds(84, 63, 25, 25);
+		aradioButton_5.setVisible(false);
+		panel_1.add(aradioButton_5);
+		
+		aradioButton_6 = new JRadioButton("");
+		aradioButton_6.setBounds(84, 93, 25, 25);
+		aradioButton_6.setVisible(false);
+		panel_1.add(aradioButton_6);
+		
+		aradioButton_7 = new JRadioButton("");
+		aradioButton_7.setBounds(84, 119, 25, 25);
+		aradioButton_7.setVisible(false);
+		panel_1.add(aradioButton_7);
+		
+
+
+		
+		lblTitle = new JLabel("");
+		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblTitle.setBounds(0, 0, 385, 25);
+		panel_1.add(lblTitle);
+		
+		textField = new JTextField();
+		textField.setBounds(0, 32, 397, 25);
+		panel_1.add(textField);
+		textField.setVisible(false);
+		textField.setColumns(10);
+		
+		JLabel lblChooseWav = new JLabel("");
+		lblChooseWav.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblChooseWav.setBounds(0, 63, 397, 30);
+		panel_1.add(lblChooseWav);
+		
+		btnChoosewav = new JButton("Choose .wav");
+		btnChoosewav.setBounds(0, 32, 127, 25);
+		btnChoosewav.setVisible(false);
+		btnChoosewav.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				JFileChooser chooser = new JFileChooser(new File("FactoryScenarios/"));
+				//Create textfield to allow user to name the file and save as string
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Sound Files", "wav");
+				chooser.setFileFilter(filter);
+				int returnval = chooser.showOpenDialog(null);
+				if (returnval == JFileChooser.APPROVE_OPTION) {
+					file = chooser.getSelectedFile().getName();
+				}
+				lblChooseWav.setText("Selected sound file: " + file);
+			}
+			
+		});
+		panel_1.add(btnChoosewav);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(12, 28, 184, 22);
+		comboBox.addItem("");
+		comboBox.addItem("Response");
+		comboBox.addItem("Sound");
+		comboBox.addItem("Pins");
+		comboBox.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (comboBox.getSelectedItem().equals("Response"))
+				{
+					cellBox.setVisible(false);
+					setPinVisible(false);
+					lblChooseCell.setText("");
+					lblTitle.setText("Type your response here:");
+					lblChooseWav.setText("");
+					
+					textField.setVisible(true);
+				}
+				else if (comboBox.getSelectedItem().equals("Sound"))
+				{
+					cellBox.setVisible(false);
+					setPinVisible(false);
+					lblChooseCell.setText("");
+					textField.setVisible(false);
+					lblTitle.setText("Choose the sound file you wish to play:");
+					btnChoosewav.setVisible(true);
+				}
+				else if (comboBox.getSelectedItem().equals("Pins"))
+				{
+					cellBox.setVisible(true);
+					lblTitle.setText("Set active pins:");
+					textField.setVisible(false);
+					lblChooseCell.setText("Choose Cell:");
+					lblChooseWav.setText("");
+					btnChoosewav.setVisible(false);
+					setPinVisible(true);
+				}
+				else if (comboBox.getSelectedItem().equals(""))
+				{
+					setAddVisible(false);
+				}
+			}
+			
+		});
+		panel.add(comboBox);
+		
+		JLabel lblChooseEventType = new JLabel("Choose Event Type:");
+		lblChooseEventType.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblChooseEventType.setBounds(12, 0, 184, 30);
+		panel.add(lblChooseEventType);
+		
+		JLabel lblEventPosition = new JLabel("Event Position:");
+		lblEventPosition.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblEventPosition.setBounds(12, 52, 133, 26);
+		panel.add(lblEventPosition);
+		
+		positionField = new JTextField();
+		positionField.setBounds(12, 74, 116, 22);
+		panel.add(positionField);
+		positionField.setColumns(10);
+		
+		JButton btnAddEvent = new JButton("Add Event");
+		btnAddEvent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if (comboBox.getSelectedItem().equals("Response"))
+				{
+					currentNode.addToResponse(textField.getText());
+					Aframe.dispose();					
+				}
+				else if (comboBox.getSelectedItem().equals("Sound"))
+				{
+					currentNode.setAudioFile(file);
+					Aframe.dispose();
+				}
+				else if (comboBox.getSelectedItem().equals("Pins"))
+				{
+					pins = "";
+					if(aradioButton.isSelected())
+						pins += 1;
+					else
+						pins += 0;
+					if(aradioButton_1.isSelected())
+						pins += 1;
+					else
+						pins += 0;
+					if(aradioButton_2.isSelected())
+						pins += 1;
+					else
+						pins += 0;
+					if(aradioButton_3.isSelected())
+						pins += 1;
+					else
+						pins += 0;
+					if(aradioButton_4.isSelected())
+						pins += 1;
+					else
+						pins += 0;
+					if(aradioButton_5.isSelected())
+						pins += 1;
+					else
+						pins += 0;
+					if(aradioButton_6.isSelected())
+						pins += 1;
+					else
+						pins += 0;
+					if(aradioButton_7.isSelected())
+						pins += 1;
+					else
+						pins += 0;
+					
+					currentNode.setPins(pins, Integer.parseInt((String) cellBox.getSelectedItem()));
+					Aframe.dispose();
+					
+				}
+				else if (comboBox.getSelectedItem().equals(""))
+				{
+					Aframe.dispose();
+				}
+				loadNodeEvents();
+				Aframe.dispose();		
+			}
+		});
+		btnAddEvent.setBounds(288, 138, 97, 25);
+		panel_1.add(btnAddEvent);	
+		
+		panel_2 = new JPanel();
+		panel_2.setBounds(208, 0, 212, 105);
+		panel.add(panel_2);
+		panel_2.setLayout(null);
+		
+		lblChooseCell = new JLabel("");
+		lblChooseCell.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblChooseCell.setBounds(0, 0, 153, 29);
+		panel_2.add(lblChooseCell);
+		
+		cellBox = new JComboBox();
+		cellBox.setVisible(false);
+		cellBox.setBounds(0, 25, 112, 22);
+//		for (int i = 0; i < s.getNumButtons(); i++)
+//		{
+//			cellBox.addItem(i);
+//		}
+		panel_2.add(cellBox);
+	}
+	private void setPinVisible(boolean b)
+	{
+		aradioButton.setVisible(b);
+		aradioButton_1.setVisible(b);
+		aradioButton_2.setVisible(b);
+		aradioButton_3.setVisible(b);
+		aradioButton_4.setVisible(b);
+		aradioButton_5.setVisible(b);
+		aradioButton_6.setVisible(b);
+		aradioButton_7.setVisible(b);
+	}
+	
+	private void setAddVisible(boolean b)
+	{	
+		setPinVisible(b);
+		cellBox.setVisible(b);
+		lblChooseCell.setText("");
+		textField.setVisible(b);
+		btnChoosewav.setVisible(b);
+		lblTitle.setText("");
+		
 	}
 }

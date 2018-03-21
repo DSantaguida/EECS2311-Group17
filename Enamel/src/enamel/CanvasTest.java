@@ -60,7 +60,7 @@ public class CanvasTest {
 		s.setEdge(node1, node2, 0);
 		
 		arr2[5] = 0;
-		response = "These are pins 4 and 5, the top two pins on the right side. Press button 1 to continue.";
+		response  = "These are pins 4 and 5, the top two pins on the right side. Press button 1 to continue.";
 		node2 = new Node(counter, name);
 		node2.addToResponse(response);
 		node2.setPins(arr2, 0);
