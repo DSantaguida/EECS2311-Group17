@@ -11,6 +11,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import com.sun.speech.freetts.Voice;
@@ -31,12 +32,13 @@ public class Recorder1 {
 	private JFrame frame;
 	Voice voice;
 	VoiceManager vm;
+	
 
  
 	/**
 	 * Launch the application.
 	 */
-    static final long RECORD_TIME = 15000;  // 30 seconds limit past user
+    static final long RECORD_TIME = 150000;  // 30 seconds limit past user
     
 
     // format of audio file
@@ -84,6 +86,7 @@ public class Recorder1 {
 				}
 			}
 		});
+		
 
         final Recorder1 recorder = new Recorder1();
         
@@ -121,6 +124,7 @@ public class Recorder1 {
 		frame = new JFrame();
 		frame.setVisible(true);
 		frame.setBounds(100, 100, 450, 207);
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -157,12 +161,15 @@ public class Recorder1 {
     		
     		//Allow for name input in editing screen before moving to recorder screen to record??
     		//Need to name before calling this class
-    		RecorderInput file_identify = new RecorderInput();
+    		vm = VoiceManager.getInstance();
+	        voice = vm.getVoice ("kevin16");
+	        voice.allocate();
+	        voice.speak("Please enter your recording name before we begin");
+    		String name = JOptionPane.showInputDialog("Please enter your recording name before we begin:");
     		
-    		String name = file_identify.cust_file;
     	    //Change recording time to allow user to choose when they want to stop
     		
-    	    File wavFile = new File("FactoryScenarios\\AudioFiles\\" + file_identify + ".wav");	
+    	    File wavFile = new File("FactoryScenarios\\AudioFiles\\" + name + ".wav");	
     		
     			AudioFormat format = getAudioFormat();
     			DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
