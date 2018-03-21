@@ -78,7 +78,7 @@ public class CanvasTest {
 		node1.addToResponse(response);
 		node1.setPins(arr1, 0);
 		node1.addButton(0);
-		//graph.addVertex(node1);
+		//graph.addVertex(node1);//
 		counter++;
 		
 		s.setEdge(node2, node1, 0);
