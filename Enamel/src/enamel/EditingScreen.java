@@ -247,19 +247,31 @@ public class EditingScreen implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				ScenarioParser s = new ScenarioParser(true);
+				Thread th = new Thread(new Runnable(){
 
-				FileSearch fileSearch = new FileSearch();
-				String found = scenario.getFileName();
-				// try different directory and filename
-				fileSearch.searchDirectory(new File(System.getProperty("user.dir")), found);
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						
+						ScenarioParser s = new ScenarioParser(true);
+						
+						FileSearch fileSearch = new FileSearch();
+						String found = scenario.getFileName();
+						// try different directory and filename
+						System.out.println(found);
+						fileSearch.searchDirectory(new File(System.getProperty("user.dir")), found);
 
-				int count = fileSearch.getResult().size();
-				if (count == 0) {
-					throw new IllegalArgumentException("File does not exist");
-				} else {
-					s.setScenarioFile(found);
-				}
+						int count = fileSearch.getResult().size();
+						if (count == 0) {
+							throw new IllegalArgumentException("File does not exist");
+						} else {
+							s.setScenarioFile(found);
+						}
+					}
+					
+				});
+				th.start();
+				
 				// Thread t = new Thread(new Runnable() {
 				//
 				// @Override
@@ -726,7 +738,10 @@ public class EditingScreen implements ActionListener {
 				setAddVisible(false);
 				//positionField.setText("");
 				//positionField.setVisible(true);
+				model = new SpinnerNumberModel(currentNode.getTimeline().size() + 1, 1, currentNode.getTimeline().size() + 1, 1);
 				spinner.setVisible(true);
+				spinner.setModel(model);
+				Box.setSelectedIndex(0);
 				lblEventPosition.setVisible(true);
 				textField.setText("");
 				Box.setSelectedItem("");
@@ -775,6 +790,8 @@ public class EditingScreen implements ActionListener {
 					editAction(e, t);
 					Aframe.setVisible(true);
 					addMod = "Edit";
+					model = new SpinnerNumberModel(t.indexOf(e) + 1, 1, currentNode.getTimeline().size(), 1);
+					spinner.setModel(model);
 					//positionField.setVisible(false);
 					
 					lblEventPosition.setVisible(true);
@@ -1004,6 +1021,7 @@ public class EditingScreen implements ActionListener {
 //		
 		model = new SpinnerNumberModel(currentNode.getTimeline().size() + 1, 1, currentNode.getTimeline().size() + 1, 1);
 		spinner = new JSpinner(model);
+		
 		spinner.setBounds(12, 80, 50, 22);
 		panel.add(spinner);
 
@@ -1172,10 +1190,12 @@ public class EditingScreen implements ActionListener {
 
 					Event en = new Response(textField.getText());
 					t.change(pos, en);
+					t.changePosition(pos, (int)spinner.getValue() - 1, en);
 					Aframe.dispose();
 				} else if (Box.getSelectedItem().equals("Sound")) {
 					Event en = new Sound(file);
 					t.change(pos, en);
+					t.changePosition(pos, (int)spinner.getValue() - 1, en);
 					Aframe.dispose();
 				} else if (Box.getSelectedItem().equals("Pins")) {
 					pins = "";
@@ -1215,6 +1235,7 @@ public class EditingScreen implements ActionListener {
 					Event en = new DisplayPins(pins, (int) cellBox.getSelectedItem());
 					System.out.println(en);
 					t.change(pos, en);
+					t.changePosition(pos, (int)spinner.getValue() - 1, en);
 					Aframe.dispose();
 
 				} else if (Box.getSelectedItem().equals("Select Type")) {
