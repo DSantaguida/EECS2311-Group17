@@ -33,6 +33,15 @@ public class Timeline {
 		t.add(index, e);
 	}
 	
+	public void changePosition(int oldIndex, int newIndex, Event e) {
+		if (newIndex <= oldIndex) {
+			t.add(newIndex, e);
+		} else {
+			t.add(newIndex+1, e);
+			t.remove(oldIndex);
+		}
+	}
+	
 	public ArrayList<Event> getEvents() {
 		return new ArrayList<>(this.t);
 	}
