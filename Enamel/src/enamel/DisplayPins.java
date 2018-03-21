@@ -14,14 +14,14 @@ public class DisplayPins extends Event {
 	public DisplayPins(String pins, int cellNumber) {
 		super();
 		this.pins = new BrailleCell();
-		this.pins.setPins(pins);
-		this.cellNumber = cellNumber;
+		this.setPins(pins);
+		this.setCellNumber(cellNumber);
 	}
 
 	@Override
 	public String getData() {
 		// TODO Auto-generated method stub
-		String result = "";
+		String result = this.getCellNumber() + " ";
 		for (int i = 0; i < pins.getNumberOfPins(); i++) {
 			if (pins.getPinState(i) == true) {
 				result = result + "1";
@@ -35,11 +35,29 @@ public class DisplayPins extends Event {
 	@Override
 	public void setData(String data) {
 		// TODO Auto-generated method stub
-		this.pins.setPins(data);
+		String[] fields = data.split(" ");
+		this.setCellNumber(Integer.parseInt(fields[0]));
+		this.setPins(fields[1]);
 	}
 	
 	public void setCellNumber(int num) {
 		this.cellNumber = num;
+	}
+	
+	public String getPins() {
+		String result = "";
+		for (int i = 0; i < pins.getNumberOfPins(); i++) {
+			if (pins.getPinState(i) == true) {
+				result = result + "1";
+			} else {
+				result = result + "0";
+			}
+		}
+		return result;
+	}
+	
+	public void setPins(String pins) {
+		this.pins.setPins(pins);
 	}
 	
 	public int getCellNumber() {
