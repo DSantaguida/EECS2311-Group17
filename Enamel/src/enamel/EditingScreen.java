@@ -1214,7 +1214,7 @@ public class EditingScreen implements ActionListener {
 				}
 				loadNodeEvents();
 				System.out.println(t);
-			}
+			}//
 			
 		};
 	}
