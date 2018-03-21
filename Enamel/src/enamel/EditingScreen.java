@@ -786,7 +786,7 @@ public class EditingScreen implements ActionListener {
 						Box.setSelectedItem("Response");
 						textField.setText(((Response) e).getData());
 					} else if (e.getClass() == DisplayPins.class) {
-						Box.setSelectedItem("Pins");
+						Box.setSelectedItem("Pins");//
 						String[] set = ((DisplayPins) e).getPins().split("");
 
 						if (set[0].equals("0"))
