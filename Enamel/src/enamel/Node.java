@@ -205,8 +205,16 @@ public class Node {
 			}
 		}
 		throw new IllegalArgumentException("Node name does not exist as next node");
-		
 	}
+	
+	public Event getEvent(int index) {
+		return this.t.getEvent(index);
+	}
+	
+	public void addEvent(Event e) {
+		this.t.addEvent(e);
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
