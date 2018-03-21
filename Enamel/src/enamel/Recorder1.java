@@ -155,6 +155,9 @@ public class Recorder1 {
     void start() {
     	try {
     		
+    		//Allow for name input in editing screen before moving to recorder screen to record??
+    		//Need to name before calling this class
+    		
     		long file_identify = System.currentTimeMillis();
     	    //Change recording time to allow user to choose when they want to stop
     		

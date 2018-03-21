@@ -236,6 +236,7 @@ import java.awt.SystemColor;
 				lblEnterFileText.setVisible(true);
 				lblEnterFileName.setVisible(true);
 				btnBackToScenario.setVisible(true);
+				btnNewProject.setVisible(true);
 			}
 		});
 		btnCreateNewFile.setBounds(331, 11, 306, 75);
@@ -252,7 +253,7 @@ import java.awt.SystemColor;
 				        voice.allocate();
 				        voice.speak(txtSetFileName.getText());
 				       
-				        btnNewProject.setVisible(true);
+				        
 					}
 					else {
 						JOptionPane.showMessageDialog(null, "Please Enter a non-null file name", "", JOptionPane.INFORMATION_MESSAGE);
@@ -274,70 +275,76 @@ import java.awt.SystemColor;
 				InputStream inStream = null;
 				OutputStream outStream = null;
 				
-				cust_file = txtProjectTitle.getText();
-				buttontext = buttontextfield.getText();
-				cust_filename = txtSetFileName.getText();
-				celltext = celltextfield.getText();
-				
-				try {
-					
-		            PrintWriter out = new PrintWriter(new FileWriter(cust_filename + ".txt"));
-					String filename = cust_filename + ".txt";
-		            txtProjectTitle.getText();
-		            buttontextfield.getText();
-		            celltextfield.getText();
-		            out.println("Button " + buttontext);
-		            out.println("Cell "+ celltext);
-		            out.println();
-		            out.println(cust_file);
-		            out.flush();
-		            out.close();
-		            
-		            File afile =new File(filename);
-		    	    File bfile =new File("FactoryScenarios/"+filename);
-
-		    	    inStream = new FileInputStream(afile);
-		    	    outStream = new FileOutputStream(bfile);
-
-		    	    byte[] buffer = new byte[1024];
-
-		    	    int length;
-		    	    //copy the file content in bytes
-		    	    while ((length = inStream.read(buffer)) > 0){
-
-		    	    	outStream.write(buffer, 0, length);
-
-		    	    }
-
-		    	    inStream.close();
-		    	    outStream.close();
-
-		    	    //delete the original file
-		    	    afile.delete();
-
-		    	    System.out.println("File is copied successful!");
-
-		            
-		            //moves from lib to FactoryScenarios
-
-		        } catch (IOException e1) {
-		            System.err.println("Error occurred");
-		            e1.printStackTrace();
-		        }
-				frame.dispose();
-				//String filename = "FactoryScenarios/" +cust_filename + ".txt";
-				//ScenarioNode test = new ScenarioNode();
-				//test.setScenarioFile(filename);
-				Scenario test = new Scenario();
-				Node headnode = test.createNode(cust_file);
-				test.setNumButtons(Integer.parseInt(buttontextfield.getText()));
-				test.setNumCells(Integer.parseInt(celltextfield.getText()));
-				test.addNode(headnode);
-				for (int i = 0; i < Integer.parseInt(buttontextfield.getText()); i++)
-				{
-					test.getHead().addButton(i);
+				if (txtProjectTitle.getText().isEmpty() || buttontextfield.getText().isEmpty() || txtSetFileName.getText().isEmpty() || celltextfield.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Please Enter in appropriate values in the textfields", "", JOptionPane.INFORMATION_MESSAGE);
 				}
-				EditingScreen go = new EditingScreen(test);
+				else {
+				
+					cust_file = txtProjectTitle.getText();
+					buttontext = buttontextfield.getText();
+					cust_filename = txtSetFileName.getText();
+					celltext = celltextfield.getText();
+				
+					try {
+						
+			            PrintWriter out = new PrintWriter(new FileWriter(cust_filename + ".txt"));
+						String filename = cust_filename + ".txt";
+			            txtProjectTitle.getText();
+			            buttontextfield.getText();
+			            celltextfield.getText();
+			            out.println("Button " + buttontext);
+			            out.println("Cell "+ celltext);
+			            out.println();
+			            out.println(cust_file);
+			            out.flush();
+			            out.close();
+			            
+			            File afile =new File(filename);
+			    	    File bfile =new File("FactoryScenarios/"+filename);
+	
+			    	    inStream = new FileInputStream(afile);
+			    	    outStream = new FileOutputStream(bfile);
+	
+			    	    byte[] buffer = new byte[1024];
+	
+			    	    int length;
+			    	    //copy the file content in bytes
+			    	    while ((length = inStream.read(buffer)) > 0){
+	
+			    	    	outStream.write(buffer, 0, length);
+	
+			    	    }
+	
+			    	    inStream.close();
+			    	    outStream.close();
+	
+			    	    //delete the original file
+			    	    afile.delete();
+	
+			    	    System.out.println("File is copied successful!");
+	
+			            
+			            //moves from lib to FactoryScenarios
+	
+			        } catch (IOException e1) {
+			            System.err.println("Error occurred");
+			            e1.printStackTrace();
+			        }
+					frame.dispose();
+					//String filename = "FactoryScenarios/" +cust_filename + ".txt";
+					//ScenarioNode test = new ScenarioNode();
+					//test.setScenarioFile(filename);
+					Scenario test = new Scenario();
+					Node headnode = test.createNode(cust_file);
+					test.setNumButtons(Integer.parseInt(buttontextfield.getText()));
+					test.setNumCells(Integer.parseInt(celltextfield.getText()));
+					test.addNode(headnode);
+					for (int i = 0; i < Integer.parseInt(buttontextfield.getText()); i++)
+					{
+						test.getHead().addButton(i);
+					}
+					EditingScreen go = new EditingScreen(test);
+				}
 			}
 		});
 		btnNewProject.setBounds(6, 330, 306, 94);
@@ -358,7 +365,7 @@ import java.awt.SystemColor;
 				        voice.allocate();
 				        voice.speak(buttontextfield.getText());
 				       
-				        btnNewProject.setVisible(true);
+				        
 						}
 						}
 						catch (Exception e) {
@@ -388,7 +395,7 @@ import java.awt.SystemColor;
 			        voice.allocate();
 			        voice.speak(celltextfield.getText());
 			       
-			        btnNewProject.setVisible(true);
+			        
 					}
 					}
 					catch (Exception m) {
