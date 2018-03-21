@@ -158,9 +158,7 @@ public class ScenarioNode {
 			String breakDown = fileLine.substring(17);
 			String[] split = breakDown.split("\\s");
 			int brailleCell = Integer.parseInt(split[0]);
-			for (int i = 0; i < 8; i++) {
-				thisNode.setPin(brailleCell, i + 1, split[1].charAt(i));	
-			}
+			thisNode.setPins(split[1], brailleCell);
 		}
 		else if (fileLine.length() >= 14 && fileLine.substring(0, 14).equals("/~disp-string:")) {
 			String line = fileLine.substring(14);
@@ -168,14 +166,11 @@ public class ScenarioNode {
 			 * Functionality note:  if string is less than cells displayed, will leave remaining cells empty.
 			 * If string is greater than cells displayed, then it will be cut off.
 			 */
-			int i = 0;
-			while (i < line.length() && line.length() <= this.numOfCells) {
+			
+			for (int i = 1; i < line.length() && line.length() <= this.numOfCells; i++) {
 				char a = line.charAt(i);
 				String brailleString = b.getCharacter(a);
-				for (int n = 0; i < 8; n++) {
-					int k = Character.getNumericValue(brailleString.charAt(n));
-					thisNode.setPin(i, n, k);
-				}
+				thisNode.setPins(brailleString, i);
 			}
 				//display string in braille cells, if greater than number of cells, then string will be cut off
 				//if smaller than number of cells, remaining cells are cleared
@@ -190,25 +185,22 @@ public class ScenarioNode {
 			int brailleCell = Integer.parseInt(param[0]);
 			char dispChar = param[1].charAt(0);
 			String characterBraille = b.getCharacter(dispChar);
-			for (int i = 0; i < 8; i++) {
-				int k = Character.getNumericValue(characterBraille.charAt(i));
-				thisNode.setPin(brailleCell, i, k);
-			}
+			thisNode.setPins(characterBraille, brailleCell);
 		}
-		else if (fileLine.length() >= 18 && fileLine.substring(0, 18).equals("/~disp-cell-raise:")) {
-			String breakdown = fileLine.substring(18);
-			String[] param = breakdown.split("\\s");
-			int brailleCell = Integer.parseInt(param[0]);
-			int pinToRaise = Integer.parseInt(param[1]);
-			thisNode.setPin(brailleCell, pinToRaise, 1);
-		}
-		else if (fileLine.length() >= 18 && fileLine.substring(0, 18).equals("/~disp-cell-lower:")) {
-			String breakdown = fileLine.substring(18);
-			String[] param = breakdown.split("\\s");
-			int brailleCell = Integer.parseInt(param[0]);
-			int pinToRaise = Integer.parseInt(param[1]);
-			thisNode.setPin(brailleCell, pinToRaise, 0);
-		}
+//		else if (fileLine.length() >= 18 && fileLine.substring(0, 18).equals("/~disp-cell-raise:")) {
+//			String breakdown = fileLine.substring(18);
+//			String[] param = breakdown.split("\\s");
+//			int brailleCell = Integer.parseInt(param[0]);
+//			int pinToRaise = Integer.parseInt(param[1]);
+//			thisNode.setPin(brailleCell, pinToRaise, 1);
+//		}
+//		else if (fileLine.length() >= 18 && fileLine.substring(0, 18).equals("/~disp-cell-lower:")) {
+//			String breakdown = fileLine.substring(18);
+//			String[] param = breakdown.split("\\s");
+//			int brailleCell = Integer.parseInt(param[0]);
+//			int pinToRaise = Integer.parseInt(param[1]);
+//			thisNode.setPin(brailleCell, pinToRaise, 0);
+//		}
 		else if (fileLine.length() >= 18 && fileLine.substring(0, 18).equals("/~disp-cell-clear:")) {
 			String breakdown = fileLine.substring(18);
 			String[] param = breakdown.split("\\s");
