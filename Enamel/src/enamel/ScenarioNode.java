@@ -158,7 +158,20 @@ public class ScenarioNode {
 			String breakDown = fileLine.substring(17);
 			String[] split = breakDown.split("\\s");
 			int brailleCell = Integer.parseInt(split[0]);
-			thisNode.setPins(split[1], brailleCell);
+			if (!userInput) {
+				thisNode.setPins(split[1], brailleCell);
+			}
+			else {
+				NodeButton button = thisNode.getButton(buttonCount);
+				if (button.getClass() == SkipButton.class) {
+					((SkipButton)button).setNextNode(this.nextNode1);
+					int[] arr = new int[split[1].length()];
+					for (int i = 0; i < split[1].length(); i++){
+						arr[i] = split[1].charAt(i);
+					}
+					((SkipButton)button).setPins(arr, brailleCell);
+				}
+			};
 		}
 		else if (fileLine.length() >= 14 && fileLine.substring(0, 14).equals("/~disp-string:")) {
 			String line = fileLine.substring(14);
@@ -170,7 +183,20 @@ public class ScenarioNode {
 			for (int i = 1; i < line.length() && line.length() <= this.numOfCells; i++) {
 				char a = line.charAt(i);
 				String brailleString = b.getCharacter(a);
-				thisNode.setPins(brailleString, i);
+				if (!userInput) {
+					thisNode.setPins(brailleString, i);
+				}
+				else {
+					NodeButton button = thisNode.getButton(buttonCount);
+					if (button.getClass() == SkipButton.class) {
+						((SkipButton)button).setNextNode(this.nextNode1);
+						int[] arr = new int[brailleString.length()];
+						for (int j = 0; j < brailleString.length(); j++){
+							arr[j] = brailleString.charAt(j);
+						}
+						((SkipButton)button).setPins(arr, i);
+					}
+				}
 			}
 				//display string in braille cells, if greater than number of cells, then string will be cut off
 				//if smaller than number of cells, remaining cells are cleared
@@ -185,7 +211,20 @@ public class ScenarioNode {
 			int brailleCell = Integer.parseInt(param[0]);
 			char dispChar = param[1].charAt(0);
 			String characterBraille = b.getCharacter(dispChar);
-			thisNode.setPins(characterBraille, brailleCell);
+			if (!userInput) {
+				thisNode.setPins(characterBraille, brailleCell);
+			}
+			else {
+				NodeButton button = thisNode.getButton(buttonCount);
+				if (button.getClass() == SkipButton.class) {
+					((SkipButton)button).setNextNode(this.nextNode1);
+					int[] arr = new int[characterBraille.length()];
+					for (int i = 0; i < characterBraille.length(); i++){
+						arr[i] = characterBraille.charAt(i);
+					}
+					((SkipButton)button).setPins(arr, brailleCell);
+				}
+			}
 		}
 //		else if (fileLine.length() >= 18 && fileLine.substring(0, 18).equals("/~disp-cell-raise:")) {
 //			String breakdown = fileLine.substring(18);
