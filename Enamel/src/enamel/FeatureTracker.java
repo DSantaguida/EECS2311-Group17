@@ -52,7 +52,7 @@ public class FeatureTracker {
 		else if (line.length() >= 8 && line.substring(0, 8).equals("createnew")) {
 			String breakDown = line.substring(8);
 			String[] split = breakDown.split("\\s");
-			chooseExistingCounter = Integer.parseInt(split[1]);
+			createNewCounter = Integer.parseInt(split[1]);
 		}
 	}
 
