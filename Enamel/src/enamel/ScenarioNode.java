@@ -206,7 +206,17 @@ public class ScenarioNode {
 			String[] param = breakdown.split("\\s");
 			int brailleCell = Integer.parseInt(param[0]);
 			int[] pins = new int[8];
-			thisNode.setPins(pins, brailleCell);
+			if (!userInput) {
+				thisNode.setPins(pins, brailleCell);
+			}
+			else {
+				NodeButton button = thisNode.getButton(buttonCount);
+				if (button.getClass() == SkipButton.class) {
+					((SkipButton)button).setNextNode(this.nextNode1);
+					((SkipButton)button).setPins(pins, brailleCell);
+				}
+			}
+			
 		}
 		/* this key phrase is not on the scenario format document
 		else if (fileLine.length() >= 21 && fileLine.substring(0, 21).equals("/~disp-cell-lowerPins")) {
@@ -240,8 +250,9 @@ public class ScenarioNode {
 			NodeButton button = thisNode.getButton(buttonCount);
 			if (button.getClass() == SkipButton.class) {
 				((SkipButton)button).setNextNode(this.nextNode1);
+				((SkipButton)button).setPins(pins, brailleCell);
 			}
-			((SkipButton)button).setPins(pins, brailleCell);
+			
 		}
 		else { //no key phrase, therefore must be plain text
 			thisNode.addToResponse(fileLine + "\n");
