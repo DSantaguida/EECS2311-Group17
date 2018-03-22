@@ -288,7 +288,7 @@ public class ScenarioNode {
 			}
 			
 		}
-		else { //no key phrase, therefore must be plain text
+		else if (fileLine.trim().length() > 0){ //no key phrase, therefore must be plain text
 			if (!userInput) {
 				thisNode.addToResponse(fileLine + "\n");
 			}
