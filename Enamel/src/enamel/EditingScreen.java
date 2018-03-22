@@ -128,6 +128,7 @@ public class EditingScreen implements ActionListener {
 		writer = new ScenarioWriter(scenario);
 		initialize();
 		initializeAdd();
+		initializeDelete();
 		loadNodeEvents();
 	}
 
@@ -596,8 +597,7 @@ public class EditingScreen implements ActionListener {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					CardLayout cl = (CardLayout) (optionCard.getLayout());
-					cl.show(optionCard, "Button");
+					loadButtEvents();
 
 				}
 
@@ -650,6 +650,7 @@ public class EditingScreen implements ActionListener {
 		btnNode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				CardLayout cl = (CardLayout) (optionCard.getLayout());
+				lblCurrentButton.setText("Node Selected");
 				nodeCard.removeAll();
 				nodeCard.revalidate();
 				nodeCard.repaint();
@@ -760,7 +761,15 @@ public class EditingScreen implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				Dframe.setVisible(true);
-				deleteBox.removeAll();
+				deleteBox.removeAllItems();
+				//deleteBox
+				if (lblCurrentButton.getText().equals("Node Selected"))
+				{
+					for (int i = 1; i < currentNode.getTimeline().size() + 1; i++)
+					{
+						deleteBox.addItem(i);
+					}
+				}
 				// for (int i = 0; )
 			}
 
@@ -859,7 +868,8 @@ public class EditingScreen implements ActionListener {
 		{
 			if (e.getSource().equals(buttons.get(i))) {
 				currentButton = i;
-				// currentNodeButton = currentNode.getButton(i);
+				currentNodeButton = currentNode.getButton(0);
+				
 				lblCurrentButton.setText("Current Button: " + currentButton);
 			}
 		}
@@ -1098,8 +1108,27 @@ public class EditingScreen implements ActionListener {
 
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.setBounds(229, 166, 97, 25);
+		btnDelete.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (lblCurrentButton.getText().equals("Node Selected"))
+				{
+					currentNode.getTimeline().removeEvent(deleteBox.getSelectedIndex());
+					Dframe.dispose();
+				}
+				else{
+					
+				}
+				loadNodeEvents();
+			}
+			
+		});
 		panel.add(btnDelete);
 	}
+	
+	
 
 	private void addAction() {
 
@@ -1260,5 +1289,9 @@ public class EditingScreen implements ActionListener {
 		aradioButton_5.setSelected(false);
 		aradioButton_6.setSelected(false);
 		aradioButton_7.setSelected(false);
+	}
+	
+	private void loadButtEvents(){
+		
 	}
 }
