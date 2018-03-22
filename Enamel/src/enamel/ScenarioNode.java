@@ -91,7 +91,7 @@ public class ScenarioNode {
 				p.addNode(nextNode1);
 			}
 			SkipButton b = (SkipButton) thisNode.getButton(buttonCount);
-			b.setResponse(buttonMessage);			
+			b.addToResponse(buttonMessage);			
 			b.setAudioFile(this.buttonSound);
 			b.setNextNode(nextNode1);
 		//	this.thisNode.addButton(this.buttonCount, this.buttonMessage, this.buttonSound, this.nextNode1);
@@ -295,7 +295,7 @@ public class ScenarioNode {
 			else {
 				NodeButton button = thisNode.getButton(buttonCount);
 				if (button.getClass() == SkipButton.class) {
-					((SkipButton)button).setResponse(fileLine + "\n");
+					((SkipButton)button).addToResponse(fileLine + "\n");
 				}
 			}
 		}

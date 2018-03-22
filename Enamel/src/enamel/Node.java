@@ -1,29 +1,20 @@
 package enamel;
 
-import java.io.*;
 import java.util.*;
 
-public class Node {
+public class Node implements Sequential {
 	private int id;
 	private String name;
 	private String repeatText;
 	private Map<Integer, NodeButton> buttonList;
 	private Timeline t;
-	private int pauseTime;
-	private String audioFile;
-	
-	/**
-	 * @return the pauseTime
-	 */
-	public int getPauseTime() {
-		return pauseTime;
-	}
+
 
 	/**
 	 * @param pauseTime the pauseTime to set
 	 */
-	public void setPauseTime(int pauseTime) {
-		this.pauseTime = pauseTime;
+	@Override
+	public void addPause(int pauseTime) {
 	}
 
 	public Node(int id) {
@@ -36,7 +27,6 @@ public class Node {
 		this.name = name;
 		this.buttonList = new HashMap<>();
 		this.t = new Timeline();
-		this.setPauseTime(0);
 	}
 	
 	public Node(int id, String name, Map<Integer, NodeButton> buttonList) {
@@ -48,7 +38,6 @@ public class Node {
 		this.name = name;
 		this.repeatText = repeatText;
 		this.buttonList = new HashMap<>(buttonList);
-		this.setPauseTime(0);
 	}
 	
 	public Node(int id, String name, String repeatText, Map<Integer, NodeButton> buttonList) {
@@ -56,7 +45,6 @@ public class Node {
 		this.name = name;
 		this.repeatText = repeatText;
 		this.buttonList = new HashMap<>(buttonList);
-		this.setPauseTime(0);
 	}
 	
 	public Node(Node other) {
@@ -65,7 +53,6 @@ public class Node {
 		this.t = new Timeline(other.t);
 		this.repeatText = other.repeatText;
 		this.buttonList = new HashMap<>(other.buttonList);
-		this.setPauseTime(other.pauseTime);	
 	}
 	
 	public Timeline getTimeline()
@@ -85,6 +72,7 @@ public class Node {
 		return this.name;
 	}
 	
+	@Override
 	public String[] getResponses() {
 		List<String> l = new LinkedList<>();
 		for (Event e : this.t.getEvents()) {
@@ -95,6 +83,7 @@ public class Node {
 		return l.toArray(new String[l.size()]);
 	}
 	
+	@Override
 	public void addToResponse(String addition) {
 		this.t.addEvent(new Response(addition));
 	}
@@ -119,6 +108,7 @@ public class Node {
 		setPins(s, cellNumber);
 	}
 	
+	@Override
 	public void setPins(String pins, int cellNumber) {
 		this.t.addEvent(new DisplayPins(pins, cellNumber));
 	}
@@ -132,10 +122,6 @@ public class Node {
 	
 	public void addButton(int number) {
 		this.buttonList.put(number, new SkipButton(number));
-	}
-	
-	public void addButton(int number, String response, String audioFile, Node nextNode) {
-		this.buttonList.put(number, new SkipButton(number, response, audioFile ,nextNode));
 	}
 	
 	public void addButton(int number, Node nextNode) {
@@ -184,16 +170,12 @@ public class Node {
 		return null;
 	}
 	
+	@Override
 	public void setAudioFile(String audioFile) {
-		this.audioFile = audioFile;
 		this.t.addEvent(new Sound(audioFile));
 		
 	}
 	
-	public String getAudioFile() {
-		return this.audioFile;
-	}
-
 	public Node getNextNode(String name) {
 		for (int i : this.buttonList.keySet()) {
 			NodeButton b = this.getButton(i);
@@ -207,10 +189,12 @@ public class Node {
 		throw new IllegalArgumentException("Node name does not exist as next node");
 	}
 	
+	@Override
 	public Event getEvent(int index) {
 		return this.t.getEvent(index);
 	}
 	
+	@Override
 	public void addEvent(Event e) {
 		this.t.addEvent(e);
 	}
@@ -250,6 +234,11 @@ public class Node {
 	@Override
 	public String toString() {
 		return this.name;
+	}
+
+	@Override
+	public void addEvent(Event e, int index) {
+		this.t.insert(index, e);
 	}
 
 }
