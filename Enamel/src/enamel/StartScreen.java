@@ -426,9 +426,12 @@ import javax.swing.UIManager;
 							public void keyPressed(KeyEvent arg0) {
 								if (arg0.getKeyCode() == KeyEvent.VK_SHIFT) {
 									EditingScreen tester = new EditingScreen();
+									
 								}
 							}
 						});
+						
+						
 						
 						
 					}
