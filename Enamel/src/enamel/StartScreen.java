@@ -42,6 +42,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import javax.swing.UIManager;
 
 
  public class StartScreen {
@@ -58,8 +59,11 @@ import java.awt.Font;
 	public String celltext;
 	private JTextField buttontextfield;
 	private JTextField celltextfield;
+	public boolean cellT;
+	public boolean buttonT;
 	public String invalidkey = "This is an invalid key, please enter a real number";
 	private FeatureTracker track;
+
 
 	/**
 	 * Launch the application.
@@ -94,6 +98,7 @@ import java.awt.Font;
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
+		
 		buttontextfield = new JTextField();
 		buttontextfield.setVisible(false);
 		
@@ -101,9 +106,18 @@ import java.awt.Font;
 		celltextfield.setVisible(false);
 		
 		JPanel panel = new JPanel();
+		panel.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+			}
+		});
+		panel.setBackground(UIManager.getColor("activeCaption"));
 		panel.setBounds(0, 0, 647, 435);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
+		
+		buttonT = false;
+		cellT = false;
 		
 		JButton btnNewProject = new JButton("Create New Project");
 		btnNewProject.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -352,12 +366,31 @@ import java.awt.Font;
 				        voice.speak(buttontextfield.getText());
 				       
 				        btnNewProject.setVisible(true);
+				        buttonT = true;
+				        if (buttonT == true && cellT == true) {
+							vm = VoiceManager.getInstance();
+							voice = vm.getVoice ("kevin16");
+							voice.allocate();
+							voice.speak("Press F2 to create a default scenario");
+							panel.addKeyListener(new KeyAdapter() {
+								@Override
+								public void keyPressed(KeyEvent arg0) {
+									if (arg0.getKeyCode() == KeyEvent.VK_F1) {
+										EditingScreen tester = new EditingScreen();
+									}
+								}
+							});
+							
+							
+						}
 						}
 						}
 						catch (Exception e) {
 							JOptionPane.showMessageDialog(null, invalidkey, "", JOptionPane.INFORMATION_MESSAGE);
 							buttontextfield.setText("");
 					    }
+						
+						
 					
 					}
 			}
@@ -382,15 +415,38 @@ import java.awt.Font;
 			        voice.speak(celltextfield.getText());
 			       
 			        btnNewProject.setVisible(true);
+			        cellT = true;
+			        if (buttonT == true && cellT == true) {
+						vm = VoiceManager.getInstance();
+						voice = vm.getVoice ("kevin16");
+						voice.allocate();
+						voice.speak("Press F2 to create a default scenario");
+						panel.addKeyListener(new KeyAdapter() {
+							@Override
+							public void keyPressed(KeyEvent arg0) {
+								if (arg0.getKeyCode() == KeyEvent.VK_SHIFT) {
+									EditingScreen tester = new EditingScreen();
+								}
+							}
+						});
+						
+						
+					}
 					}
 					}
 					catch (Exception m) {
 						JOptionPane.showMessageDialog(null, invalidkey, "", JOptionPane.INFORMATION_MESSAGE);
 						celltextfield.setText("");
 				    }
+				
+					
 				}
 			}
 		});
+		
+		
+		
+		
 		
 		celltextfield.setBounds(322, 189, 315, 40);
 		panel.add(celltextfield);
