@@ -21,6 +21,7 @@ public class EditingScreen implements ActionListener {
 	ActionListener editListen;
 	SpinnerModel model;
 	JSpinner spinner;
+	Timeline currentTimeline;
 	ActionListener addListen;
 	Event edit;
 	List<JButton> buttons = new ArrayList<JButton>();
@@ -36,6 +37,7 @@ public class EditingScreen implements ActionListener {
 	String file;
 	JButton btnChoosewav;
 	JComboBox deleteBox;
+	String NorB = "N";
 	JLabel lblTitle;
 	String pins = "";
 	JRadioButton aradioButton;
@@ -126,6 +128,7 @@ public class EditingScreen implements ActionListener {
 		buttonCount = scenario.getNumButtons();
 		boxCount = scenario.getNumCells();
 		writer = new ScenarioWriter(scenario);
+		currentTimeline = currentNode.getTimeline();
 		initialize();
 		initializeAdd();
 		initializeDelete();
@@ -597,13 +600,31 @@ public class EditingScreen implements ActionListener {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
+					if (currentNodeButton.getClass() == SkipButton.class){
+						currentTimeline = ((SkipButton)currentNodeButton).getTimeline();
+						NorB = "B";
+					}
+					for (int i = 0; i < buttonCount; i++) // Sets the current button to edit
+					{
+						if (arg0.getSource().equals(buttons.get(i))) {
+							currentButton = i;
+							currentNodeButton = currentNode.getButton(i);
+							if (currentNodeButton.getClass() == SkipButton.class){
+								currentTimeline = ((SkipButton)currentNodeButton).getTimeline();
+								NorB = "B";
+							}
+							loadButtEvents();
+							lblCurrentButton.setText("Current Button: " + currentButton);
+						}
+					}
+					System.out.println(currentTimeline);
 					loadButtEvents();
 
 				}
 
 			});
 			buttons.get(i).setBounds(x1, 0, 50, 25);
-			buttons.get(i).addActionListener(this);
+			//buttons.get(i).addActionListener(this);
 			buttons.get(i).getAccessibleContext().setAccessibleName("Button " + i);
 			panel_1.add(buttons.get(i));
 		}
@@ -654,7 +675,8 @@ public class EditingScreen implements ActionListener {
 				nodeCard.removeAll();
 				nodeCard.revalidate();
 				nodeCard.repaint();
-
+				currentTimeline = currentNode.getTimeline();
+				NorB = "N";
 				loadNodeEvents();
 			}
 		});
@@ -746,6 +768,7 @@ public class EditingScreen implements ActionListener {
 				lblEventPosition.setVisible(true);
 				textField.setText("");
 				Box.setSelectedItem("");
+				//currentTimeline = currentNode.getTimeline();
 				Aframe.setVisible(true);
 				addAction();
 
@@ -763,13 +786,12 @@ public class EditingScreen implements ActionListener {
 				Dframe.setVisible(true);
 				deleteBox.removeAllItems();
 				//deleteBox
-				if (lblCurrentButton.getText().equals("Node Selected"))
-				{
-					for (int i = 1; i < currentNode.getTimeline().size() + 1; i++)
+				
+					for (int i = 1; i < currentTimeline.size() + 1; i++)
 					{
 						deleteBox.addItem(i);
 					}
-				}
+				
 				// for (int i = 0; )
 			}
 
@@ -868,8 +890,12 @@ public class EditingScreen implements ActionListener {
 		{
 			if (e.getSource().equals(buttons.get(i))) {
 				currentButton = i;
-				currentNodeButton = currentNode.getButton(0);
-				
+				currentNodeButton = currentNode.getButton(i);
+				if (currentNodeButton.getClass() == SkipButton.class){
+					currentTimeline = ((SkipButton)currentNodeButton).getTimeline();
+					NorB = "B";
+				}
+				loadButtEvents();
 				lblCurrentButton.setText("Current Button: " + currentButton);
 			}
 		}
@@ -1113,15 +1139,14 @@ public class EditingScreen implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if (lblCurrentButton.getText().equals("Node Selected"))
-				{
-					currentNode.getTimeline().removeEvent(deleteBox.getSelectedIndex());
+
+					currentTimeline.removeEvent(deleteBox.getSelectedIndex());
 					Dframe.dispose();
-				}
-				else{
-					
-				}
-				loadNodeEvents();
+
+					if (NorB.equals("N"))
+						loadNodeEvents();
+					else
+						loadButtEvents();
 			}
 			
 		});
@@ -1152,12 +1177,14 @@ public class EditingScreen implements ActionListener {
 			public void actionPerformed(ActionEvent eve) {
 				
 				//int pos = Integer.parseInt(positionField.getText());
-				
+				System.out.println(currentTimeline);
 				if (Box.getSelectedItem().equals("Response")) {
-					currentNode.addToResponse(textField.getText());
+					//currentNode.addToResponse(textField.getText());
+					currentTimeline.addEvent( new Response(textField.getText()));
 					Aframe.dispose();
 				} else if (Box.getSelectedItem().equals("Sound")) {
-					currentNode.setAudioFile(file);
+				//	currentNode.setAudioFile(file);
+					currentTimeline.addEvent(new Sound(file));
 					Aframe.dispose();
 				} else if (Box.getSelectedItem().equals("Pins")) {
 					pins = "";
@@ -1194,13 +1221,17 @@ public class EditingScreen implements ActionListener {
 					else
 						pins += 0;
 
-					currentNode.setPins(pins, (int) cellBox.getSelectedItem());
+					//currentNode.setPins(pins, (int) cellBox.getSelectedItem());
+					currentTimeline.addEvent(new DisplayPins(pins, (int) cellBox.getSelectedItem()));
 					Aframe.dispose();
 
 				} else if (Box.getSelectedItem().equals("Select Type")) {
 					Aframe.dispose();
 				}
-				loadNodeEvents();
+				if (NorB.equals("N"))
+					loadNodeEvents();
+				else
+					loadButtEvents();
 				Aframe.dispose();
 			}
 		};
@@ -1270,7 +1301,10 @@ public class EditingScreen implements ActionListener {
 				} else if (Box.getSelectedItem().equals("Select Type")) {
 					Aframe.dispose();
 				}
-				loadNodeEvents();
+				if (NorB.equals("N"))
+					loadNodeEvents();
+				else
+					loadButtEvents();
 				System.out.println(t);
 			}//
 			
@@ -1292,6 +1326,93 @@ public class EditingScreen implements ActionListener {
 	}
 	
 	private void loadButtEvents(){
-		
+		count = 0;
+		resetAddComponents();
+		eventPanel.removeAll();
+		initEventMods();
+		if (currentNodeButton.getClass() == SkipButton.class)
+		{
+			Timeline t = ((SkipButton)currentNodeButton).getTimeline();
+			for (Event e : t.getEvents()) {
+				count++;
+			//	System.out.println(count);
+				eventPanel.add(new JLabel("Event " + count));
+				String disp = e.getClass().toString();
+				JButton eventButton = new JButton(e.getClass().toString());
+				eventButton.addActionListener(new ActionListener() {
+	
+					@Override
+					public void actionPerformed(ActionEvent eve) {
+						// EDIT EVENT SCREEN
+						int counter = count;
+						
+						editAction(e, t);
+						Aframe.setVisible(true);
+						addMod = "Edit";
+						model = new SpinnerNumberModel(t.indexOf(e) + 1, 1, ((SkipButton)currentNodeButton).getTimeline().size(), 1);
+						spinner.setModel(model);
+						//positionField.setVisible(false);
+						
+						lblEventPosition.setVisible(true);
+						
+						//positionField.setText("" + (counter));
+						// t.removeEvent(e);
+	
+						if (e.getClass() == Response.class) {
+							Box.setSelectedItem("Response");
+							textField.setText(((Response) e).getData());
+						} else if (e.getClass() == DisplayPins.class) {
+							Box.setSelectedItem("Pins");//
+							String[] set = ((DisplayPins) e).getPins().split("");
+	
+							if (set[0].equals("0"))
+								aradioButton.setSelected(false);
+							else
+								aradioButton.setSelected(true);
+							if (set[1].equals("0"))
+								aradioButton_1.setSelected(false);
+							else
+								aradioButton_1.setSelected(true);
+							if (set[2].equals("0"))
+								aradioButton_2.setSelected(false);
+							else
+								aradioButton_2.setSelected(true);
+							if (set[3].equals("0"))
+								aradioButton_3.setSelected(false);
+							else
+								aradioButton_3.setSelected(true);
+							if (set[4].equals("0"))
+								aradioButton_4.setSelected(false);
+							else
+								aradioButton_4.setSelected(true);
+							if (set[5].equals("0"))
+								aradioButton_5.setSelected(false);
+							else
+								aradioButton_5.setSelected(true);
+							if (set[6].equals("0"))
+								aradioButton_6.setSelected(false);
+							else
+								aradioButton_6.setSelected(true);
+							if (set[7].equals("0"))
+								aradioButton_7.setSelected(false);
+							else
+								aradioButton_7.setSelected(true);
+	
+							cellBox.setSelectedItem(((DisplayPins) e).getCellNumber());
+	
+						} else if (e.getClass() == Sound.class) {
+							Box.setSelectedItem("Sound");
+						}
+					}
+	
+				});
+			
+				eventPanel.add(eventButton);
+				eventPanel.revalidate();
+				eventPanel.repaint();
+			}
 	}
+		eventPanel.revalidate();
+		eventPanel.repaint();
+}
 }
