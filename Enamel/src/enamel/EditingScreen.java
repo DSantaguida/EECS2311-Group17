@@ -761,7 +761,7 @@ public class EditingScreen implements ActionListener {
 				setAddVisible(false);
 				//positionField.setText("");
 				//positionField.setVisible(true);
-				model = new SpinnerNumberModel(currentNode.getTimeline().size() + 1, 1, currentNode.getTimeline().size() + 1, 1);
+				model = new SpinnerNumberModel(currentTimeline.size() + 1, 1, currentTimeline.size() + 1, 1);
 				spinner.setVisible(true);
 				spinner.setModel(model);
 				Box.setSelectedIndex(0);
@@ -821,7 +821,7 @@ public class EditingScreen implements ActionListener {
 					editAction(e, t);
 					Aframe.setVisible(true);
 					addMod = "Edit";
-					model = new SpinnerNumberModel(t.indexOf(e) + 1, 1, currentNode.getTimeline().size(), 1);
+					model = new SpinnerNumberModel(t.indexOf(e) + 1, 1, currentTimeline.size(), 1);
 					spinner.setModel(model);
 					//positionField.setVisible(false);
 					
@@ -1055,7 +1055,7 @@ public class EditingScreen implements ActionListener {
 //		panel.add(positionField);
 //		positionField.setColumns(10);
 //		
-		model = new SpinnerNumberModel(currentNode.getTimeline().size() + 1, 1, currentNode.getTimeline().size() + 1, 1);
+		model = new SpinnerNumberModel(currentTimeline.size() + 1, 1, currentTimeline.size() + 1, 1);
 		spinner = new JSpinner(model);
 		
 		spinner.setBounds(12, 80, 50, 22);
@@ -1147,6 +1147,7 @@ public class EditingScreen implements ActionListener {
 						loadNodeEvents();
 					else
 						loadButtEvents();
+					
 			}
 			
 		});
@@ -1180,11 +1181,13 @@ public class EditingScreen implements ActionListener {
 				System.out.println(currentTimeline);
 				if (Box.getSelectedItem().equals("Response")) {
 					//currentNode.addToResponse(textField.getText());
-					currentTimeline.addEvent( new Response(textField.getText()));
+					//currentTimeline.addEvent( new Response(textField.getText()));
+					currentTimeline.insert((int)spinner.getValue() - 1, new Response(textField.getText()));
 					Aframe.dispose();
 				} else if (Box.getSelectedItem().equals("Sound")) {
 				//	currentNode.setAudioFile(file);
-					currentTimeline.addEvent(new Sound(file));
+					//currentTimeline.addEvent(new Sound(file));
+					currentTimeline.insert((int)spinner.getValue() - 1, new Sound(file));
 					Aframe.dispose();
 				} else if (Box.getSelectedItem().equals("Pins")) {
 					pins = "";
@@ -1223,6 +1226,7 @@ public class EditingScreen implements ActionListener {
 
 					//currentNode.setPins(pins, (int) cellBox.getSelectedItem());
 					currentTimeline.addEvent(new DisplayPins(pins, (int) cellBox.getSelectedItem()));
+					currentTimeline.insert((int)spinner.getValue() - 1, new DisplayPins(pins, (int)cellBox.getSelectedItem()));
 					Aframe.dispose();
 
 				} else if (Box.getSelectedItem().equals("Select Type")) {
@@ -1349,7 +1353,7 @@ public class EditingScreen implements ActionListener {
 						editAction(e, t);
 						Aframe.setVisible(true);
 						addMod = "Edit";
-						model = new SpinnerNumberModel(t.indexOf(e) + 1, 1, ((SkipButton)currentNodeButton).getTimeline().size(), 1);
+						model = new SpinnerNumberModel(t.indexOf(e) + 1, 1, currentTimeline.size(), 1);
 						spinner.setModel(model);
 						//positionField.setVisible(false);
 						
