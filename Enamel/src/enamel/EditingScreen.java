@@ -608,7 +608,14 @@ public class EditingScreen implements ActionListener {
 					{
 						if (arg0.getSource().equals(buttons.get(i))) {
 							currentButton = i;
-							currentNodeButton = currentNode.getButton(i);
+							try{
+								currentNodeButton = currentNode.getButton(i);
+							}
+							catch(IllegalArgumentException ill)
+							{
+								currentNode.addButton(i);
+								currentNodeButton = currentNode.getButton(i);
+							}
 							if (currentNodeButton.getClass() == SkipButton.class){
 								currentTimeline = ((SkipButton)currentNodeButton).getTimeline();
 								NorB = "B";
