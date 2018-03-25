@@ -164,11 +164,8 @@ public class ScenarioNode {
 			else {
 				NodeButton button = thisNode.getButton(buttonCount);
 				if (button.getClass() == SkipButton.class) {
-					int[] arr = new int[split[1].length()];
-					for (int i = 0; i < split[1].length(); i++){
-						arr[i] = split[1].charAt(i);
-					}
-					((SkipButton)button).setPins(arr, brailleCell);
+					
+					((SkipButton)button).setPins(split[1], brailleCell);
 				}
 			};
 		}
@@ -306,9 +303,9 @@ public class ScenarioNode {
 		 BufferedReader bufferedReader = new BufferedReader(reader);
 
 		    String line;
-
+		    
 		    while ((line = bufferedReader.readLine()) != null) {
-		     nodeDelimiter(line);
+		    	nodeDelimiter(line);
 		    }
 		    
 		    reader.close();
