@@ -122,6 +122,7 @@ public class BrailleCell {
 	public void setPins(String pins) {
 		// checking for correct index
 		if (pins.length() != 8) {
+			System.out.println(pins);
 			throw new IllegalArgumentException("Illegal string passed, length > or < 8.");
 		}
 		for (int i = 0; i <= 7; i++) {

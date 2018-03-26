@@ -203,6 +203,7 @@ import java.awt.SystemColor;
 				}
 				catch (Exception e)
 				{
+					e.printStackTrace();
 					StartScreen go = new StartScreen();
 					go.frame.setVisible(true);
 				}
