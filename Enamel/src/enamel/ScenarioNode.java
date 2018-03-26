@@ -399,8 +399,6 @@ public class ScenarioNode {
 		Logger logger = Logger.getLogger("ERROR_LOG");
 		FileHandler fh;
 
-		System.out.println(message);
-
 		// The try-catch block is to format the Logger class so that the error
 		// log file is easier to understand.
 		try {
