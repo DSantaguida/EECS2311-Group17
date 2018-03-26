@@ -75,6 +75,18 @@ public class GraphCanvas extends JPanel {
         int lineEnd = this.height/2+this.startingY-height/2-100;
         graphics2.drawLine(this.width/2 +this.startingX, this.height/2+this.startingY-height/2, this.width/2 + this.startingX, lineEnd);
         
+        roundedRectangle = new RoundRectangle2D.Float(nodeX, lineEnd-height, width, height, 10, 10);
+        graphics2.draw(roundedRectangle);
+        
+        
+        if (!n.equals(this.s.getHead())) {
+        	graphics2.drawString(s.getHead().getName(), nodeX + 3, lineEnd - height/2);
+            graphics2.drawString(s.getHead().getResponses()[0].substring(0, Math.min(s.getHead().getResponses()[0].length(), 26)) + "...",
+            		nodeX + 20, lineEnd - height/2 +30);
+        } else {
+        	graphics2.drawString( "Trhis ", nodeX + 20, lineEnd - height/2 +30);
+        }
+        
         lineEnd = this.height/2+this.startingY+height/2+100;
       
         roundedRectangle = new RoundRectangle2D.Float(this.width/2+this.startingX-width+10, lineEnd, width, height, 10, 10);
@@ -88,7 +100,7 @@ public class GraphCanvas extends JPanel {
     	if (!s.hasNextNodes(n)) {
     		return;
     	}
-    	Node[] nextNodes = (Node[]) s.getNextNodes(n);
+    	Node[] nextNodes = s.getNextNodes(n);
     	int num = nextNodes.length;
     	int spaces = (num + 1) * space;
     	int width = (this.width - spaces) / Math.max(num, 1);
@@ -97,15 +109,16 @@ public class GraphCanvas extends JPanel {
     	int dline = firstWidth/(num+1);
     	for (int i = 0; i < num; i++) {
     		x = space + this.startingX + rect * i;
-    		drawRectangle(g, firstX, bottom, y, height, nextNodes, width, x, dline, i);
+    		drawRectangle(g, firstX, bottom, y, height, nextNodes[i], width, x, dline, i);
     	}
     }
 
-	private void drawRectangle(Graphics2D g, int firstX, int bottom, int y, int height, Node[] nextNodes, int width,
+	private void drawRectangle(Graphics2D g, int firstX, int bottom, int y, int height, Node node, int width,
 			int x, int dline, int i) {
+		
 		g.draw(new RoundRectangle2D.Float(x, y, width, height, 10, 10));
-		g.drawString(nextNodes[i].getName(), x+3, y+14);
-		g.drawString(nextNodes[i].getResponses()[0].substring(0, Math.min(nextNodes[i].getResponses()[0].length(), width*9/55-74/11)) + "...",
+		g.drawString(node.getName(), x+3, y+14);
+		g.drawString(node.getResponses()[0].substring(0, Math.min(node.getResponses()[0].length(), width*9/55-74/11)) + "...",
 				x + 20, y+44);
 		g.drawLine(firstX + dline * (i + 1), bottom, x + width / 2, y);
 	}

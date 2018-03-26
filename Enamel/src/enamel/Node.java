@@ -142,14 +142,11 @@ public class Node implements Sequential {
 	public NodeButton[] getButtons() {
 		NodeButton[] result = new NodeButton[this.buttonList.values().size()];
 		int count = 0;
-		System.out.println(this.buttonList.keySet());
 		for (NodeButton b: this.buttonList.values())
 		{
-			System.out.println(b + "\t" + count);
 			result[count] = b;
 			count++;
 		}
-		//System.out.println(result.length);
 		return result;
 	}
 	

@@ -4,19 +4,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Scanner;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import com.sun.speech.freetts.Voice;
-
 public class ScenarioNode {
 	
-	private Scanner fileScanner;
-	private Voice voice;
 	private boolean repeat;
 	//tracks how many nodes were created (may need to be static?):
 	private int nodeTrack;
@@ -77,7 +70,7 @@ public class ScenarioNode {
 			p.setButtons(this.numOfButtons);
 		}
 		else if (!userInput && fileLine.length() >= 8 && fileLine.substring(0, 8).equals("/~sound:")) {
-			String soundFile = fileLine.substring(8);
+			fileLine.substring(8);
 		}
 		else if (fileLine.length() >= 7 && fileLine.substring(0, 7).equals("/~skip:")) {
 			String skipLine = fileLine.substring(7);
@@ -331,7 +324,7 @@ public class ScenarioNode {
 		    {
 		    	thisNode.addButton(i);
 		    }
-		    EditingScreen g = new EditingScreen(p);
+		    new EditingScreen(p);
 		    
 		}
 		catch (IOException e) {
@@ -405,8 +398,6 @@ public class ScenarioNode {
 	private void errorLog(String exception, String message) {
 		Logger logger = Logger.getLogger("ERROR_LOG");
 		FileHandler fh;
-
-		System.out.println(message);
 
 		// The try-catch block is to format the Logger class so that the error
 		// log file is easier to understand.

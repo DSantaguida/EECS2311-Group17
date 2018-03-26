@@ -262,7 +262,6 @@ public class EditingScreen implements ActionListener {
 						FileSearch fileSearch = new FileSearch();
 						String found = scenario.getFileName();
 						// try different directory and filename
-						System.out.println(found);
 						fileSearch.searchDirectory(new File(System.getProperty("user.dir")), found);
 
 						int count = fileSearch.getResult().size();
@@ -624,7 +623,6 @@ public class EditingScreen implements ActionListener {
 							lblCurrentButton.setText("Current Button: " + currentButton);
 						}
 					}
-					System.out.println(currentTimeline);
 					loadButtEvents();
 
 				}
@@ -689,7 +687,6 @@ public class EditingScreen implements ActionListener {
 		});
 
 		for (Node node : this.scenario.getPrevNodes(this.currentNode)) {
-			System.out.println(currentNode + "NO");
 			comboBoxPrevNodes.addItem(node);
 		}
 		for (Node node : this.scenario.getNextNodes(this.currentNode)) {
@@ -1185,7 +1182,6 @@ public class EditingScreen implements ActionListener {
 			public void actionPerformed(ActionEvent eve) {
 				
 				//int pos = Integer.parseInt(positionField.getText());
-				System.out.println(currentTimeline);
 				if (Box.getSelectedItem().equals("Response")) {
 					//currentNode.addToResponse(textField.getText());
 					//currentTimeline.addEvent( new Response(textField.getText()));
@@ -1304,7 +1300,6 @@ public class EditingScreen implements ActionListener {
 						pins += 0;
 
 					Event en = new DisplayPins(pins, (int) cellBox.getSelectedItem());
-					System.out.println(en);
 					t.change(pos, en);
 					t.changePosition(pos, (int)spinner.getValue() - 1, en);
 					Aframe.dispose();
@@ -1316,7 +1311,6 @@ public class EditingScreen implements ActionListener {
 					loadNodeEvents();
 				else
 					loadButtEvents();
-				System.out.println(t);
 			}//
 			
 		};
