@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.BasicStroke;
+import java.awt.Font;
+import java.awt.font.TextAttribute;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicArrowButton;
@@ -65,9 +67,9 @@ public class GraphCanvas extends JPanel {
         int nodeX = this.width / 2 + this.startingX - width / 2;
         int nodeY = this.height / 2 + this.startingY- height / 2;
         
-        graphics2.drawString(n.getName(), nodeX + 3, this.height/2);
+        graphics2.drawString("Current Node", nodeX + 3, this.height/2);
         graphics2.drawString(n.getResponses()[0].substring(0, Math.min(n.getResponses()[0].length(), 26)) + "...",
-        		nodeX + 20, this.height/2+30);
+        		nodeX + 18, this.height/2+30);
 
         RoundRectangle2D roundedRectangle = new RoundRectangle2D.Float(nodeX, nodeY, width, height, 10, 10);
         graphics2.draw(roundedRectangle);
@@ -80,11 +82,18 @@ public class GraphCanvas extends JPanel {
         
         
         if (!n.equals(this.s.getHead())) {
-        	graphics2.drawString(s.getHead().getName(), nodeX + 3, lineEnd - height/2);
+        	graphics2.drawString("First node of the Scenario", nodeX + 3, lineEnd - height+15);
             graphics2.drawString(s.getHead().getResponses()[0].substring(0, Math.min(s.getHead().getResponses()[0].length(), 26)) + "...",
-            		nodeX + 20, lineEnd - height/2 +30);
+            		nodeX + 20, lineEnd - height/2);
+            
         } else {
-        	graphics2.drawString( "Trhis ", nodeX + 20, lineEnd - height/2 +30);
+        	Font oldFont = graphics2.getFont();
+        	Font newFont = new Font(oldFont.getName(), Font.BOLD, (int) (oldFont.getSize() * 1.2));
+//        	Font newFont = oldFont.deriveFont(oldFont.getSize() * 1.3F);
+        	graphics2.setFont(newFont);
+        	graphics2.drawString( "This is the beggining", nodeX + 19, lineEnd - height +30);
+        	graphics2.drawString("of the Scenario", nodeX + 40, lineEnd - height +50);
+        	g.setFont(oldFont);
         }
         
         lineEnd = this.height/2+this.startingY+height/2+100;
@@ -117,9 +126,14 @@ public class GraphCanvas extends JPanel {
 			int x, int dline, int i) {
 		
 		g.draw(new RoundRectangle2D.Float(x, y, width, height, 10, 10));
-		g.drawString(node.getName(), x+3, y+14);
-		g.drawString(node.getResponses()[0].substring(0, Math.min(node.getResponses()[0].length(), width*9/55-74/11)) + "...",
-				x + 20, y+44);
+		g.drawString("Node " + (i+1), x+3, y+14);
+		String response = node.getResponses()[0];
+		int length = Math.min(response.length(), width*9/55-74/11);
+		String addition = "";
+		if (length != response.length())
+			addition = "...";
+		g.drawString(response.substring(0, length) + addition,
+				x + 18, y+44);
 		g.drawLine(firstX + dline * (i + 1), bottom, x + width / 2, y);
 	}
 
