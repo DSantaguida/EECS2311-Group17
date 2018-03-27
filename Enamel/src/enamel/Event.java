@@ -1,9 +1,11 @@
 package enamel;
 
+import java.lang.IllegalArgumentException;
+
 public abstract class Event {
 	
 	public abstract String getData();
-	public abstract void setData(String data);
+	public abstract void setData(String data) throws IllegalArgumentException;
 	
 	
 	@Override
