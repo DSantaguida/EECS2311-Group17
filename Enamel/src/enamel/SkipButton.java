@@ -131,6 +131,9 @@ public class SkipButton extends NodeButton implements Sequential {
 		return this.t;
 	}
 		
-
+	@Override
+	public String toString() {
+		return t.toString();
+	}
 }
 
