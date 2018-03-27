@@ -187,19 +187,23 @@ import java.awt.SystemColor;
 				int returnval = chooser.showOpenDialog(null);
 				if (returnval == JFileChooser.APPROVE_OPTION) {
 					file = "FactoryScenarios/" + chooser.getSelectedFile().getName();
-				}
-				else if (returnval == JFileChooser.CANCEL_OPTION) {
-					frame.dispose();
-					frame.revalidate();
-					frame.repaint();
+					frame.dispose(); 
+					ScenarioNode test2 = new ScenarioNode();
+					test2.setScenarioFile(file);
+					
 				}
 				
+				 else if (returnval == JFileChooser.CANCEL_OPTION){
+					chooser.setVisible(false);
+					System.out.println("Dialogue Pane Closed");
+				}
+				
+				
+				
 				//s.setScenarioFile(file);
-				frame.dispose(); 
+				
 				//ScenarioNode test2 = new ScenarioNode();
 				//test2.setScenarioFile(file);
-				ScenarioNode test2 = new ScenarioNode();
-				test2.setScenarioFile(file);
 				}
 				catch (Exception e)
 				{
@@ -426,7 +430,7 @@ import java.awt.SystemColor;
 				lblEnterFileText.setVisible(false);
 				lblEnterFileName.setVisible(false);
 				btnBackToScenario.setVisible(false);
-				
+				btnNewProject.setVisible(false);
 			}
 		});
 		btnBackToScenario.setFont(new Font("Tahoma", Font.PLAIN, 24));
