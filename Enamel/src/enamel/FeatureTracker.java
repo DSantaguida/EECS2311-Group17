@@ -7,11 +7,13 @@ import java.io.IOException;
 
 public class FeatureTracker {
 	private int chooseExistingCounter, createNewCounter;
+	private int[] counterNum;
 	private FileReader reader;
 
 	public FeatureTracker() {
 		this.chooseExistingCounter = 0;
 		this.createNewCounter = 0;
+		counterNum = new int[2];
 		try {
 			this.reader = new FileReader("featuretracker.txt");
 		} catch (IOException e) {
@@ -78,16 +80,58 @@ public class FeatureTracker {
 	
 	public void topFive() {
 		//this class will determine the top five most frequently used buttons
+		int index1, index2, index3, index4, index5;
+		int value1, value2, value3, value4, value5;
+		value1 = Integer.MIN_VALUE;
+		value2 = Integer.MIN_VALUE;
+		value3 = Integer.MIN_VALUE;
+		value4 = Integer.MIN_VALUE;
+		value5 = Integer.MIN_VALUE;
+		for (int i = 0; i < counterNum.length; i++) {
+			if (counterNum[i] > value1) {
+				value5 = value4;
+				value4 = value3;
+				value3 = value2;
+				value2 = value1;
+				value1 = counterNum[i];
+				index1 = i;
+			}
+			else if (counterNum[i] > value2) {
+				value5 = value4;
+				value4 = value3;
+				value3 = value2;
+				value2 = counterNum[i];
+				index2 = i;
+			}
+			else if (counterNum[i] > value3) {
+				value5 = value4;
+				value4 = value3;
+				value3 = counterNum[i];
+				index3 = i;
+			}
+			else if (counterNum[i] > value4) {
+				value5 = value4;
+				value4 = counterNum[i];
+				index4 = i;
+			}
+			else if (counterNum[i] > value5) {
+				value5 = counterNum[i];
+				index5 = i;
+			}
+		}
 	}
 
 	// when this method is called for a specific button, will update with
 	// one additional click pressed
 	public void incrementCounterChooseExisting() {
 		this.chooseExistingCounter++;
-		System.out.println("The alpha counter is " + chooseExistingCounter);
+		//array index 0
+		counterNum[0]++;
 	}
 	
 	public void incrementCounterCreateNew() {
 		this.createNewCounter++;
+		//array index 1
+		counterNum[1]++;
 	}
 }
