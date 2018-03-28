@@ -18,7 +18,7 @@ public class ScenarioNode {
 	private Scenario p;
 	private Node thisNode;
 	private Node nextNode1;
-	private String buttonSound;
+	private String buttonSound = "";
 	private String buttonMessage;
 	private String nextNodeName;
 	private int numOfCells;
@@ -27,6 +27,7 @@ public class ScenarioNode {
 	private boolean userInput;
 	private boolean createdNode;
 	private int buttonCount;
+	private int skipButtonCounter;
 	
 	private FileReader reader;
 	
@@ -43,6 +44,7 @@ public class ScenarioNode {
 		p.addNode(thisNode);
 		skipName = new String[50];
 		numberOfButtons = new int[50];
+		skipButtonCounter = 0;
 	}
 	
 	public int nodeTrack() {
@@ -62,6 +64,9 @@ public class ScenarioNode {
 			this.nodeTrack = 0;
 			this.numberOfButtons[nodeTrack] = 0;
 			p.setCells(this.numOfCells);
+		}
+		else if (fileLine.equals("\\s")){
+			
 		}
 		else if (fileLine.length() >= 6 && fileLine.substring(0, 6).equals("Button") && 
 				fileLine.substring(7).matches("^[0-9]*[1-9][0-9]*$")) {
@@ -87,6 +92,8 @@ public class ScenarioNode {
 			b.addToResponse(buttonMessage);			
 			b.setAudioFile(this.buttonSound);
 			b.setNextNode(nextNode1);
+			buttonMessage = "";
+			this.buttonSound = "";
 		//	this.thisNode.addButton(this.buttonCount, this.buttonMessage, this.buttonSound, this.nextNode1);
 			
 			this.buttonCount++;
@@ -134,12 +141,31 @@ public class ScenarioNode {
 			String skipLine = fileLine.substring(14); //gives string after "/~skip-button:"
 			String[] split = skipLine.split("\\s"); //split string delimited by space
 			int buttonIndex = Integer.parseInt(split[0]); //jbutton index
-			String button = split[1]; //key phrase that button will skip to
-			this.skipName[this.numberOfButtons[nodeTrack]] = button;
-	
-			
+			String buttonName = split[1]; //key phrase that button will skip to
+			this.skipName[this.numberOfButtons[nodeTrack]] = buttonName;
+			skipButtonCounter++;
+			if (this.thisNode.getButtons().length != buttonIndex) {
+				try{
+					this.nextNode1 = thisNode.getNextNode(buttonName);
+				}
+				catch(IllegalArgumentException e)
+				{
+					this.nextNode1 = p.createNode(buttonName);
+					p.addNode(nextNode1);
+				}
+				
+				SkipButton b = (SkipButton) thisNode.getButton(buttonCount);
+				if (!buttonSound.equals(""))
+					b.setAudioFile(buttonSound);
+				b.setNextNode(nextNode1);
+				this.nextNode1.addButton(buttonIndex);
+				thisNode = nextNode1;
+				//this.userInput = false;
+			}
+			else{
 			this.thisNode.addButton(buttonIndex);
 			this.numberOfButtons[nodeTrack]++;
+			}
 		}
 		else if (fileLine.length() >= 15 && fileLine.substring(0, 15).equals("/~disp-clearAll")) {
 			int[] pins = new int[8];
@@ -257,9 +283,11 @@ public class ScenarioNode {
 		else if (this.userInput && fileLine.substring(0).equals("/~" + this.skipName[buttonCount])) {
 			//detecting /~ONEE, i.e., first button
 		}
-		else if (this.userInput && fileLine.length() >= 1
+		else if (this.userInput && fileLine.length() > 1
 				&& !(fileLine.substring(0, 2).equals("/~"))) {
 			buttonMessage = fileLine;
+			if (this.thisNode.getButton(buttonCount).getClass() == SkipButton.class)
+				((SkipButton)this.thisNode.getButton(buttonCount)).addToResponse(buttonMessage);
 		}
 		else if (this.userInput && fileLine.length() >= 8
 				&& fileLine.substring(0, 8).equals("/~sound:")) {
@@ -289,6 +317,7 @@ public class ScenarioNode {
 				}
 			}
 		}
+		
 	}
 	
 	private void play() {
@@ -319,6 +348,14 @@ public class ScenarioNode {
 //		    		
 //		    	}
 //		    }
+		    for (NodeButton b: thisNode.getButtons())
+		    {
+		    	if (b.getClass() == SkipButton.class)
+		    	{
+		    		if(((SkipButton)b).getNextNode() == null)
+		    			thisNode.removeButton(b.getNumber());
+		    	}
+		    }
 		    createEdges(p.getHead());
 		    for (int i = 0; i < numOfButtons; i++)
 		    {
