@@ -1452,7 +1452,7 @@ public class EditingScreen implements ActionListener {
 //			graphCanvas.setBounds(0, 0, 550, 525);
 			
 			this.startingX = 50;
-			this.startingY = 23;
+			this.startingY = 3;
 			this.width = 500;
 			this.height = 484;
 			this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
