@@ -814,7 +814,10 @@ public class EditingScreen implements ActionListener {
 
 					} else if (e.getClass() == Sound.class) {
 						Box.setSelectedItem("Sound");
-						
+					}
+					else if (e.getClass() == Pause.class){
+						Box.setSelectedItem("Pause");
+						textField.setText(((Pause)e).getData());
 					}
 				}
 
@@ -945,6 +948,7 @@ public class EditingScreen implements ActionListener {
 		Box.addItem("Response");
 		Box.addItem("Sound");
 		Box.addItem("Pins");
+		Box.addItem("Pause");
 		Box.addActionListener(new ActionListener() {
 
 			@Override
@@ -953,6 +957,7 @@ public class EditingScreen implements ActionListener {
 				if (Box.getSelectedItem().equals("Response")) {
 					cellBox.setVisible(false);
 					setPinVisible(false);
+					textField.setVisible(true);
 					lblChooseCell.setText("");
 					lblTitle.setText("Type your response here:");
 					lblChooseWav.setText("");
@@ -975,6 +980,16 @@ public class EditingScreen implements ActionListener {
 					setPinVisible(true);
 				} else if (Box.getSelectedItem().equals("Select Type")) {
 					setAddVisible(false);
+				}
+				else if (Box.getSelectedItem().equals("Pause"))
+				{
+					lblTitle.setText("Set pause time:");
+					cellBox.setVisible(false);
+					setPinVisible(false);
+					textField.setVisible(true);
+					textField.setText("");
+					lblChooseCell.setText("");
+					lblChooseWav.setText("");
 				}
 			}
 
@@ -1232,11 +1247,16 @@ public class EditingScreen implements ActionListener {
 						pins += 0;
 
 					//currentNode.setPins(pins, (int) cellBox.getSelectedItem());
-					currentTimeline.addEvent(new DisplayPins(pins, (int) cellBox.getSelectedItem()));
+					//currentTimeline.addEvent(new DisplayPins(pins, (int) cellBox.getSelectedItem()));
 					currentTimeline.insert((int)spinner.getValue() - 1, new DisplayPins(pins, (int)cellBox.getSelectedItem()));
 					Aframe.dispose();
 
 				} else if (Box.getSelectedItem().equals("Select Type")) {
+					Aframe.dispose();
+				}
+				else if (Box.getSelectedItem().equals("Pause")){
+					Event en = new Pause(Integer.parseInt(textField.getText()));
+					currentTimeline.insert((int)spinner.getValue() - 1, en);
 					Aframe.dispose();
 				}
 				if (NorB.equals("N"))
@@ -1309,6 +1329,12 @@ public class EditingScreen implements ActionListener {
 					Aframe.dispose();
 
 				} else if (Box.getSelectedItem().equals("Select Type")) {
+					Aframe.dispose();
+				}
+				else if (Box.getSelectedItem().equals("Pause")){
+					Event en = new Pause(Integer.parseInt(textField.getText()));
+					t.change(pos, en);
+					t.changePosition(pos, (int)spinner.getValue() - 1, en);
 					Aframe.dispose();
 				}
 				if (NorB.equals("N"))
@@ -1412,6 +1438,10 @@ public class EditingScreen implements ActionListener {
 						} else if (e.getClass() == Sound.class) {
 							Box.setSelectedItem("Sound");
 							lblChooseWav.setText("Selected sound file: " + ((Sound)e).getData());
+						}
+						else if (e.getClass() == Pause.class){
+							Box.setSelectedItem("Pause");
+							textField.setText(((Pause)e).getData());
 						}
 					}
 	
