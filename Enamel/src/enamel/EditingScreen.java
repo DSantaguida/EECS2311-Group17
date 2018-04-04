@@ -19,6 +19,7 @@ public class EditingScreen implements ActionListener {
 	JLabel lblEventPosition;
 	private String addMod;
 	private JFrame Dframe;
+	JLabel lblChooseWav;
 	ActionListener editListen;
 	SpinnerModel model;
 	JSpinner spinner;
@@ -813,6 +814,7 @@ public class EditingScreen implements ActionListener {
 
 					} else if (e.getClass() == Sound.class) {
 						Box.setSelectedItem("Sound");
+						
 					}
 				}
 
@@ -909,7 +911,7 @@ public class EditingScreen implements ActionListener {
 		textField.setVisible(false);
 		textField.setColumns(10);
 
-		JLabel lblChooseWav = new JLabel("");
+		lblChooseWav = new JLabel("");
 		lblChooseWav.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblChooseWav.setBounds(0, 63, 397, 30);
 		panel_1.add(lblChooseWav);
@@ -1262,7 +1264,7 @@ public class EditingScreen implements ActionListener {
 					t.changePosition(pos, (int)spinner.getValue() - 1, en);
 					Aframe.dispose();
 				} else if (Box.getSelectedItem().equals("Sound")) {
-					Event en = new Sound(file);
+					Event en = new Sound(lblChooseWav.getText().split(" ")[3]);
 					t.change(pos, en);
 					t.changePosition(pos, (int)spinner.getValue() - 1, en);
 					Aframe.dispose();
@@ -1409,6 +1411,7 @@ public class EditingScreen implements ActionListener {
 	
 						} else if (e.getClass() == Sound.class) {
 							Box.setSelectedItem("Sound");
+							lblChooseWav.setText("Selected sound file: " + ((Sound)e).getData());
 						}
 					}
 	
