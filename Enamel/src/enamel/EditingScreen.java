@@ -849,7 +849,7 @@ public class EditingScreen implements ActionListener {
 	public void initializeAdd() {
 		Aframe = new JFrame();
 		Aframe.setBounds(100, 100, 450, 332);
-		Aframe.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		Aframe.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		Aframe.getContentPane().setLayout(null);
 		Aframe.setVisible(false);
 
