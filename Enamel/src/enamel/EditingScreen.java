@@ -1510,6 +1510,10 @@ public class EditingScreen implements ActionListener {
 		public void paint(Graphics g) {
 	    	super.paintComponent(g);
 	        Graphics2D graphics2 = (Graphics2D) g;
+	        
+	        
+	        graphics2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
 	        graphics2.setStroke(new BasicStroke(2));
 	        Rectangle Rectangle = new Rectangle (this.startingX, this.startingY, this.width, this.height);
 	        graphics2.draw(Rectangle);
