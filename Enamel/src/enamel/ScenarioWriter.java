@@ -72,42 +72,18 @@ public class ScenarioWriter {
 		}
 	}
 	
-	public void write(Node n) throws IOException {
+	private void write(Node n) throws IOException {
 		if (!n.equals(this.s.getHead())) {
 			write("/~" + n.getName() + "\n");
 			write("/~reset-buttons\n");
-			for (int i = 0; i < s.getNumCells(); i++) {
-				if (n.getPins(i) != null) {
-					write("/~disp-cell-clear:" + i + "\n");
-				}
 			}			
-		}
-		if (n.getPauseTime() != 0) {
-			write("/~pause:" + n.getPauseTime() + "\n");
-		}
-//		if (!n.getRepeatedText().equals("")) {
-//			write("/~repeat\n" + n.getRepeatedText() + "\n~endrepeat");
+		
+		
+		write(n.getTimeline());
+
+//		if (!n.getResponse().equals("")) {
+//			write(n.getResponse() + "\n");
 //		}
-		boolean first = true;
-		for (int i = 0; i < s.getNumCells(); i++) {
-			if (n.getPins(i) != null) {
-				if (first) {
-					write("/~disp-cell-clear:" + i + "\n");
-				}
-				first = false;
-				String s = "/~disp-cell-pins:" + i + " ";
-				for (int j : n.getPins(i)) {
-					s += String.valueOf(j);
-				}
-				write(s + "\n");
-			}
-		}
-		if (!n.getAudioFile().equals("")){
-			write("/~sound:" + n.getAudioFile() +"\n");
-		}
-		if (!n.getResponse().equals("")) {
-			write(n.getResponse() + "\n");
-		}
 		Object[] arr = n.getButtons();
 		for (int i = 0; i < arr.length; i++) {
 			if (arr[i].getClass() == SkipButton.class) {
@@ -130,25 +106,35 @@ public class ScenarioWriter {
 	
 	private void write(SkipButton b) {
 		write("/~" + getButtonName(b) + "\n");
-		for (int i = 0; i < s.getNumCells(); i++) {
-			if (b.getPins(i) != null) {
-				write("/~disp-cell-clear:" + i + "\n");
-			}
-		}
-		if (!b.getAudioFile().equals("")){
-			write("/~sound:" + b.getAudioFile() +"\n");
-		}
-		if (!b.getResponse().equals("")) {
-			write(b.getResponse() + "\n");
-		}
-		if (b.getPauseTime() != 0) {
-			write("/~pause:" + b.getPauseTime() + "\n");
-		}
+		write(b.getTimeline());
 		write("/~skip:" + b.getNextNode());
 	}
 	
 	private void write(String s) {
 		this.fileWriter.write(s);
+	}
+	
+	private void write(Timeline t)
+	{
+		for(Event e: t.getEvents())
+		{
+			if (e.getClass() == Pause.class)
+			{
+				write("/~pause:" + ((Pause)e).getData() + "\n");
+			}
+			else if (e.getClass() == Response.class)
+			{
+				write(((Response)e).getData() + "\n");
+			}
+			else if (e.getClass() == Sound.class)
+			{
+				write("/~sound:" + ((Sound)e).getData() +"\n");
+			}
+			else if(e.getClass() == DisplayPins.class)
+			{
+				write("/~disp-cell-pins:" + ((DisplayPins)e).getCellNumber() + " " + ((DisplayPins)e).getPins());
+			}
+		}
 	}
 	
 	public String getButtonName(SkipButton b) {
