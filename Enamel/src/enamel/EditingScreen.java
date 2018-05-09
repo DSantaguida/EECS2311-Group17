@@ -1237,8 +1237,8 @@ public class EditingScreen implements ActionListener {
 	    /**
 	     * @wbp.parser.entryPoint
 	     */
+		@Override
 		public void paint(Graphics g) {
-	    	super.paintComponent(g);
 	        Graphics2D graphics2 = (Graphics2D) g;
 	        
 	        
