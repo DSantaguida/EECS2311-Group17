@@ -311,7 +311,7 @@ public class EditingScreen implements ActionListener {
 		btnApply.addActionListener(new ActionListener() {//
 			public void actionPerformed(ActionEvent arg0) {
 
-				
+				writer = new ScenarioWriter(scenario);
 				 writer.changeFileName(scenario.getName());
 				 try {
 				 writer.save();

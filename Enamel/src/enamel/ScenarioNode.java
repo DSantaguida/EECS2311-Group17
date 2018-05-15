@@ -89,8 +89,9 @@ public class ScenarioNode {
 				p.addNode(nextNode1);
 			}
 			SkipButton b = (SkipButton) thisNode.getButton(buttonCount);
-			b.addToResponse(buttonMessage);			
-			b.setAudioFile(this.buttonSound);
+			b.addToResponse(buttonMessage);		
+			if (!this.buttonSound.equals(""))
+				b.setAudioFile(this.buttonSound);
 			b.setNextNode(nextNode1);
 			buttonMessage = "";
 			this.buttonSound = "";

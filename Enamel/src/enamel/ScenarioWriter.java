@@ -30,11 +30,11 @@ public class ScenarioWriter {
 	private void initializeScanner() {
 		System.out.println(s.getHead());
 		try {
-			this.fileWriter = new PrintWriter( new FileWriter(new File(System.getProperty("user.dir") + "/test_" + this.s.getFileName())));
-			System.out.println("First");
+			this.fileWriter = new PrintWriter( new FileWriter(new File(System.getProperty("user.dir") + File.separator +  this.s.getFileName())));
+		//	System.out.println("First");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			File file = new File(System.getProperty("user.dir") + "/test_" + this.s.getFileName());
+			File file = new File(System.getProperty("user.dir") + File.separator +  this.s.getFileName());
 			try {
 				System.out.println("first nested");
 				file.createNewFile();
@@ -78,12 +78,8 @@ public class ScenarioWriter {
 			write("/~reset-buttons\n");
 			}			
 		
-		
 		write(n.getTimeline());
 
-//		if (!n.getResponse().equals("")) {
-//			write(n.getResponse() + "\n");
-//		}
 		Object[] arr = n.getButtons();
 		for (int i = 0; i < arr.length; i++) {
 			if (arr[i].getClass() == SkipButton.class) {
@@ -107,7 +103,7 @@ public class ScenarioWriter {
 	private void write(SkipButton b) {
 		write("/~" + getButtonName(b) + "\n");
 		write(b.getTimeline());
-		write("/~skip:" + b.getNextNode());
+		write("/~skip:" + b.getNextNode() + "\n");
 	}
 	
 	private void write(String s) {
@@ -132,7 +128,7 @@ public class ScenarioWriter {
 			}
 			else if(e.getClass() == DisplayPins.class)
 			{
-				write("/~disp-cell-pins:" + ((DisplayPins)e).getCellNumber() + " " + ((DisplayPins)e).getPins());
+				write("/~disp-cell-pins:" + ((DisplayPins)e).getCellNumber() + " " + ((DisplayPins)e).getPins() + "\n");
 			}
 		}
 	}

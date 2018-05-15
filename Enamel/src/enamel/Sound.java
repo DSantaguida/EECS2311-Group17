@@ -22,7 +22,7 @@ public class Sound extends Event {
 	public void setData(String data) {
 		// TODO Auto-generated method stub
 		FileSearch fileSearch = new FileSearch();
-
+		
         //try different directory and filename 
 		fileSearch.searchDirectory(new File(System.getProperty("user.dir")), data);
 	
