@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public class FeatureTracker {
 	private int chooseExistingCounter, createNewCounter;
+	private int[] counterNum;
 	private FileReader reader;
 
 	public FeatureTracker() {
