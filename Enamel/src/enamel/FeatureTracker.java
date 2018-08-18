@@ -14,6 +14,7 @@ public class FeatureTracker {
 		this.chooseExistingCounter = 0;
 		this.createNewCounter = 0;
 		this.saveCounter = 0;
+		this.counterNum = new int[3];
 		try {
 			this.reader = new FileReader("featuretracker.txt");
 		} catch (IOException e) {
@@ -56,7 +57,7 @@ public class FeatureTracker {
 			String[] split = breakDown.split("\\s");
 			createNewCounter = Integer.parseInt(split[1]);
 		}
-		else if (line.length() >= 3 && line.substring(0, 8).equals("save")) {
+		else if (line.length() >= 3 && line.substring(0, 3).equals("save")) {
 			String breakDown = line.substring(3);
 			String[] split = breakDown.split("\\s");
 			saveCounter = Integer.parseInt(split[1]);
