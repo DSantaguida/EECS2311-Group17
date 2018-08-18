@@ -81,6 +81,7 @@ public class EditingScreen implements ActionListener {
 	private JButton btnNode;
 	private JLabel lblNextNodes;
 	private JComboBox<Node> comboBoxNextNodes;
+	private FeatureTracker track;
 
 	// int[] indvCell = new int[boxCount];
 
@@ -181,6 +182,9 @@ public class EditingScreen implements ActionListener {
 
 	private void initialize() { // Initialize GUI
 		int x1 = 0;
+		
+		//Initialize FeatureTracker
+		track = new FeatureTracker();
 		
 		// Initialize Main JFrame
 		frame = new JFrame();
@@ -322,6 +326,8 @@ public class EditingScreen implements ActionListener {
 			}
 		});
 		btnApply.getAccessibleContext().setAccessibleName("Click to apply changes");
+		track.incrementCounterSave();
+		track.saveCounter();
 
 		for (int i = 0; i < buttonCount; i++) // Display buttons based on the
 												// amount of buttons passed in
