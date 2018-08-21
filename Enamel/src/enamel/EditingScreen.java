@@ -320,6 +320,8 @@ public class EditingScreen implements ActionListener {
 		panel_2.add(btnApply);
 		btnApply.addActionListener(new ActionListener() {//
 			public void actionPerformed(ActionEvent arg0) {
+				
+				
 
 				writer = new ScenarioWriter(scenario);
 				 writer.changeFileName(scenario.getName());
@@ -334,6 +336,7 @@ public class EditingScreen implements ActionListener {
 		btnApply.getAccessibleContext().setAccessibleName("Click to apply changes");
 		track.incrementCounterSave();
 		track.saveCounter();
+		track.topFive();
 
 		for (int i = 0; i < buttonCount; i++) // Display buttons based on the
 												// amount of buttons passed in
