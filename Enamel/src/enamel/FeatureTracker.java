@@ -6,13 +6,15 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class FeatureTracker {
-	private int chooseExistingCounter, createNewCounter;
+	private int chooseExistingCounter, createNewCounter, saveCounter;
 	private int[] counterNum;
 	private FileReader reader;
 
 	public FeatureTracker() {
 		this.chooseExistingCounter = 0;
 		this.createNewCounter = 0;
+		this.saveCounter = 0;
+		this.counterNum = new int[3];
 		try {
 			this.reader = new FileReader("featuretracker.txt");
 		} catch (IOException e) {
@@ -55,6 +57,11 @@ public class FeatureTracker {
 			String[] split = breakDown.split("\\s");
 			createNewCounter = Integer.parseInt(split[1]);
 		}
+		else if (line.length() >= 3 && line.substring(0, 3).equals("save")) {
+			String breakDown = line.substring(3);
+			String[] split = breakDown.split("\\s");
+			saveCounter = Integer.parseInt(split[1]);
+		}
 	}
 
 	public void saveCounter() {
@@ -67,6 +74,7 @@ public class FeatureTracker {
 			}
 			input = input.replaceAll("chooseexisting " + "\\d+", "chooseexisting " + this.chooseExistingCounter);
 			input = input.replace("createnew " + "\\d+", "createnew " + this.createNewCounter);
+			input = input.replace("save" + "\\d+", "save " + this.saveCounter);
 			FileOutputStream out = new FileOutputStream("featuretracker.txt");
 			out.write(input.getBytes());
 			file.close();
@@ -132,5 +140,10 @@ public class FeatureTracker {
 		this.createNewCounter++;
 		//array index 1
 		counterNum[1]++;
+	}
+	
+	public void incrementCounterSave() {
+		this.saveCounter++;
+		counterNum[2]++;
 	}
 }
