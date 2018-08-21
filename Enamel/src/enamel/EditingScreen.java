@@ -466,6 +466,27 @@ public class EditingScreen implements ActionListener {
 				panel.add(comboBoxPanel);
 				comboBoxPanel.add(comboBoxPrevNodes);
 				comboBoxPanel.add(comboBoxNextNodes);
+				
+				JButton btnAddNewNode = new JButton("Add New Node to Current Button");
+				btnAddNewNode.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						if (lblCurrentButton.getText().equals("Node Selected"))
+						{
+							JOptionPane.showMessageDialog(frame, "You can only add a new node to a button with no child node.");
+						}
+						else if (currentNode.getNext(currentNodeButton.getNumber()) != null){
+							JOptionPane.showMessageDialog(frame, "This button already has a child node.");
+						}
+						else{
+							Node newNode = scenario.createNode();
+							scenario.setEdge(currentNode, newNode, currentNodeButton.getNumber());
+							graphCanvas.setVisible(false);
+							graphCanvas.repaint();
+							graphCanvas.setVisible(true);
+						}
+					}
+				});
+				comboBoxPanel.add(btnAddNewNode);
 
 		
 		// loadNodeEvents();
