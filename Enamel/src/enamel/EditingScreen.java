@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import javax.swing.border.MatteBorder;
 
 public class EditingScreen implements ActionListener {
 	// UNCOMMENT 973 WHEN DONE
@@ -204,7 +205,7 @@ public class EditingScreen implements ActionListener {
 		panel.setLayout(null);
 
 		graphCanvas = new GraphCanvas(scenario, scenario.getHead());
-		graphCanvas.setBounds(0, 0, 550, 525);
+		graphCanvas.setBounds(0, 100, 560, 625);
 		panel.add(graphCanvas);
 		// Label to display the amount of buttons
 		lblAvaliableButtons = new JLabel("Edit Available Buttons:");
@@ -382,7 +383,7 @@ public class EditingScreen implements ActionListener {
 		cl.show(optionCard, "Do Nothing");
 
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(372, 644, 250, 35);
+		panel_3.setBounds(12, 13, 250, 35);
 		panel.add(panel_3);
 
 		JButton btnMainMenu = new JButton("Main Menu");
@@ -395,7 +396,7 @@ public class EditingScreen implements ActionListener {
 		});
 		panel_3.add(btnMainMenu);
 		
-		JButton btnRecorder = new JButton("Recorder");
+		JButton btnRecorder = new JButton("Record Audio");
 		btnRecorder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread th = new Thread(new Runnable(){
@@ -425,9 +426,6 @@ public class EditingScreen implements ActionListener {
 		panel_4.setBounds(8, 692, 142, 35);
 		panel.add(panel_4);
 		lblPreviousNodes = new JLabel("Previous Nodes:");
-
-		comboBoxPrevNodes = new JComboBox<>();
-		comboBoxPrevNodes.setAlignmentY(0);
 
 		btnNode = new JButton("Current Node");
 		btnNode.setAlignmentY(50);
@@ -462,12 +460,32 @@ public class EditingScreen implements ActionListener {
 				lblCurrentButton.setText("Node Selected");
 				
 				JPanel comboBoxPanel = new JPanel();
-				comboBoxPanel.setBounds(12, 604, 472, 35);
+				comboBoxPanel.setBorder(null);
+				comboBoxPanel.setBounds(143, 534, 349, 51);
 				panel.add(comboBoxPanel);
-				comboBoxPanel.add(comboBoxPrevNodes);
+				comboBoxPanel.setLayout(new BoxLayout(comboBoxPanel, BoxLayout.Y_AXIS));
+				
+				JLabel lblNextNodes_1 = new JLabel("Next Nodes:");
+				lblNextNodes_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				comboBoxPanel.add(lblNextNodes_1);
 				comboBoxPanel.add(comboBoxNextNodes);
 				
 				JButton btnAddNewNode = new JButton("Add New Node to Current Button");
+				btnAddNewNode.setBounds(385, 652, 219, 25);
+				panel.add(btnAddNewNode);
+				
+				JPanel panel_5 = new JPanel();
+				panel_5.setBounds(143, 48, 349, 51);
+				panel.add(panel_5);
+				panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.Y_AXIS));
+				
+				JLabel lblPreviousNodes_1 = new JLabel("Previous Nodes:");
+				panel_5.add(lblPreviousNodes_1);
+				lblPreviousNodes_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				
+						comboBoxPrevNodes = new JComboBox<>();
+						panel_5.add(comboBoxPrevNodes);
+						comboBoxPrevNodes.setAlignmentY(0);
 				btnAddNewNode.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						if (lblCurrentButton.getText().equals("Node Selected"))
@@ -486,7 +504,6 @@ public class EditingScreen implements ActionListener {
 						}
 					}
 				});
-				comboBoxPanel.add(btnAddNewNode);
 
 		
 		// loadNodeEvents();
