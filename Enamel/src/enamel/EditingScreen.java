@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 public class EditingScreen implements ActionListener {
 	// UNCOMMENT 973 WHEN DONE
+	
 	private JFrame frame;
 	JLabel lblEventPosition;
 	private String addMod;
@@ -775,13 +776,24 @@ public class EditingScreen implements ActionListener {
 		
 		graphCanvas = new GraphCanvas(scenario, scenario.getHead());
 		JPanel comboBoxPanel = new JPanel();
-		comboBoxPanel.setLayout(new OverlayLayout(comboBoxPanel));
-		comboBoxPanel.add(comboBoxPrevNodes);
-		comboBoxPanel.add(btnNode);
-		comboBoxPanel.add(comboBoxNextNodes);
-		comboBoxPanel.add(lblNextNodes);
-		comboBoxPanel.add(lblPreviousNodes);
-		comboBoxPanel.setBounds(0, 0, 550, 525);
+		JPanel prevPanel = new JPanel();
+		prevPanel.setLayout(new BoxLayout(prevPanel, BoxLayout.Y_AXIS));
+		prevPanel.add(lblPreviousNodes, BorderLayout.NORTH);
+		prevPanel.add(comboBoxPrevNodes, BorderLayout.NORTH);
+
+		JPanel nextPanel = new JPanel();
+		nextPanel.setLayout(new BoxLayout(nextPanel, BoxLayout.Y_AXIS));
+		nextPanel.add(lblNextNodes, BorderLayout.NORTH);
+		nextPanel.add(comboBoxNextNodes, BorderLayout.NORTH);
+		
+		comboBoxPanel.setLayout(new BorderLayout());
+		
+		comboBoxPanel.add(prevPanel, BorderLayout.NORTH);
+	
+		comboBoxPanel.add(nextPanel, BorderLayout.SOUTH);
+		
+		comboBoxPanel.setBounds(0, 0, 650, 555);
+		
 		this.frame.getContentPane().add(comboBoxPanel);
 		for (Node node : this.scenario.getPrevNodes(this.currentNode)) {
 			comboBoxPrevNodes.addItem(node);
@@ -842,8 +854,8 @@ public class EditingScreen implements ActionListener {
 				}
 			}
 		});
-		graphCanvas.setBounds(0, 0, 550, 525);
-		frame.getContentPane().add(graphCanvas);
+		
+		comboBoxPanel.add(graphCanvas, BorderLayout.CENTER);
 		graphCanvas.setVisible(true);
 		graphCanvas.repaint();
 		graphCanvas.revalidate();
@@ -1229,7 +1241,7 @@ public class EditingScreen implements ActionListener {
 			this.startingX = 50;
 			this.startingY = 3;
 			this.width = 500;
-			this.height = 484;
+			this.height = 425;
 			
 			
 		}
