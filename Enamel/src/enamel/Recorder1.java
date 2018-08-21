@@ -33,6 +33,8 @@ public class Recorder1 {
 	Voice voice;
 	VoiceManager vm;
 	
+	//hello
+	
     void start() {
     	try {
     		
