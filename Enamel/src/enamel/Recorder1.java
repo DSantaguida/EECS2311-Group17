@@ -124,10 +124,11 @@ public class Recorder1 {
      */
 
 	public static void main(String[] args) {
+		Recorder1 window = new Recorder1();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Recorder1 window = new Recorder1();
+					
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -135,9 +136,6 @@ public class Recorder1 {
 			}
 		});
 		
-
-        final Recorder1 recorder = new Recorder1();
-        
         // creates a new thread that waits for a specified
         // of time before stopping
         Thread stopper = new Thread(new Runnable() {
@@ -148,14 +146,14 @@ public class Recorder1 {
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
-                recorder.finish();
+                window.finish();
                 
             }
         });
  
         stopper.start();
         // start recording
-        recorder.start();
+        window.start();
 	}
 
 	/**
@@ -180,9 +178,13 @@ public class Recorder1 {
 		btnEndRecording.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
+				try {
+					finish();
+				} catch (Exception err) {
+					err.printStackTrace();
+				}
 				
-				
-				
+	
 			}
 		});
 		btnEndRecording.setBounds(10, 95, 414, 50);
