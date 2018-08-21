@@ -199,10 +199,13 @@ public class EditingScreen implements ActionListener {
 
 		// Initialize Main JPanel
 		panel = new JPanel();
-		panel.setBounds(12, 0, 957, 740);
+		panel.setBounds(0, 0, 957, 740);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 
+		graphCanvas = new GraphCanvas(scenario, scenario.getHead());
+		graphCanvas.setBounds(0, 0, 550, 525);
+		panel.add(graphCanvas);
 		// Label to display the amount of buttons
 		lblAvaliableButtons = new JLabel("Edit Available Buttons:");
 		lblAvaliableButtons.setForeground(Color.BLACK);
@@ -267,11 +270,19 @@ public class EditingScreen implements ActionListener {
 						fileSearch.searchDirectory(new File(System.getProperty("user.dir")), found);
 
 						int count = fileSearch.getResult().size();
-						if (count == 0) {
-							throw new IllegalArgumentException("File does not exist");
-						} else {
-							s.setScenarioFile(found);
+//						if (count == 0) {
+//							throw new IllegalArgumentException("File does not exist");
+//						} else {
+//							s.setScenarioFile(found);
+//						}
+						ScenarioWriter write = new ScenarioWriter(scenario, true);
+						try {
+							write.save();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
+						s.setScenarioFile("tempfile2343246-@#$%^.txt");
 					}
 					
 				});
@@ -449,6 +460,12 @@ public class EditingScreen implements ActionListener {
 				lblCurrentButton.setForeground(Color.BLACK);
 				lblCurrentButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
 				lblCurrentButton.setText("Node Selected");
+				
+				JPanel comboBoxPanel = new JPanel();
+				comboBoxPanel.setBounds(12, 604, 472, 35);
+				panel.add(comboBoxPanel);
+				comboBoxPanel.add(comboBoxPrevNodes);
+				comboBoxPanel.add(comboBoxNextNodes);
 
 		
 		// loadNodeEvents();
@@ -818,27 +835,8 @@ public class EditingScreen implements ActionListener {
 		}
 		panel_2.add(cellBox);
 		
-		graphCanvas = new GraphCanvas(scenario, scenario.getHead());
-		JPanel comboBoxPanel = new JPanel();
-		JPanel prevPanel = new JPanel();
-		prevPanel.setLayout(new BoxLayout(prevPanel, BoxLayout.Y_AXIS));
-		prevPanel.add(lblPreviousNodes, BorderLayout.NORTH);
-		prevPanel.add(comboBoxPrevNodes, BorderLayout.NORTH);
-
-		JPanel nextPanel = new JPanel();
-		nextPanel.setLayout(new BoxLayout(nextPanel, BoxLayout.Y_AXIS));
-		nextPanel.add(lblNextNodes, BorderLayout.NORTH);
-		nextPanel.add(comboBoxNextNodes, BorderLayout.NORTH);
-		
-		comboBoxPanel.setLayout(new BorderLayout());
-		
-		comboBoxPanel.add(prevPanel, BorderLayout.NORTH);
 	
-		comboBoxPanel.add(nextPanel, BorderLayout.SOUTH);
-		
-		comboBoxPanel.setBounds(0, 0, 650, 555);
-		
-		this.frame.getContentPane().add(comboBoxPanel);
+
 		for (Node node : this.scenario.getPrevNodes(this.currentNode)) {
 			comboBoxPrevNodes.addItem(node);
 		}
@@ -899,7 +897,7 @@ public class EditingScreen implements ActionListener {
 			}
 		});
 		
-		comboBoxPanel.add(graphCanvas, BorderLayout.CENTER);
+		//comboBoxPanel.add(graphCanvas, BorderLayout.CENTER);
 		graphCanvas.setVisible(true);
 		graphCanvas.repaint();
 		graphCanvas.revalidate();

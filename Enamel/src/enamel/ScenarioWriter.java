@@ -26,6 +26,12 @@ public class ScenarioWriter {
 		initializeScanner();
 		
 	}
+	public ScenarioWriter(Scenario scen, boolean tempFile)
+	{
+		this.s = scen;
+		this.written = new HashSet<>();
+		initializeTempScanner();
+	}
 	
 	private void initializeScanner() {
 		System.out.println(s.getHead());
@@ -50,6 +56,28 @@ public class ScenarioWriter {
 		}
 	}
 	
+	private void initializeTempScanner() {
+		System.out.println(s.getHead());
+		try {
+			this.fileWriter = new PrintWriter( new FileWriter(new File(System.getProperty("user.dir") + File.separator +  "tempfile2343246-@#$%^.txt")));
+		//	System.out.println("First");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			File file = new File(System.getProperty("user.dir") + File.separator +  "tempfile2343246-@#$%^.txt");
+			try {
+				System.out.println("first nested");
+				file.createNewFile();
+				this.initializeScanner();
+				System.out.println("finished");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public void changeFileName(String name) {
 		this.s.setFileName(name);
 		this.initializeScanner();
@@ -136,4 +164,5 @@ public class ScenarioWriter {
 	public String getButtonName(SkipButton b) {
 		return arr[b.getNumber()];
 	}
+	
 }
