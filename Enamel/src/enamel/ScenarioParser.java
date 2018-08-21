@@ -537,5 +537,8 @@ public class ScenarioParser {
 							+ " you are looking for a different directory?");
 		}
 	}
+	public void playIOSTream(InputStream f) {
+		
+	}
 
 }
