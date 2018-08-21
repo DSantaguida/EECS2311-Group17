@@ -818,91 +818,91 @@ public class EditingScreen implements ActionListener {
 		}
 		panel_2.add(cellBox);
 		
-//		graphCanvas = new GraphCanvas(scenario, scenario.getHead());
-//		JPanel comboBoxPanel = new JPanel();
-//		JPanel prevPanel = new JPanel();
-//		prevPanel.setLayout(new BoxLayout(prevPanel, BoxLayout.Y_AXIS));
-//		prevPanel.add(lblPreviousNodes, BorderLayout.NORTH);
-//		prevPanel.add(comboBoxPrevNodes, BorderLayout.NORTH);
-//
-//		JPanel nextPanel = new JPanel();
-//		nextPanel.setLayout(new BoxLayout(nextPanel, BoxLayout.Y_AXIS));
-//		nextPanel.add(lblNextNodes, BorderLayout.NORTH);
-//		nextPanel.add(comboBoxNextNodes, BorderLayout.NORTH);
-//		
-//		comboBoxPanel.setLayout(new BorderLayout());
-//		
-//		comboBoxPanel.add(prevPanel, BorderLayout.NORTH);
-//	
-//		comboBoxPanel.add(nextPanel, BorderLayout.SOUTH);
-//		
-//		comboBoxPanel.setBounds(0, 0, 650, 555);
-//		
-//		this.frame.getContentPane().add(comboBoxPanel);
-//		for (Node node : this.scenario.getPrevNodes(this.currentNode)) {
-//			comboBoxPrevNodes.addItem(node);
-//		}
-//		for (Node node : this.scenario.getNextNodes(this.currentNode)) {
-//			comboBoxNextNodes.addItem(node);
-//		}
-//
-//		comboBoxNextNodes.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				if (testActionListenerActive) {
-//					testActionListenerActive = false;
-//					currentNode = (Node) comboBoxNextNodes.getSelectedItem();
-//					CardLayout cl = (CardLayout) (optionCard.getLayout());
-//					cl.show(optionCard, "Do Nothing");
-//					lblCurrentButton.setText("Node Selected");
-//					graphCanvas.setNode(currentNode);
-//					graphCanvas.repaint();
-//					comboBoxNextNodes.removeAllItems();
-//					for (Node node : scenario.getNextNodes(currentNode)) {
-//						comboBoxNextNodes.addItem(node);
-//					}
-//					comboBoxPrevNodes.removeAllItems();
-//					for (Node node : scenario.getPrevNodes(currentNode)) {
-//						comboBoxPrevNodes.addItem(node);
-//					}
-//					loadNodeEvents();
-//					testActionListenerActive = true;
-//				}
-//
-//			}
-//		});
-//
-//		comboBoxPrevNodes.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				if (testActionListenerActive) {
-//					testActionListenerActive = false;
-//					currentNode = (Node) comboBoxPrevNodes.getSelectedItem();
-//					CardLayout cl = (CardLayout) (optionCard.getLayout());
-//					cl.show(optionCard, "Do Nothing");
-//					lblCurrentButton.setText("Node Selected");
-//					graphCanvas.setNode(currentNode);
-//					graphCanvas.repaint();
-//					comboBoxNextNodes.removeAllItems();
-//					if (scenario.hasNextNodes(currentNode)) {
-//						for (Node node : scenario.getNextNodes(currentNode)) {
-//							comboBoxNextNodes.addItem(node);
-//						}
-//					}
-//					comboBoxPrevNodes.removeAllItems();
-//					for (Node node : scenario.getPrevNodes(currentNode)) {
-//						comboBoxPrevNodes.addItem(node);
-//					}
-//					loadNodeEvents();
-//					testActionListenerActive = true;
-//				}
-//			}
-//		});
-//		
-//		comboBoxPanel.add(graphCanvas, BorderLayout.CENTER);
-//		graphCanvas.setVisible(true);
-//		graphCanvas.repaint();
-//		graphCanvas.revalidate();
+		graphCanvas = new GraphCanvas(scenario, scenario.getHead());
+		JPanel comboBoxPanel = new JPanel();
+		JPanel prevPanel = new JPanel();
+		prevPanel.setLayout(new BoxLayout(prevPanel, BoxLayout.Y_AXIS));
+		prevPanel.add(lblPreviousNodes, BorderLayout.NORTH);
+		prevPanel.add(comboBoxPrevNodes, BorderLayout.NORTH);
+
+		JPanel nextPanel = new JPanel();
+		nextPanel.setLayout(new BoxLayout(nextPanel, BoxLayout.Y_AXIS));
+		nextPanel.add(lblNextNodes, BorderLayout.NORTH);
+		nextPanel.add(comboBoxNextNodes, BorderLayout.NORTH);
+		
+		comboBoxPanel.setLayout(new BorderLayout());
+		
+		comboBoxPanel.add(prevPanel, BorderLayout.NORTH);
+	
+		comboBoxPanel.add(nextPanel, BorderLayout.SOUTH);
+		
+		comboBoxPanel.setBounds(0, 0, 650, 555);
+		
+		this.frame.getContentPane().add(comboBoxPanel);
+		for (Node node : this.scenario.getPrevNodes(this.currentNode)) {
+			comboBoxPrevNodes.addItem(node);
+		}
+		for (Node node : this.scenario.getNextNodes(this.currentNode)) {
+			comboBoxNextNodes.addItem(node);
+		}
+
+		comboBoxNextNodes.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (testActionListenerActive) {
+					testActionListenerActive = false;
+					currentNode = (Node) comboBoxNextNodes.getSelectedItem();
+					CardLayout cl = (CardLayout) (optionCard.getLayout());
+					cl.show(optionCard, "Do Nothing");
+					lblCurrentButton.setText("Node Selected");
+					graphCanvas.setNode(currentNode);
+					graphCanvas.repaint();
+					comboBoxNextNodes.removeAllItems();
+					for (Node node : scenario.getNextNodes(currentNode)) {
+						comboBoxNextNodes.addItem(node);
+					}
+					comboBoxPrevNodes.removeAllItems();
+					for (Node node : scenario.getPrevNodes(currentNode)) {
+						comboBoxPrevNodes.addItem(node);
+					}
+					loadNodeEvents();
+					testActionListenerActive = true;
+				}
+
+			}
+		});
+
+		comboBoxPrevNodes.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (testActionListenerActive) {
+					testActionListenerActive = false;
+					currentNode = (Node) comboBoxPrevNodes.getSelectedItem();
+					CardLayout cl = (CardLayout) (optionCard.getLayout());
+					cl.show(optionCard, "Do Nothing");
+					lblCurrentButton.setText("Node Selected");
+					graphCanvas.setNode(currentNode);
+					graphCanvas.repaint();
+					comboBoxNextNodes.removeAllItems();
+					if (scenario.hasNextNodes(currentNode)) {
+						for (Node node : scenario.getNextNodes(currentNode)) {
+							comboBoxNextNodes.addItem(node);
+						}
+					}
+					comboBoxPrevNodes.removeAllItems();
+					for (Node node : scenario.getPrevNodes(currentNode)) {
+						comboBoxPrevNodes.addItem(node);
+					}
+					loadNodeEvents();
+					testActionListenerActive = true;
+				}
+			}
+		});
+		
+		comboBoxPanel.add(graphCanvas, BorderLayout.CENTER);
+		graphCanvas.setVisible(true);
+		graphCanvas.repaint();
+		graphCanvas.revalidate();
 		
 	}
 
