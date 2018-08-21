@@ -48,7 +48,7 @@ public class Recorder1 {
     		
     	    //Change recording time to allow user to choose when they want to stop
     		
-    	    File wavFile = new File("FactoryScenarios\\AudioFiles\\" + name + ".wav");	
+    	    File wavFile = new File(name + ".wav");	
     		
     			AudioFormat format = getAudioFormat();
     			DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);

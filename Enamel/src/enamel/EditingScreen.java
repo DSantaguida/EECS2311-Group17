@@ -381,7 +381,6 @@ public class EditingScreen implements ActionListener {
 		JPanel panel_3 = new JPanel();
 		panel_3.setBounds(223, 644, 152, 35);
 		panel.add(panel_3);
-		panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		JButton btnMainMenu = new JButton("Main Menu");
 		btnMainMenu.addActionListener(new ActionListener() {
@@ -391,8 +390,26 @@ public class EditingScreen implements ActionListener {
 				go.frame.setVisible(true);
 			}
 		});
-		panel_3.add(btnMainMenu);
+	//	panel_3.add(btnMainMenu);
+		
+		JButton btnRecorder = new JButton("Recorder");
+		btnRecorder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Thread th = new Thread(new Runnable(){
 
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						
+						Recorder1.main(new String[0]);
+					}
+					
+				});
+				th.start();
+				
+			}
+		});
+		panel_3.add(btnRecorder);
 		lblPreviousNodes = new JLabel("Previous Nodes:");
 
 		comboBoxPrevNodes = new JComboBox<>();
