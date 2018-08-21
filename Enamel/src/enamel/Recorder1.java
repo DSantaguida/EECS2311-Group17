@@ -33,6 +33,52 @@ public class Recorder1 {
 	Voice voice;
 	VoiceManager vm;
 	
+    void start() {
+    	try {
+    		
+    		//Allow for name input in editing screen before moving to recorder screen to record??
+    		//Need to name before calling this class
+    		vm = VoiceManager.getInstance();
+	        voice = vm.getVoice ("kevin16");
+	        voice.allocate();
+	        voice.speak("Please enter your recording name before we begin");
+    		String name = JOptionPane.showInputDialog("Please enter your recording name before we begin:");
+    		
+    	    //Change recording time to allow user to choose when they want to stop
+    		
+    	    File wavFile = new File("FactoryScenarios\\AudioFiles\\" + name + ".wav");	
+    		
+    			AudioFormat format = getAudioFormat();
+    			DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
+ 
+    			// checks if system supports the data line
+    			if (!AudioSystem.isLineSupported(info)) {
+    				System.out.println("Line not supported");
+    				System.exit(0);
+    			}
+    			line = (TargetDataLine) AudioSystem.getLine(info);
+    			line.open(format);
+    			line.start();   // start capturing
+ 
+    			System.out.println("Start capturing...");
+ 
+    			AudioInputStream ais = new AudioInputStream(line);
+ 
+    			System.out.println("Start recording...");
+ 
+    			// start recording
+    			AudioSystem.write(ais, fileType, wavFile);
+    		
+ 
+    		} catch (LineUnavailableException ex) {
+            ex.printStackTrace();
+    		} catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
+
+    }
+	
 
  
 	/**
@@ -156,49 +202,5 @@ public class Recorder1 {
      * Captures the sound and record into a WAV file
      */
     
-    void start() {
-    	try {
-    		
-    		//Allow for name input in editing screen before moving to recorder screen to record??
-    		//Need to name before calling this class
-    		vm = VoiceManager.getInstance();
-	        voice = vm.getVoice ("kevin16");
-	        voice.allocate();
-	        voice.speak("Please enter your recording name before we begin");
-    		String name = JOptionPane.showInputDialog("Please enter your recording name before we begin:");
-    		
-    	    //Change recording time to allow user to choose when they want to stop
-    		
-    	    File wavFile = new File("FactoryScenarios\\AudioFiles\\" + name + ".wav");	
-    		
-    			AudioFormat format = getAudioFormat();
-    			DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
- 
-    			// checks if system supports the data line
-    			if (!AudioSystem.isLineSupported(info)) {
-    				System.out.println("Line not supported");
-    				System.exit(0);
-    			}
-    			line = (TargetDataLine) AudioSystem.getLine(info);
-    			line.open(format);
-    			line.start();   // start capturing
- 
-    			System.out.println("Start capturing...");
- 
-    			AudioInputStream ais = new AudioInputStream(line);
- 
-    			System.out.println("Start recording...");
- 
-    			// start recording
-    			AudioSystem.write(ais, fileType, wavFile);
-    		
- 
-    		} catch (LineUnavailableException ex) {
-            ex.printStackTrace();
-    		} catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
 
-
-    }
 }
