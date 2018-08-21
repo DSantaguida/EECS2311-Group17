@@ -204,22 +204,15 @@ public class EditingScreen implements ActionListener {
 		panel.setLayout(null);
 
 		// Label to display the amount of buttons
-		lblAvaliableButtons = new JLabel("Available Buttons:");
+		lblAvaliableButtons = new JLabel("Edit Available Buttons:");
 		lblAvaliableButtons.setForeground(Color.BLACK);
 		lblAvaliableButtons.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblAvaliableButtons.setBounds(12, 663, 183, 16);
+		lblAvaliableButtons.setBounds(162, 663, 211, 16);
 		panel.add(lblAvaliableButtons);
-
-		lblCurrentButton = new JLabel("Current Button: " + currentButton);
-		// lblCurrentButton.getAccessibleContext().setAccessibleName(lblCurrentButton.getText());
-		lblCurrentButton.setForeground(Color.BLACK);
-		lblCurrentButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblCurrentButton.setBounds(12, 634, 183, 16);
-		panel.add(lblCurrentButton);
 
 		optionCard = new JPanel();
 		optionCard.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		optionCard.setBounds(654, 13, 270, 666);
+		optionCard.setBounds(654, 48, 270, 631);
 		optionCard.setLayout(new CardLayout());
 		panel.add(optionCard);
 
@@ -243,9 +236,9 @@ public class EditingScreen implements ActionListener {
 		buttonCard.setLayout(null);
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(12, 692, 457, 35);
+		panel_1.setBounds(162, 692, 457, 35);
 		panel.add(panel_1);
-		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel_1.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(698, 692, 195, 35);
@@ -376,10 +369,9 @@ public class EditingScreen implements ActionListener {
 		}
 		CardLayout cl = (CardLayout) (optionCard.getLayout());
 		cl.show(optionCard, "Do Nothing");
-		lblCurrentButton.setText("Node Selected");
 
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(223, 644, 152, 35);
+		panel_3.setBounds(372, 644, 250, 35);
 		panel.add(panel_3);
 
 		JButton btnMainMenu = new JButton("Main Menu");
@@ -390,7 +382,7 @@ public class EditingScreen implements ActionListener {
 				go.frame.setVisible(true);
 			}
 		});
-	//	panel_3.add(btnMainMenu);
+		panel_3.add(btnMainMenu);
 		
 		JButton btnRecorder = new JButton("Recorder");
 		btnRecorder.addActionListener(new ActionListener() {
@@ -410,6 +402,17 @@ public class EditingScreen implements ActionListener {
 			}
 		});
 		panel_3.add(btnRecorder);
+		
+		JLabel lblEditNode = new JLabel("Edit Node:");
+		lblEditNode.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblEditNode.setBounds(12, 666, 106, 16);
+		panel.add(lblEditNode);
+		
+		JPanel panel_4 = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel_4.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		panel_4.setBounds(8, 692, 142, 35);
+		panel.add(panel_4);
 		lblPreviousNodes = new JLabel("Previous Nodes:");
 
 		comboBoxPrevNodes = new JComboBox<>();
@@ -436,15 +439,29 @@ public class EditingScreen implements ActionListener {
 				loadNodeEvents();
 			}
 		});
+		panel_4.add(btnNode);
+		
+				lblCurrentButton = new JLabel("Current Button: " + currentButton);
+				lblCurrentButton.setBounds(654, 13, 270, 25);
+				panel.add(lblCurrentButton);
+				lblCurrentButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+				// lblCurrentButton.getAccessibleContext().setAccessibleName(lblCurrentButton.getText());
+				lblCurrentButton.setForeground(Color.BLACK);
+				lblCurrentButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
+				lblCurrentButton.setText("Node Selected");
 
 		
 		// loadNodeEvents();
 	}
 
 	private void initEventMods() {
+				
+				//BoxLayout box = new BoxLayout(eventPanel, BoxLayout.Y_AXIS);
+				
+				eventPanel.setLayout(new BoxLayout(eventPanel, BoxLayout.Y_AXIS));
 		JPanel panel_5 = new JPanel();
 		eventPanel.add(panel_5);
-		panel_5.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 5));
+		panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.X_AXIS));
 
 		JLabel lblEventEditor = new JLabel("Event Editor:");
 		lblEventEditor.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -505,9 +522,11 @@ public class EditingScreen implements ActionListener {
 		for (Event e : t.getEvents()) {
 			count++;
 		//	System.out.println(count);
-			eventPanel.add(new JLabel("Event " + count));
+		//	eventPanel.add(new JLabel("Event " + count));
 			String disp = e.getClass().toString();
-			JButton eventButton = new JButton(e.getClass().toString());
+			JPanel eventButtonPanel = new JPanel(new FlowLayout());
+			eventButtonPanel.add(new JLabel("Event " + count));
+			JButton eventButton = new JButton(e.getClass().toString().split("\\.")[1]);
 			eventButton.addActionListener(new ActionListener() {
 
 				@Override
@@ -579,7 +598,9 @@ public class EditingScreen implements ActionListener {
 				}
 
 			});
-			eventPanel.add(eventButton);
+			eventButtonPanel.add(eventButton);
+			//eventPanel.add(eventButton);
+			eventPanel.add(eventButtonPanel);
 			eventPanel.revalidate();
 			eventPanel.repaint();
 		}
@@ -797,91 +818,91 @@ public class EditingScreen implements ActionListener {
 		}
 		panel_2.add(cellBox);
 		
-		graphCanvas = new GraphCanvas(scenario, scenario.getHead());
-		JPanel comboBoxPanel = new JPanel();
-		JPanel prevPanel = new JPanel();
-		prevPanel.setLayout(new BoxLayout(prevPanel, BoxLayout.Y_AXIS));
-		prevPanel.add(lblPreviousNodes, BorderLayout.NORTH);
-		prevPanel.add(comboBoxPrevNodes, BorderLayout.NORTH);
-
-		JPanel nextPanel = new JPanel();
-		nextPanel.setLayout(new BoxLayout(nextPanel, BoxLayout.Y_AXIS));
-		nextPanel.add(lblNextNodes, BorderLayout.NORTH);
-		nextPanel.add(comboBoxNextNodes, BorderLayout.NORTH);
-		
-		comboBoxPanel.setLayout(new BorderLayout());
-		
-		comboBoxPanel.add(prevPanel, BorderLayout.NORTH);
-	
-		comboBoxPanel.add(nextPanel, BorderLayout.SOUTH);
-		
-		comboBoxPanel.setBounds(0, 0, 650, 555);
-		
-		this.frame.getContentPane().add(comboBoxPanel);
-		for (Node node : this.scenario.getPrevNodes(this.currentNode)) {
-			comboBoxPrevNodes.addItem(node);
-		}
-		for (Node node : this.scenario.getNextNodes(this.currentNode)) {
-			comboBoxNextNodes.addItem(node);
-		}
-
-		comboBoxNextNodes.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (testActionListenerActive) {
-					testActionListenerActive = false;
-					currentNode = (Node) comboBoxNextNodes.getSelectedItem();
-					CardLayout cl = (CardLayout) (optionCard.getLayout());
-					cl.show(optionCard, "Do Nothing");
-					lblCurrentButton.setText("Node Selected");
-					graphCanvas.setNode(currentNode);
-					graphCanvas.repaint();
-					comboBoxNextNodes.removeAllItems();
-					for (Node node : scenario.getNextNodes(currentNode)) {
-						comboBoxNextNodes.addItem(node);
-					}
-					comboBoxPrevNodes.removeAllItems();
-					for (Node node : scenario.getPrevNodes(currentNode)) {
-						comboBoxPrevNodes.addItem(node);
-					}
-					loadNodeEvents();
-					testActionListenerActive = true;
-				}
-
-			}
-		});
-
-		comboBoxPrevNodes.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (testActionListenerActive) {
-					testActionListenerActive = false;
-					currentNode = (Node) comboBoxPrevNodes.getSelectedItem();
-					CardLayout cl = (CardLayout) (optionCard.getLayout());
-					cl.show(optionCard, "Do Nothing");
-					lblCurrentButton.setText("Node Selected");
-					graphCanvas.setNode(currentNode);
-					graphCanvas.repaint();
-					comboBoxNextNodes.removeAllItems();
-					if (scenario.hasNextNodes(currentNode)) {
-						for (Node node : scenario.getNextNodes(currentNode)) {
-							comboBoxNextNodes.addItem(node);
-						}
-					}
-					comboBoxPrevNodes.removeAllItems();
-					for (Node node : scenario.getPrevNodes(currentNode)) {
-						comboBoxPrevNodes.addItem(node);
-					}
-					loadNodeEvents();
-					testActionListenerActive = true;
-				}
-			}
-		});
-		
-		comboBoxPanel.add(graphCanvas, BorderLayout.CENTER);
-		graphCanvas.setVisible(true);
-		graphCanvas.repaint();
-		graphCanvas.revalidate();
+//		graphCanvas = new GraphCanvas(scenario, scenario.getHead());
+//		JPanel comboBoxPanel = new JPanel();
+//		JPanel prevPanel = new JPanel();
+//		prevPanel.setLayout(new BoxLayout(prevPanel, BoxLayout.Y_AXIS));
+//		prevPanel.add(lblPreviousNodes, BorderLayout.NORTH);
+//		prevPanel.add(comboBoxPrevNodes, BorderLayout.NORTH);
+//
+//		JPanel nextPanel = new JPanel();
+//		nextPanel.setLayout(new BoxLayout(nextPanel, BoxLayout.Y_AXIS));
+//		nextPanel.add(lblNextNodes, BorderLayout.NORTH);
+//		nextPanel.add(comboBoxNextNodes, BorderLayout.NORTH);
+//		
+//		comboBoxPanel.setLayout(new BorderLayout());
+//		
+//		comboBoxPanel.add(prevPanel, BorderLayout.NORTH);
+//	
+//		comboBoxPanel.add(nextPanel, BorderLayout.SOUTH);
+//		
+//		comboBoxPanel.setBounds(0, 0, 650, 555);
+//		
+//		this.frame.getContentPane().add(comboBoxPanel);
+//		for (Node node : this.scenario.getPrevNodes(this.currentNode)) {
+//			comboBoxPrevNodes.addItem(node);
+//		}
+//		for (Node node : this.scenario.getNextNodes(this.currentNode)) {
+//			comboBoxNextNodes.addItem(node);
+//		}
+//
+//		comboBoxNextNodes.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				if (testActionListenerActive) {
+//					testActionListenerActive = false;
+//					currentNode = (Node) comboBoxNextNodes.getSelectedItem();
+//					CardLayout cl = (CardLayout) (optionCard.getLayout());
+//					cl.show(optionCard, "Do Nothing");
+//					lblCurrentButton.setText("Node Selected");
+//					graphCanvas.setNode(currentNode);
+//					graphCanvas.repaint();
+//					comboBoxNextNodes.removeAllItems();
+//					for (Node node : scenario.getNextNodes(currentNode)) {
+//						comboBoxNextNodes.addItem(node);
+//					}
+//					comboBoxPrevNodes.removeAllItems();
+//					for (Node node : scenario.getPrevNodes(currentNode)) {
+//						comboBoxPrevNodes.addItem(node);
+//					}
+//					loadNodeEvents();
+//					testActionListenerActive = true;
+//				}
+//
+//			}
+//		});
+//
+//		comboBoxPrevNodes.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				if (testActionListenerActive) {
+//					testActionListenerActive = false;
+//					currentNode = (Node) comboBoxPrevNodes.getSelectedItem();
+//					CardLayout cl = (CardLayout) (optionCard.getLayout());
+//					cl.show(optionCard, "Do Nothing");
+//					lblCurrentButton.setText("Node Selected");
+//					graphCanvas.setNode(currentNode);
+//					graphCanvas.repaint();
+//					comboBoxNextNodes.removeAllItems();
+//					if (scenario.hasNextNodes(currentNode)) {
+//						for (Node node : scenario.getNextNodes(currentNode)) {
+//							comboBoxNextNodes.addItem(node);
+//						}
+//					}
+//					comboBoxPrevNodes.removeAllItems();
+//					for (Node node : scenario.getPrevNodes(currentNode)) {
+//						comboBoxPrevNodes.addItem(node);
+//					}
+//					loadNodeEvents();
+//					testActionListenerActive = true;
+//				}
+//			}
+//		});
+//		
+//		comboBoxPanel.add(graphCanvas, BorderLayout.CENTER);
+//		graphCanvas.setVisible(true);
+//		graphCanvas.repaint();
+//		graphCanvas.revalidate();
 		
 	}
 
@@ -1148,9 +1169,11 @@ public class EditingScreen implements ActionListener {
 			for (Event e : t.getEvents()) {
 				count++;
 			//	System.out.println(count);
-				eventPanel.add(new JLabel("Event " + count));
+				//eventPanel.add(new JLabel("Event " + count));
 				String disp = e.getClass().toString();
-				JButton eventButton = new JButton(e.getClass().toString());
+				JPanel eventButtonPanel = new JPanel(new FlowLayout());
+				eventButtonPanel.add(new JLabel("Event " + count));
+				JButton eventButton = new JButton(e.getClass().toString().split("\\.")[1]);
 				eventButton.addActionListener(new ActionListener() {
 	
 					@Override
@@ -1224,7 +1247,9 @@ public class EditingScreen implements ActionListener {
 	
 				});
 			
-				eventPanel.add(eventButton);
+				//eventPanel.add(eventButton);
+				eventButtonPanel.add(eventButton);
+				eventPanel.add(eventButtonPanel);
 				eventPanel.revalidate();
 				eventPanel.repaint();
 			}
