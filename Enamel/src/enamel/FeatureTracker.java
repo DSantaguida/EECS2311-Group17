@@ -64,92 +64,92 @@ public class FeatureTracker {
 	 * the textfile.
 	 */
 	void readCounter(String line) {
-		if (line.length() >= 12 && line.substring(0, 13).equals("chooseexisting")) {
-			String breakDown = line.substring(13);
+		if (line.length() >= 14 && line.substring(0, 13).equals("chooseexisting")) {
+			String breakDown = line.substring(14);
 			String[] split = breakDown.split("\\s");
 			chooseExistingCounter = Integer.parseInt(split[1]);
 		}
-		else if (line.length() >= 8 && line.substring(0, 8).equals("createnew")) {
+		else if (line.length() >= 9 && line.substring(0, 8).equals("createnew")) {
 			String breakDown = line.substring(8);
 			String[] split = breakDown.split("\\s");
 			createNewCounter = Integer.parseInt(split[1]);
 		}
-		else if (line.length() >= 3 && line.substring(0, 3).equals("save")) {
+		else if (line.length() >= 4 && line.substring(0, 3).equals("save")) {
 			String breakDown = line.substring(3);
 			String[] split = breakDown.split("\\s");
 			saveCounter = Integer.parseInt(split[1]);
 		}
-		else if (line.length() >= 3 && line.substring(0, 6).equals("button1")) {
+		else if (line.length() >= 7 && line.substring(0, 6).equals("button1")) {
 			String breakDown = line.substring(6);
 			String[] split = breakDown.split("\\s");
 			button1 = Integer.parseInt(split[1]);
 		}
-		else if (line.length() >= 3 && line.substring(0, 6).equals("button2")) {
+		else if (line.length() >= 7 && line.substring(0, 6).equals("button2")) {
 			String breakDown = line.substring(6);
 			String[] split = breakDown.split("\\s");
 			button2 = Integer.parseInt(split[1]);
 		}
-		else if (line.length() >= 3 && line.substring(0, 6).equals("button3")) {
+		else if (line.length() >= 7 && line.substring(0, 6).equals("button3")) {
 			String breakDown = line.substring(6);
 			String[] split = breakDown.split("\\s");
 			button3 = Integer.parseInt(split[1]);
 		}
-		else if (line.length() >= 3 && line.substring(0, 6).equals("button4")) {
+		else if (line.length() >= 7 && line.substring(0, 6).equals("button4")) {
 			String breakDown = line.substring(6);
 			String[] split = breakDown.split("\\s");
 			button4 = Integer.parseInt(split[1]);
 		}
-		else if (line.length() >= 3 && line.substring(0, 6).equals("button5")) {
+		else if (line.length() >= 7 && line.substring(0, 6).equals("button5")) {
 			String breakDown = line.substring(6);
 			String[] split = breakDown.split("\\s");
 			button5 = Integer.parseInt(split[1]);
 		}
-		else if (line.length() >= 3 && line.substring(0, 6).equals("button6")) {
+		else if (line.length() >= 7 && line.substring(0, 6).equals("button6")) {
 			String breakDown = line.substring(6);
 			String[] split = breakDown.split("\\s");
 			button6 = Integer.parseInt(split[1]);
 		}
-		else if (line.length() >= 3 && line.substring(0, 6).equals("button7")) {
+		else if (line.length() >= 7 && line.substring(0, 6).equals("button7")) {
 			String breakDown = line.substring(6);
 			String[] split = breakDown.split("\\s");
 			button7 = Integer.parseInt(split[1]);
 		}
-		else if (line.length() >= 3 && line.substring(0, 6).equals("button8")) {
+		else if (line.length() >= 7 && line.substring(0, 6).equals("button8")) {
 			String breakDown = line.substring(6);
 			String[] split = breakDown.split("\\s");
 			button8 = Integer.parseInt(split[1]);
 		}
-		else if (line.length() >= 3 && line.substring(0, 6).equals("button9")) {
+		else if (line.length() >= 7 && line.substring(0, 6).equals("button9")) {
 			String breakDown = line.substring(6);
 			String[] split = breakDown.split("\\s");
 			button9 = Integer.parseInt(split[1]);
 		}
-		else if (line.length() >= 3 && line.substring(0, 7).equals("button10")) {
+		else if (line.length() >= 8 && line.substring(0, 7).equals("button10")) {
 			String breakDown = line.substring(7);
 			String[] split = breakDown.split("\\s");
 			button10 = Integer.parseInt(split[1]);
 		}
-		else if (line.length() >= 3 && line.substring(0, 9).equals("runcounter")) {
+		else if (line.length() >= 10 && line.substring(0, 9).equals("runcounter")) {
 			String breakDown = line.substring(9);
 			String[] split = breakDown.split("\\s");
 			runCounter = Integer.parseInt(split[1]);
 		}
-		else if (line.length() >= 3 && line.substring(0, 11).equals("startcounter")) {
+		else if (line.length() >= 12 && line.substring(0, 11).equals("startcounter")) {
 			String breakDown = line.substring(11);
 			String[] split = breakDown.split("\\s");
 			startCounter = Integer.parseInt(split[1]);
 		}
-		else if (line.length() >= 3 && line.substring(0, 12).equals("deletecounter")) {
+		else if (line.length() >= 13 && line.substring(0, 12).equals("deletecounter")) {
 			String breakDown = line.substring(12);
 			String[] split = breakDown.split("\\s");
 			deleteCounter = Integer.parseInt(split[1]);
 		}
-		else if (line.length() >= 3 && line.substring(0, 9).equals("addcounter")) {
+		else if (line.length() >= 10 && line.substring(0, 9).equals("addcounter")) {
 			String breakDown = line.substring(9);
 			String[] split = breakDown.split("\\s");
 			addCounter = Integer.parseInt(split[1]);
 		}
-		else if (line.length() >= 3 && line.substring(0, 14).equals("mainmenucounter")) {
+		else if (line.length() >= 15 && line.substring(0, 14).equals("mainmenucounter")) {
 			String breakDown = line.substring(14);
 			String[] split = breakDown.split("\\s");
 			mainMenuCounter = Integer.parseInt(split[1]);
