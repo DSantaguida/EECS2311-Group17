@@ -248,10 +248,75 @@ public class EditingScreen implements ActionListener {
 		panel_2.setBounds(698, 692, 195, 35);
 		panel.add(panel_2);
 		panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		KeyStroke keyRun = KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.CTRL_MASK); 
+		Action performR = new AbstractAction("Run") {  
+		    public void actionPerformed(ActionEvent e) {     
+		    	Thread th = new Thread(new Runnable(){
 
-		JButton run = new JButton("Run");
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						
+						ScenarioParser s = new ScenarioParser(true);
+						
+						FileSearch fileSearch = new FileSearch();
+						String found = scenario.getFileName();
+						// try different directory and filename
+						fileSearch.searchDirectory(new File(System.getProperty("user.dir")), found);
+
+						int count = fileSearch.getResult().size();
+//						if (count == 0) {
+//							throw new IllegalArgumentException("File does not exist");
+//						} else {
+//							s.setScenarioFile(found);
+//						}
+						ScenarioWriter write = new ScenarioWriter(scenario, true);
+						try {
+							write.save();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						s.setScenarioFile("tempfile2343246-@#$%^.txt");
+					}
+					
+				});
+				th.start();
+				
+				// Thread t = new Thread(new Runnable() {
+				//
+				// @Override
+				// public void run() {
+				// String file = "";
+				// JFileChooser chooser = new JFileChooser(new
+				// File("FactoryScenarios"));
+				// FileNameExtensionFilter filter = new
+				// FileNameExtensionFilter("Text Files", "txt");
+				// chooser.setFileFilter(filter);
+				// int returnval = chooser.showOpenDialog(null);
+				// if (returnval == JFileChooser.APPROVE_OPTION) {
+				// file = "FactoryScenarios/" +
+				// chooser.getSelectedFile().getName();
+				// }
+				// ScenarioParser s = new ScenarioParser(true);
+				// s.setScenarioFile(file);
+				// }
+				//
+				// });
+				// frame.dispose();
+				// t.start();
+		    }
+		}; 
+
+		JButton run = new JButton(performR);
 		panel_2.add(run);
 		run.getAccessibleContext().setAccessibleName("Run a scenario");
+		
+		run.getActionMap().put("performR", performR);
+		run.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyRun, "performR");
+
+		
 		run.addActionListener(new ActionListener() {
 
 			@Override
@@ -316,8 +381,28 @@ public class EditingScreen implements ActionListener {
 		});
 
 		// Apply button
-		JButton btnApply = new JButton("Save");
+		
+		KeyStroke keySave = KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_MASK); 
+		Action performS = new AbstractAction("Save") {  
+		    public void actionPerformed(ActionEvent e) {     
+		    	writer = new ScenarioWriter(scenario);
+				 writer.changeFileName(scenario.getName());
+				 try {
+				 writer.save();
+				 } catch (IOException ie) {
+				 // TODO Auto-generated catch block
+				 ie.printStackTrace();
+				 }
+		    }
+		}; 
+		
+		JButton btnApply = new JButton(performS);
 		panel_2.add(btnApply);
+		
+		btnApply.getActionMap().put("performS", performS);
+		btnApply.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keySave, "performS");
+
+		
 		btnApply.addActionListener(new ActionListener() {//
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -388,8 +473,22 @@ public class EditingScreen implements ActionListener {
 		JPanel panel_3 = new JPanel();
 		panel_3.setBounds(12, 13, 250, 35);
 		panel.add(panel_3);
+		
+		KeyStroke keyMain = KeyStroke.getKeyStroke(KeyEvent.VK_M, KeyEvent.CTRL_MASK); 
+		Action performM = new AbstractAction("Main Menu") {  
+		    public void actionPerformed(ActionEvent e) {     
+				frame.dispose();
+				StartScreen go = new StartScreen();
+				go.frame.setVisible(true);
+		    }
+		}; 
 
-		JButton btnMainMenu = new JButton("Main Menu");
+		JButton btnMainMenu = new JButton(performM);
+		
+		btnMainMenu.getActionMap().put("performM", performM);
+		btnMainMenu.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyMain, "performM");
+
+		
 		btnMainMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();

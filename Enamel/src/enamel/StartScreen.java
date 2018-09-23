@@ -17,7 +17,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import com.sun.speech.freetts.Voice;
 import com.sun.speech.freetts.VoiceManager;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 
 import java.awt.event.ActionListener;
@@ -37,6 +40,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+
 import java.awt.event.KeyAdapter;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -172,16 +177,54 @@ import java.awt.SystemColor;
 		
 		
 		
-		JButton btnChooseExistingFile = new JButton("Choose Existing File");
+
+		
+		KeyStroke keySave = KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_MASK); 
+		Action performCOpen = new AbstractAction("Choose Existing File") {  
+		    public void actionPerformed(ActionEvent e) {     
+		    	String file = "";
+				try{
+				//ScenarioParser s = new ScenarioParser(true);
+				JFileChooser chooser = new JFileChooser(new File("FactoryScenarios/"));
+				//Create textfield to allow user to name the file and save as string
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
+				chooser.setFileFilter(filter);
+				int returnval = chooser.showOpenDialog(null);
+				if (returnval == JFileChooser.APPROVE_OPTION) {
+					file = "FactoryScenarios/" + chooser.getSelectedFile().getName();
+					frame.dispose(); 
+					ScenarioNode test2 = new ScenarioNode();
+					test2.setScenarioFile(file);
+					
+				}
+				
+				 else if (returnval == JFileChooser.CANCEL_OPTION){
+					chooser.setVisible(false);
+					System.out.println("Dialogue Pane Closed");
+				}
+				
+
+				}
+				catch (Exception e1)
+				{
+					e1.printStackTrace();
+					StartScreen go = new StartScreen();
+					go.frame.setVisible(true);
+				}
+
+			}
+		}; 
+		JButton btnChooseExistingFile = new JButton(performCOpen);
 		btnChooseExistingFile.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		btnChooseExistingFile.getAccessibleContext().setAccessibleName("Choose Existing File");
+		//ShortCut Works, redo for the createnew file
+		btnChooseExistingFile.getActionMap().put("performCOpen", performCOpen);
+		btnChooseExistingFile.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keySave, "performCOpen");
 		btnChooseExistingFile.addActionListener(new ActionListener() {
 			
 			
 			public void actionPerformed(ActionEvent arg0){
-				track.incrementCounterChooseExisting();
-				track.saveCounter();
-				track.topFive();
+
 				
 				String file = "";
 				try{
@@ -224,20 +267,36 @@ import java.awt.SystemColor;
 		btnChooseExistingFile.setBounds(6, 11, 306, 75);
 		panel.add(btnChooseExistingFile);
 		
-		JButton btnCreateNewFile = new JButton("Create New File");
+		KeyStroke keyCreate = KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.CTRL_MASK); 
+		Action performC = new AbstractAction("Create New File") {  
+		    public void actionPerformed(ActionEvent e) {     
+				txtProjectTitle.setVisible(true);
+				txtSetFileName.setVisible(true);
+				buttontextfield.setVisible(true);
+				celltextfield.setVisible(true);
+				lblSelectButtonNumber .setVisible(true);
+				lblSelectCellNumber .setVisible(true);
+				lblEnterFileText.setVisible(true);
+				lblEnterFileName.setVisible(true);
+				btnBackToScenario.setVisible(true);
+				btnNewProject.setVisible(true);
+		    }
+		}; 
+		
+		JButton btnCreateNewFile = new JButton(performC);
+		
+		
+		
 		btnCreateNewFile.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		btnCreateNewFile.getAccessibleContext().setAccessibleName("Create New File");
+		
+		btnCreateNewFile.getActionMap().put("performC", performC);
+		btnCreateNewFile.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyCreate, "performC");
+
+		
 		btnCreateNewFile.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent arg0) {
-				track.incrementCounterCreateNew();
-				track.saveCounter();
-				track.topFive();
-				//Create New File Button
-				
-				//Close this JFrame
-				//Open new frame to read new text
-				//fixed visibility
 				
 				btnCreateNewFile.setVisible(false);
 				btnChooseExistingFile.setVisible(false);
@@ -445,6 +504,8 @@ import java.awt.SystemColor;
 		btnBackToScenario.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		btnBackToScenario.setBounds(322, 330, 315, 94);
 		panel.add(btnBackToScenario);
+		
+		
 
 	}
 }
